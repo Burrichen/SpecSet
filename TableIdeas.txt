@@ -1,0 +1,6 @@
+This is a space for tables that could be added to the program.
+
+1. Religions
+2. Economy
+3. Local Dungeons (Could be a full expansion)
+4. Region (Like Ordon etc, this should affect the size, happiness, focus etc)
