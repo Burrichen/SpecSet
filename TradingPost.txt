@@ -1,9 +1,3 @@
-This is a master document to explain what tables do. 
-Any addition I have given 
-A key thought I need to have is: What are good about these tables and what needs to be added.
-
-The first table isn't a traditional one, its the choice of what TO generate. 
-
 Trading Posts:
 Step 1 - Basic Information:
 Origin:
@@ -145,6 +139,10 @@ Shops Table.
 24. Rare Trade Goods 
 25. Magic Shop - Armor
 26. Magic Shop - Books
+27. Magic Shop - Clothing
+28. Magic Shop - Jewlery
+29. Magic Shop - Weapons
+30. Magic Shop - Misc
 
 Services:
 1. Barber

@@ -1,0 +1,249 @@
+Villages:
+
+Step 1 - Basic Information
+
+Age:
+1. Recent
+2. Established
+3. Mature
+4. Old
+5. Ancient
+
+Hardship likihood:
+1. No Hardship
+2. One Hardship
+3. Two 
+4. Three 
+5. Four 
+
+Hardship Type:
+1. Plague
+2. Bandits 
+3. Raid 
+4. Famine / Food Shortage 
+5. Harsh Weather 
+6. Inter-Community Conflict 
+7. Loss of Community Leader 
+8. Victim of War 
+
+Hardship Outcome:
+1. Catastrophic Losses
+2. Terrible Losses 
+3. Heavy Losses 
+4. Moderate Losses
+5. Minimal Losses
+
+Size:
+1. Very small
+2. Small 
+3. Medium 
+4. Large
+5. Very Large 
+
+Condition:
+1. Ramshackle
+2. Poor
+3. fair
+4. good
+5. Immaculate
+
+Environment:
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Specialty:
+1. None
+2. Food or Drink
+3. Location Proximity 
+4. Livestock 
+5. Crop 
+6. Crafted Goods
+
+Resources:
+1. Crops
+2. Dairy
+3. Herbs 
+4. Fishing 
+5. Livestock (Labor)
+6. Livestock (Meat and Hides)
+7. Livestock (Shearing)
+8. Logging and Lumber
+9. Mining
+10. Quarrying and Masonry
+
+Recent History:
+1. Animal Issues
+2. Attacks
+3. Bumper Production
+4. Out of Favour 
+5. Entertainment
+6. Fear 
+7. Good Fortune
+8. Infestation
+9. Poor Production
+10. Power Vacuum 
+11. Safe Haven
+12. Wartorn
+
+Step 2 - Community:
+Population Density:
+1. Skeleton
+2. Sparse
+3. Populous
+4. Dense 
+5. Congested 
+
+Disposition:
+1. Hostile
+2. Unfriendly
+3. Neutral
+4. Friendly
+5. Open
+
+Leadership:
+1. No Leader
+2. Village Elder 
+3. External Ruler
+4. Local Council 
+5. Single, Elected Leader
+6. Anarcho-Syndicalist Commune
+
+Population Wealth:
+1. Destitute
+2. Impoverished
+3. Average
+4. Prosperous
+5. Wealthy
+6. Affluent
+
+Crime:
+1. Average
+2. Uncommon
+3. Rare
+4. Little-To-None
+
+Step 3 - Points of Interest:
+Places of Worship:
+1. One
+2. 1d2 
+3. 1d2+1
+
+Place of Worship Size:
+1. Secret
+2. Altar
+3. Oratory
+4. Sanctuary
+5. Temple
+6. Great Temple
+
+Feverency of Local Following:
+1. Unseen
+2. Quiet 
+3. Subtle
+4. Moderate
+5. Feverent
+6. Zealous
+
+Places of Gathering:
+Number: Dependent on size.
+1. Amphitheater
+2. Gathering Hall
+3. Dance Hall
+4. Outdoor Recreational Area
+
+Other Locations:
+1. Baker 
+2. Butcher
+3. Cooper
+4. Carpenter
+5. General Store
+6. Herbalist
+7. Smithy
+8. Tailor
+9. Tanner/Taxidermist
+10. Thatcher
+11. Wainwright
+12. Weaver
+13. Alchemist
+14. Artist
+16. Cobbler
+18. Mill
+19. Shipwright
+21. Rare Botanicals
+22. Luxury Furnishings
+23. Rare Libations & Fare
+24. Rare Trade Goods 
+25. Magic Shop - Armor
+26. Magic Shop - Books
+27. Magic Shop - Clothing
+28. Magic Shop - Jewlery
+29. Magic Shop - Weapons
+30. Magic Shop - Misc
+31. Barber
+32. Bathhouse
+33. Doctor/Apothecary
+34. House of Leisure
+35. Inn
+36. Soothsayer
+37. Stable
+38. Tavern
+39. Burned Down / Abandoned Business
+
+Step 4: Extra Intrigue
+Events:
+1. Birth or Birthday
+2. Party
+3. Funeral
+4. Harvest and Productivity
+5. Love
+6. Political
+7. Religions
+8. Local
+9. Travel & Welcome
+
+Political Rumours:
+1. Mighty Misfortune
+2. Fealty
+3. Drums of War 
+4. Noble Wedding
+5. More Taxes 
+6. Missing Taxman
+
+Goings On: 
+1. Worker's Injury
+2. Road Merchant 
+3. Children Missing
+4. Fallen Rider 
+5. Love Dispute
+6. Echoes in the Deep 
+
+Oppertunities:
+1. Thief
+2. Wildlife
+3. Monster
+4. Haunting
+5. Party time
+6. Shady Doings
+
+Danger Level:
+1. Ever-Present
+2. Frequent
+3. Common
+4. Uncommon
+5. Rare
+
+Danger Type:
+1. Wildlife
+2. Misunderstanding
+3. Workplace Accidents
+4. Disease
+5. Unwanted Attention
+6. Monster Prey

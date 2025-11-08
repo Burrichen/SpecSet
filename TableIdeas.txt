@@ -10,9 +10,50 @@ I think realistically, whilst the idea of choosing the region beforehand would b
 Region could affect environment etc. Having the baseline tables allows me to see what is missing. 
 If a title as a (E), it means I am just editing the current version and it is NOT an new addition.
 
+
+All tables:
+
+Add a decent chance for a noticeboard everywhere. Maybe this should be a table all in itself.
+
+Danger Level
+
+Recent History: 
+Merge all locations recent history tables. Seems logical.
+
+Leadership: Merge all locations Leadership tables.
+
+Other Locations:
+- noticeboard
+- Potter
+- Glassblower
+- Fletcher
+- Armourer
+- Book Store
+- Black Market / Hidden Stall
+
+Events: I had to cut a section here entirely because of raw stupidity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Types of Settlement:
-- Add a hamlet. 
-    This allows the creation of a small backwater lot that's not reliant on being a trading post.
+I was originally going to rename Trade Post to Hamlet, but it ended up making little sense. Trading Post is designed to be more shop-heavy.
 
 Trading Post Origins:
 - Frontier Outpost
@@ -89,3 +130,43 @@ Make a new program for this?
 Danger Level:
 Could be good as part of a larger rework. A new BIG feature potentially?
 Danger is how dangerous it is outside of the location. Move to Basic Information.
+
+Danger Type:
+Cut completely. Doesn't seem fun.
+
+
+
+
+
+
+
+
+
+Villages:
+Hardships:
+Extremely clunky mechanic. maybe work into danger and crime? Or intergrate it everywhere.
+
+Specialty: 
+Add tons more to this. Seems RIPE for creative output. University, good view etc.
+- University / School 
+- Great View 
+- Cultural Heritage
+- Trade Hub
+- Defensive Position
+
+Resources:
+Make this list more reliant on other things, like environment and location.
+- Furs & Skins
+- Spell materials 
+- Stonecraft
+- Textiles
+- Game
+- Fruit and Nut Theres
+- Specality Plants
+- Clay & Ceramics
+- Honey & Beeswax (maybe too niche)
+
+Recent History: 
+Merge all locations recent history tables. Seems logical.
+
+Leadership: Merge all locations Leadership tables.

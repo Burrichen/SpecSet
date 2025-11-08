@@ -31,3 +31,20 @@ Specialty:
 4. Information
 5. Purchasing Connections
 6. Unscrupulous Contractors
+
+Age:
+1. Recent
+2. Established
+3. Mature
+4. Old
+5. Ancient
+6. Unknown
+
+Condition:
+1. Ramshackle
+2. Poor
+3. fair
+4. good
+5. Immaculate
+
+Visitor Traffic:
