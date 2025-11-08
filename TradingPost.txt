@@ -1,0 +1,251 @@
+This is a master document to explain what tables do. 
+Any addition I have given 
+A key thought I need to have is: What are good about these tables and what needs to be added.
+
+The first table isn't a traditional one, its the choice of what TO generate. 
+
+Trading Posts:
+Step 1 - Basic Information:
+Origin:
+1. Accidental
+2. Business Venture
+3. Crossroads
+4. Military Outpost
+5. No Man's Land
+6. Native
+7. Overnight Stop
+8. Wilderness Expert
+
+Specialty:
+1. Atypical Shipping Methods
+2. Food & Drink
+3. Hospitality
+4. Information
+5. Purchasing Connections
+6. Unscrupulous Contractors
+
+Age:
+1. Recent
+2. Established
+3. Mature
+4. Old
+5. Ancient
+6. Unknown
+
+Condition:
+1. Ramshackle
+2. Poor
+3. fair
+4. good
+5. Immaculate
+
+Visitor Traffic:
+1. Vacant
+2. Groups
+3. Crowds
+4. Droves
+5. Masses
+
+Size:
+1. Very small - up to 20 standing structures
+2. small - up to 40 standing structures
+3. Medium - up to 60 standing structures
+4. Large - up to 80 standing structures
+5. Very Large - Up to 100 standing structures
+
+Environment:
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Step 2 - Community:
+Resident Population:
+1. Nearly Deserted
+2. Sparse
+3. Appropriate
+4. Congested
+5. Overwhelmed
+
+Disposition:
+1. Hostile
+2. Unfriendly
+3. Neutral
+4. Friendly
+5. Open
+
+Law Enforcement:
+1. None
+2. Sheriff
+3. Small Local Watch
+4. Well-Equipped
+5. Overwhelming Presence
+
+Leadership:
+1. No Leadership
+2. Hereditary
+3. Merchant Monarch
+4. Underworld or Criminal Enterprise.
+5. Oligarchy.
+6. Local Council
+7. Single, Elected Leadershi
+8. Anarcho-Syndicalist Commune.
+
+Population Wealth:
+1. Destitute
+2. Impoverished
+3. Average
+4. Prosperous
+5. Wealthy
+6. Affluent
+
+Crime:
+1. Regular
+2. Common
+3. Average
+4. Uncommon
+5. Rare
+
+Step 3 - Points of Interest:
+Shops:
+
+Number of Shops
+Dependent on Trading Post Size.
+
+Shops Table.
+1. Baker 
+2. Butcher
+3. Cooper
+4. Carpenter
+5. General Store
+6. Herbalist
+7. Smithy
+8. Tailor
+9. Tanner/Taxidermist
+10. Thatcher
+11. Wainwright
+12. Weaver
+13. Alchemist
+14. Artist
+15. Bank & exchange
+16. Cobbler
+17. Foundry/Smelting
+18. Mill
+19. Textile Production
+20. Shipwright
+21. Rare Botanicals
+22. Luxury Furnishings
+23. Rare Libations & Fare
+24. Rare Trade Goods 
+25. Magic Shop - Armor
+26. Magic Shop - Books
+
+Services:
+1. Barber
+2. Bathouse
+3. Doctor/Apothecary
+4. House of Leisure
+5. Inn 
+6. Club
+7. Soothsayer
+8. Stable
+9. Tavern
+10. Hired Help - Brutes and Brawlers
+11. Hired Help - Cloak and Dagger
+12. Hired Help - Bows and Slings
+13. Hired Help - Scribes and Clerks
+14. Hired Help - Guides and Trackers
+15. Hired Help - Caravan and Mount
+16. Hired Help - Arcane Academics
+17. Hired Help - Magic Mercenaries
+18. Hired Help - Priestly Guidance
+19. Hired Help - Hands of the Divine
+
+Hired Help Size:
+1. Individual Person
+2. Team 
+3. Guild
+
+Place of Worship:
+1. No 
+2. Yes
+
+Place of Worship Size:
+1. Secret
+2. Altar
+3. Oratory
+4. Sanctuary
+5. Temple
+6. Great Temple
+
+Feverency of Local Following:
+1. Unseen
+2. Quiet 
+3. Subtle
+4. Moderate
+5. Feverent
+6. Zealous
+
+Step 4 - Extra Intrigue
+Recent History:
+1. Benevolence of Yesteryear
+2. Construction
+3. Crime Central
+4. Neutrality
+5. Popular Producer
+6. Wartorn / Destruction
+
+Politics:
+1. On the Brink of War 
+2. Lawless Region 
+3. Embattled 
+4. Revolution
+5. Peace 
+6. New Governance
+
+Events: 
+1. High-Class Visitor
+2. Troublemakers
+3. Fool's Festival
+4. Caught Red Handed
+5. Strangers
+6. Public Emergency
+
+Oppertunities:
+1. Political Intrigue
+2. Missing Person
+3. Monster
+4. Guard Duty
+5. Transportation
+6. Acquisition
+
+Weather:
+Not doing this because I have my own weather calcuations.
+
+Danger Level:
+1. Ever-Present
+2. Frequent
+3. Common
+4. Uncommon
+5. Rare
+
+Danger Type:
+1. Suspicious Locals
+2. Raids
+3. Monster
+4. Environmental 
+5. Cult
+
+
+Extra Tables:
+Oligarchy Table:
+1. Merchants (Plutocracy)
+2. Mages (magocracy)
+3. Presists (Theocracy)
+4. Scholars

@@ -4,3 +4,88 @@ This is a space for tables that could be added to the program.
 2. Economy
 3. Local Dungeons (Could be a full expansion)
 4. Region (Like Ordon etc, this should affect the size, happiness, focus etc)
+
+
+I think realistically, whilst the idea of choosing the region beforehand would be cool, it doesn't make any sense beforehand. 
+Region could affect environment etc. Having the baseline tables allows me to see what is missing. 
+If a title as a (E), it means I am just editing the current version and it is NOT an new addition.
+
+Types of Settlement:
+- Add a hamlet. 
+    This allows the creation of a small backwater lot that's not reliant on being a trading post.
+
+Trading Post Origins:
+- Frontier Outpost
+    Originally a supply or support site for exploation, war or settlement efforts that never left.
+- No Man's Land 
+    Specificy that this could also be for tax evasion
+- Seasonal Trade
+    A temporary fair or harvest exchange that is busy during one time of a year, but is quiet elsetime.
+
+Trading Post Specialities:
+- Crafted Luxuries
+    Skilled artisans produce small but exquisite goods, prized along the trade routes. Could also be a tourist trap.
+- Animal Handling / Vechiles
+- Security Services
+- Front
+
+Law Enforcement:
+- Well-Equipped (E)
+    Theres gotta be a better wording for this.
+
+Leadership:
+- Elder
+- Hidden Benefactor
+
+Shops:
+- Bard's Store
+- Scribe & Notary
+- Trinket Stall
+- Brewery or Disterillery
+- Armourer
+- Fletcher/Bower
+- Auction House
+
+Services:
+- Remove Bows & Slings.
+    I just dont see the point. 
+- Messenger Service
+- Interpreter
+- Cartographer
+- Matchmaker
+
+Extra Intrigue:
+This needs a full rework. These tables mostly do nothing and are too limited to really create any depth.
+
+Recent History:
+- Political Issue: Faux Pax
+- Political Issue: Trade Dealings
+- Political Issue: Border Despute
+- Rival Dispute
+- Successful harvest
+- Cultural exchange
+- Exconomic Shift
+
+Politics:
+One of the worst designed tables in the document. There's a 5/6 chance of it not being peaceful, rework this into a d12 or d20.
+
+Events:
+This table also needs serious design changes.
+- Fool's Festival
+    Reworked into just 'festival'
+
+Oppertunities:
+Reworking this INTO Events seems like a great idea.
+- Political Intrigue
+    The description of this is literally 'Missing Person' except it's a noble.
+- Missing Person
+    Merge with Political Intrigue and maybe a sub-table to determine who was taken
+- Monster
+    Adding a sub-table 'Complication' to add a little twist.
+
+Weather:
+Make a new program for this?
+
+Danger Level:
+Could be good as part of a larger rework. A new BIG feature potentially?
+Danger is how dangerous it is outside of the location. Move to Basic Information.
