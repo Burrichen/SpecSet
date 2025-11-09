@@ -1,0 +1,310 @@
+Towns:
+
+Origin:
+1. Accidental
+2. Decree
+3. Exodus or Exile
+4. Key Crossroads
+5. Military Camp
+6. Port
+
+Priority:
+1. Military
+2. Government
+3. Production
+4. Exconomic
+5. Religiouss
+6. Magic
+
+Specality:
+1. Craft
+2. Farming or Resource Gathering
+3. Industry
+4. Unique Shipping Methods
+5. Connections
+6. Drink
+7. Education
+8. Hospitality
+
+Age:
+1. Recent
+2. Established
+3. Mature
+4. Old 
+5. Ancient
+
+Size:
+1. Very Small 
+2. Small
+3. Medium
+4. Large
+5. Very Large
+
+Condition:
+1. Derelict
+2. Lousy
+3. Moderate
+4. Robust
+5. Superb
+
+Environment:
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Prosperity:
+1. Abysmal Failure
+2. Failure
+3. Mildly Successful
+4. Successful
+5. Very Successful
+6. Incredibly Successful
+
+Market Square:
+1. Tight
+2. Ample
+3. Spacious
+
+Vendor Stall Aquisition:
+1. First Come, First Served - No Fee 
+2. First Come, First Served - Fee
+3. Lease 
+4. Bid
+
+Merchant Overflow:
+1. Banned
+2. Unpatrolled
+3. Monitored
+4. Encouraged
+
+Fortification:
+1. Unfortified
+2. Lightly Fortified
+3. Fortified
+4. Heavily Fortified 
+5. Extremely Fortified
+
+Step 2 - Community
+Population Density:
+1. Skeleton
+2. Sparse 
+3. Populous 
+4. Dense 
+5. Crowded
+
+Population Overflow:
+1. <10%
+2. 10%
+3. 20%
+4. 30%
+5. 40%
+6. 50%
+7. 60%
+8. 70%
+
+Farms and Resources:
+Number of Farms:
+Dependent on Town Size.
+Type of Farms and Resource:
+1. None 
+2. Farming [Agriculture]
+3. Farming [Livestock]
+4. Resource Harvesting
+
+Visitor Traffic:
+1. Mostly Locals
+2. Groups
+3. Crowds
+4. Droves
+5. Masses
+6. Multitudes
+
+Night Activity:
+1. Dark
+2. Quiet
+3. Slow
+4. Active
+5. Lively
+
+Disposition:
+1. Hostile
+2. Unfriendly
+3. Neutral
+4. Friendly
+5. Open
+
+Leadership:
+1. Town Council
+2. Mayor 
+3. Hereditary
+4. Merchant Monarch
+5. Miltiary Rule 
+6. Oligarchy
+7. Underworld or Criminal Enterprise
+8. Anarcho-Syndicalist Commune
+
+Law Enforcement:
+1. None
+2. Sheriff
+3. Small Town Watch
+4. Average Town Watch
+5. Strong Town Watch
+6. Extensive Town Watch
+
+Population Wealth:
+1. Destitute
+2. Improverished
+3. Average
+4. Prosperous
+5. Wealthy
+6. Affluent 
+
+Crime:
+1. Regular
+2. Common
+3. Average
+4. Uncommon 
+5. Rare
+
+Step 3 - Points of Interest
+Non-Commercial Locations:
+Dependent on Town Size
+Non-Commercial Location Type:
+1. Place of Education
+2. Place of Gathering
+3. Place of Government
+4. Place of Worship
+
+Places of Education:
+1. Academy/University
+2. Archives/library
+3. Forum
+4. Schoolhouse
+
+Places of Gathering:
+1. Amphitheater
+2. Dance Hall
+3. Gathering Hall
+4. Outdoor Recreational Area
+
+Places of Government:
+1. Chancery
+2. Courthouse
+3. Town Hall
+4. Treasury
+
+Places of Worship:
+1. Secret
+2. Altar
+3. Oratory
+4. Temple
+5. Great Temple
+
+Fervency of the Local Following:
+1. Unseen
+2. Quiet
+3. Subtle
+4. Moderate
+5. Feverent
+6. Zealous
+
+Alignment of the Faith:
+1. Evil
+2. Neutral
+3. Good
+
+Commerical Locations:
+Number of Locations:
+Dependent on Size
+
+Shop or Service:
+1. Shop
+2. Service
+
+Shops:
+1. Baker
+2. Butcher
+3. Cooper
+4. Carpenter
+5. General Store
+6. Herbalist
+7. Smithy
+8. Tailor 
+9. Tanner 
+10. Thatcher
+11. Wainwright
+12. Weaver
+13. Alchemist
+14. Artist
+15. Bank & exchange
+16. Cobbler
+17. Foundry/Smelter
+18. Mill
+19. Textile Production
+20. Shipwright
+21. Rare Botanicals
+22. Luxury Furnishings
+23. Rare Libations & Fare
+24. Magic Shop - Armor
+25. Magic Shop - Books
+26. Magic Shop - Clothing
+27. Magic Shop - Jewlery
+28. Magic Shop - Weapons
+29. Magic Shop - Misc
+
+Services:
+1. Barber
+2. Bathhouse
+3. House of Leisure
+4. Inn
+5. Club
+6. Soothsayer
+7. Stable
+8. Tavern
+9. Hired Help - Brutes and Brawlers
+10. Hired Help - Bows and Slings
+11. Hired Help - Scribes and Clerks
+12. Hired Help - Guides and Trackers
+13. Hired Help - Caravan and Mounts 
+14. Hired Help - Acrane Academics
+15. Hired Help - Magic Mercenaries
+16. Hired Help - Priestly Guidance
+17. Hired Help - Hands of the Divine
+
+Hired Help Size:
+1. Individual
+2. Team 
+3. Guild
+
+Step 3 - Extra Intrigue
+Recent History:
+1. Defended
+2. Pickpockets
+3. No Adventurers!
+4. Asleep
+5. Tunnel
+6. Obstruction
+8. Event Night
+
+Noteworthy Official:
+1. Catchpole
+2. Clerk
+3. Taxman
+4. Jailer
+5. Judge
+6. Liner
+7. Master of Revels
+8. Master of Stores
+
+Official Competence:
+1. Corrupt
+2. Incompetent
+3. Committed
+4. Overqualified

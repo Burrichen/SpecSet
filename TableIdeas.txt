@@ -33,10 +33,34 @@ Other Locations:
 
 Events: I had to cut a section here entirely because of raw stupidity.
 
+Non-Commercial Locations:
+Generating more of these might be a great idea. I would love this.
+We may need to increase the amount to make up of that.
 
+Commerical Locations:
+Generating more of these might be a great idea. I would love this.
+We may need to increase the amount to make up of that.
 
+Alignment of Faith:
+Complete rework to fit my religious system.
 
+Shops:
+- Bard's Store
+- Trinket Stall
+- Brewery or Disterillery
+- Armourer
+- Fletcher/Bower
+- Auction House
+- Reliquary
 
+Services:
+- Remove Bows & Slings.
+    I just dont see the point. 
+- Messenger Service
+- Interpreter
+- Cartographer
+- Matchmaker
+- Scribe & Notary
 
 
 
@@ -77,23 +101,6 @@ Law Enforcement:
 Leadership:
 - Elder
 - Hidden Benefactor
-
-Shops:
-- Bard's Store
-- Scribe & Notary
-- Trinket Stall
-- Brewery or Disterillery
-- Armourer
-- Fletcher/Bower
-- Auction House
-
-Services:
-- Remove Bows & Slings.
-    I just dont see the point. 
-- Messenger Service
-- Interpreter
-- Cartographer
-- Matchmaker
 
 Extra Intrigue:
 This needs a full rework. These tables mostly do nothing and are too limited to really create any depth.
@@ -142,6 +149,12 @@ Cut completely. Doesn't seem fun.
 
 
 
+
+
+
+
+
+
 Villages:
 Hardships:
 Extremely clunky mechanic. maybe work into danger and crime? Or intergrate it everywhere.
@@ -170,3 +183,46 @@ Recent History:
 Merge all locations recent history tables. Seems logical.
 
 Leadership: Merge all locations Leadership tables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Towns:
+Origin:
+This should be greatly expanded and also edit some tables.
+- Resource Discovery
+- Scholarly Outpost
+    Built near a natural focal point of magical energy, a critical ancient library, or a place suitable for undisturbed intellectual or supernatural research.
+- Pilgrimage Destination
+    Its primary existence is to cater to the steady influx of pilgrims visiting a profound spiritual site
+- Defensive Choke Point
+
+Priority:
+- Preservation
+- Innovation
+- Logistics
+- Cultural
+- Sanctuary
+
+Specality:
+- Mercenary
+- Spectacle and Entertainment
+
+Visitor Traffic:
+Changing the weights of this talbe seem good.
+Even cutting Droves might be a good idea.
+
+Non-Commercial Locations:
+Generating more of these might be a great idea. I would love this.
+We may need to increase the amount to make up of that.
