@@ -227,3 +227,211 @@ Additional Locations:
 17. Tavern
 18. Hired Help Roll
 19. Roll Again, but the next location is a step UP in quality.
+
+
+
+Scholar District:
+Included Locations:
+Non-Commercial: Archives/Library, Academy/University, Forum, Schoolhouse
+Shops: 
+Services: Hired Help - Scribes & Clerks 
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. General Store
+3. Tailor
+4. Thatcher
+5. Weaver
+6. Alchemist
+7. Bank & Exchange
+8. Rare Botanicals
+9. Luxury Furnishings
+10. Rare Libations & Fare
+11. Rare Trade Goods
+12. Magic Shop - Books
+13. Doctor/Apothecary
+14. Hired Help - Scholars & Clerks
+15. Archives/Library
+16. Academy/University
+17. Forum
+18. Schoolhouse
+19. Gathering Hall
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Slums District:
+Included Locations:
+Non-Commercial: 
+Shops: 
+Services: House of Lesiure, Inn, Tavern
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Baker
+3. Butcher
+4. General Store
+5. Smithy
+6. Thatcher 
+7. Weaver 
+8. Alchemist
+9. Foundry/Smelting
+10. Miller 
+11. Textile Production
+12. Barber
+13. Bathhouse
+14. Doctor/Apothecary
+15. House of Leisure
+16. Inn
+17. Club 
+18. Soothsayer
+19. Tavern
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Temple District:
+Included Locations:
+Non-Commercial: Temple OR Great Temple OR Archives/Library 
+Shops: 
+Services: Hired Help - Scribes, Hired Help - Priestly Guides, Hired Help - Hands of the Divine
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Cooper
+3. Carpenter
+4. Tailor
+5. Alchemist
+6. Artist
+7. Bank & Exchange
+8. Rare Botanicals
+9. Luxury Furnishings
+10. Rare Libations & Fare
+11. Magic Shop Roll
+12. Barber
+13. Bathhouse
+14. Doctor/Apothecary
+15. Inn
+16. Soothsayer
+17. Hired Help - Priestly Guidance OR Hands of the Divine
+18. Schoolhouse
+19. Amphitheater
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Upper-Class District:
+Included Locations:
+Non-Commercial: 
+Shops: Bank & Exchange, Baker, Tailor, Luxury Furnishings
+Services: Doctor/Apothecary
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Butcher 
+3. Tailor
+4. Weaver 
+5. Artist
+6. Alchemist
+7. Cobbler 
+8. Rare Botanicals
+9. Luxury Furnishings
+10. Rare Libations & Fare
+11. Magic Shop Roll 
+12. Barber 
+13. Bathhouse
+14. House of Leisure
+15. Inn
+16. Club 
+17. Soothsayer
+18. Stable 
+19. Tavern
+Roll Again, but the next location is a step UP in quality.
+
+
+Magic Shop Roll:
+1. Armor + Weapons 
+2. Books 
+3. Clothing
+4. Jewlery
+5. Weapons 
+6. Misc
+
+Hired Help Size:
+1. Individual Person 
+2. Team 
+3. Guild 
+
+
+Quality:
+1. Poor 
+2. Good 
+3. Fine
+
+Place of Worship Size:
+1. Secret
+2. Altar 
+3. Oratory 
+4. Sanctuary
+5. Temple 
+6. Great Temple 
+
+Place of Worship Alignment:
+1. Evil 
+2. neutral 
+3. Good 
+
+Guild:
+1. Yes 
+2. No 
+
+Noteworthy Officials:
+1. Adviser 
+2. Ambassador 
+3. Catchpole
+4. Champion 
+5. Clerk 
+6. Taxman 
+7. Guildmaster 
+8. Herald 
+9. High Priest / Druid 
+10. High Mage 
+11. Jailer 
+12. Judge 
+13. Liner 
+14. Master of Intellience
+15. Master of Revels
+16. Master of Stores 
+17. Master of Trade 
+18. Master of the Treasury
+19. Master of the Wild 
+20. Roadwarden/Dockwarden
+
+Official's Competence:
+1. Corrupt 
+2. Incompetent
+3. Committed 
+4. Overqualified
+
+
+Beneath the surface:
+1. Pack 
+2. Monster 
+3. Markings 
+4. Fight Club 
+5. Secret 
+6. Outside Contact
+7. Tampering 
+8. Unsafe 
+9. Parties 
+10. Black Market 
+11. Races 
+12. Haunted 
+
+Beneath The Surface - Awareness:
+1. Utterly Oblivious
+2. Single, Sublte Occurence
+3. Disparate, Sublte Occurences
+4. Many Subtle Occurances
+5. Single Occurance
+6. Disparate Occurances
+7. Many Occurences
+8. Single, Direct Occurences
+9. Disparate, Direct Occurences
+10. Many Direct Occurences

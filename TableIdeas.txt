@@ -80,6 +80,23 @@ Arcane:
 - Add a general Magic Shop for free.
 
 
+Magic Shop Roll:
+
+
+Location Notability:
+I love the idea of changing this to something like 'Location Twists'
+This means that they can be positive or negative, and have a bunch of different effects.
+- Front
+    This store is a Front
+- Genuine 
+    This store is just of high quality
+- Poltically useful
+    This store is of political Noteworth
+
+Quality: 
+Expand these options - make them match district, then make equivilent tables
+
+
 
 
 
