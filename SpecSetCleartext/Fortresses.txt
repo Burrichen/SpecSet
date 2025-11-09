@@ -1,0 +1,333 @@
+Fortresses:
+Location in Relation to Settlement:
+1. Remote 
+2. Outskirts
+3. Edge of Settlement 
+4. Central 
+5. Prominent 
+
+Age:
+1. New 
+2. Recent 
+3. Old 
+4. Very Old 
+5. Ancient 
+
+Condition: 
+1. Ruin or Bare Bones 
+2. Poor or Incomplete 
+3. Average 
+4. Strong 
+5. Impeccable 
+
+Environment: 
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Expense:
+1. Paltry
+2. Modest 
+3. Moderate 
+4. Significant 
+5. Extravagant
+
+Primary Building Material:
+1. Brick
+2. Timber 
+3. Stone 
+4. Salvage 
+5. Unique Materials 
+
+Unique Building Material (Optional):
+1. Bone 
+2. Coral 
+3. Crystal 
+4. Living Plant 
+5. Ice 
+6. Magic 
+
+Resource Origin: 
+1. Locally Made / Harvested [Preseved Surrondings]
+2. Locally Made / Harvested [Stripped Surrondings]
+3. Partically Local, Partially Imported 
+4. Imported 
+5. Partially Salvaged
+6. Entirely Salvaged
+7. Completely Stolen 
+8. Partial Magic
+9. Completely Magic
+
+Reason for Construction:
+1. Anticipation from Attack
+2. Mortal Command
+3. Immoral Command 
+4. Vanity 
+5. Protection 
+6. Panic 
+7. Prophecy 
+8. Decree 
+9. Life's Work 
+10. Conversion
+
+Design Theme:
+1. Power 
+2. Glory 
+3. Refuge 
+4. Fear 
+5. Grace 
+6. Wealth 
+7. Piety 
+8. Practicality
+
+Alternate Entries:
+1. None 
+2. Back Door, Blocked
+3. Back Door, Exposed 
+4. Back Door, Hidden 
+5. Secret Door in Exterior Wall
+6. Secret Door in Exterior Wall, Forgotten
+7. Drain, with Grating 
+8. Drain, Blocked
+9. Drain, Blocked, with Grating
+10. Old, Forgotten Tunnel
+
+Local Impact: 
+1. Hostile 
+2. Disruptive 
+3. Irritating 
+4. Innocous
+5. Beneficial 
+6. Advantageous
+
+Recent Local Impact Change (Optional):
+1. Negative
+2. Stable
+3. Positive
+
+
+
+
+
+Residents:
+1. Original
+2. New (Peaceful)
+3. New (Forceful)
+
+Resident Relations:
+1. Irritated 
+2. Outside Ties 
+3. Struggle 
+4. Clandestine 
+5. Expecting 
+6. New Blood 
+7. Family Squabbling 
+8. Secret Love 
+9. Diplomatic Tensions 
+10. Diplomatic Harmony
+11. Problem Guard 
+12. Favored Guard 
+
+Resident Hobbies:
+1. Hunting 
+2. Cooking 
+3. Strategy Games 
+4. Gambling 
+5. Art 
+6. History 
+7. Knitting/Sewing 
+8. Carving 
+9. Botany
+10. Outdoor Games - Throwing or Shooting 
+11. Outdoor Games - Martial 
+12. Outdoor Games - Ball-Based 
+13. Feasting 
+14. Music 
+15. Hawking 
+16. Craft 
+17. Martial Training 
+18. Brewing 
+19. Reading / Storytelling 
+20. Poetry 
+
+Resident Attitude:
+1. Angry 
+2. Irritated 
+3. Ambivilent 
+4. Content 
+5. Happy 
+6. Enthused 
+
+Garrison Size:
+1. Minimum 
+2. Modest 
+3. Large 
+4. Maximum
+
+Garrison Equipment:
+1. Poor 
+2. Standard 
+3. Decent 
+4. Good 
+5. Exemplary 
+
+Current Issue:
+1. Peaceful
+2. Entryway Malfunction
+3. Hurt on the Job 
+4. Poachers 
+5. Family Illness
+6. Worker Illness 
+7. Spoiled Food 
+8. Stolen goods
+9. Structural Damage [Weather]
+10. Structural Damage [Neglect]
+11. Structural Damage [Someone's Mistake]
+12. Infestation
+13. Magical Anomaly
+14. Creature 
+15. Unwanted Attention
+
+Issue Severity:
+1. Trivial 
+2. Manageable
+3. Tough 
+4. Serious 
+5. Critical 
+6. Dire 
+
+History:
+1. Previous Residents
+2. Notable Family Tree 
+3. Accursed 
+4. In Their Footsteps
+5. Convergence 
+6. Dig Site 
+7. Protests
+8. Ensured Silence 
+9. Traditional Home 
+10. Hallowed Ground 
+
+Secrets:
+1. Ancient Resting Place 
+2. Hidden Gravesite
+3. Ancient Treasure 
+4. Secret Hoard 
+5. Unknown Power 
+6. Prized Tome 
+7. Secret Rites 
+8. Tryst 
+9. Enchantment 
+10. Moonlighting 
+11. Back Door
+12. Interloper 
+
+Oddities:
+1. Haunted 
+2. Mystery Door 
+3. Breeze 
+4. Phantom Sounds 
+5. Rumbles 
+6. Moody Room 
+7. Dead End 
+8. Strange Visitors 
+9. Creaky Step 
+10. Watchful beast 
+11. Missing things
+12. Inexplicable Furnishings 
+
+Special Feature:
+1. Resident - Great Person 
+2. Resident - Creature or Monster 
+3. Magical Properties
+4. Unknown Origin 
+5. Catastrophic event 
+6. Intriguing Purpose 
+7. Miraculous Event 
+8. Bizarre Location
+
+
+
+Feature Specifics:
+Resident - Great Person 
+1. Hero 
+2. Villian 
+3. Thinker 
+4. Artist 
+5. Writer 
+6. Warrior 
+7. Arcanist 
+8. Priest 
+
+Resident - Creature of Monster:
+1. Beast 
+2. Beast (Sentient)
+3. Fey 
+4. Elemental 
+5. Savage Humanoid 
+6. Goblinoid
+7. Giant 
+8. Kobold 
+9. Monstrosity 
+10. Undead 
+
+Magical Properties:
+1. Flying
+2. Connected Via Dream Realm 
+3. Spells of Binding 
+4. Speech 
+5. Exuding Prescense 
+6. Desecrated Ground 
+7. deceptive
+8. Nexus 
+9. Teleportation
+10. Phasing 
+
+Unknwon Origin: 
+1 Extraplanar 
+2. Unseen Hands 
+3. Stranger
+4. No Records 
+
+Intriguing Purpose:
+1. Protection
+2. Hiding 
+3. Hint 
+4. Instruction 
+5. Imprisonment 
+6. Connection 
+
+Catastrophic event:
+1. Natural Disaster 
+2. Battle 
+3. Genocide 
+4. Betrayal
+5. Curse 
+6. Summoning 
+
+Miraculous Event:
+1. Found Anew
+2. Salvation
+3. Odds Defied 
+4. Diving Intervention 
+5. Sacrifice 
+6. Prophecy Fulfilled 
+7. Death Refused 
+8. Quest Accomplished 
+
+bizarre Location:
+1. Abyss or Chasm
+2. Sky 
+3. Active Volcano 
+4. beneat the Surface 
+5. Mobile
+6. Nested Environment
+7. Beast Colony 
+8. Unnatural Object 

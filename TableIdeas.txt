@@ -321,3 +321,39 @@ I'm not sure if this really works.
 
 Pursuit of Culture:
 Once again, not sure how this would work
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fortresses:
+This is interesting becauese I feel like it's in a good place
+I think this could be expanded into a dungeon generator, or even a mansion or estate
+There is a lack of tables affecting other tables in this section. 
+
+Reason for Construction:
+- Art Project 
+
+Residents:
+- Add an Abandoned option
+- Add a Squatter option (maybe)
+
+Resident Relations:
+- Merge with rumours to create some fun hooks
+
+Fortress Secrets:
+- Tunnel to a Different Location 
+- Forgotten Prison 
+- Massive Supply Cache 
+- Hidden Corruption 
+- Forbidden Knowledge 
