@@ -1,0 +1,249 @@
+Cities:
+Step 1 - Basic Information:
+
+Origin:
+1. Invading Occupation
+2. Tribal Home
+3. Natural Progression - Trading Post
+4. Natural Progression - Village
+5. Repurposed History
+6. Haven
+7. Advantageous Position / Defensive Castle
+8. Prison 
+9. Agriculture 
+10. Magical 
+
+Priority:
+1. Control
+2. Trade 
+3. Enlightenment
+4. Entertainment
+5. Production
+6. Faith 
+
+Age:
+1. Recent
+2. Established
+3. Mature
+4. Old
+5. Ancient
+
+Size:
+1. Very Small
+2. Small
+3. Medium
+4. Large
+5. Very Large
+
+Outside the City:
+Number of Outside the City Locations:
+Dependent on City Size.
+
+Outside the City Locations:
+1. None
+2. Farming [Agriculture]
+3. Farming [Livestock]
+4. Resource Harvesting
+5. Barrows
+6. Caravan Community
+7. Event Grounds
+8. Family Estate
+9. Hermit's Cottage
+10. Makeshift Settlement
+11. Medical Camp
+12. Prison
+
+Stewardship:
+1. Neglected
+2. Minimal
+3. Passing
+4. Adequate
+5. Managed
+6. Disciplined
+
+General Condition:
+1. Squalid
+2. Dilapidated
+3. Decent 
+4. Impressive 
+5. Magnificent
+
+Environment:
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Fortification:
+1. Unfortified
+2. Lightly Fortified
+3. Fortified
+4. Heavily Fortified
+5. Extremely Fortified
+
+Market Square:
+1. Tight
+2. Ample 
+3. Spacious
+
+Vendor Stall Acquisition:
+1. First Come, First Served - No Fee 
+2. First Come, First Served - Fee
+3. Lease 
+4. Bid
+
+Merchant Overflow:
+1. Banned
+2. Unpatrolled
+3. Monitored
+4. Encouraged
+
+Underground Passages:
+1. None
+2. Sewers
+3. Natural Caves
+4. Tunnels
+5. Forgotten Crypts
+
+Step 2 - Community:
+Population Density:
+1. Skeleton
+2. Sparse 
+3. Populous 
+4. Dense 
+5. Crowded
+
+Population Wealth:
+1. Destitute
+2. Improverished
+3. Average
+4. Prosperous
+5. Wealthy
+6. Affluent
+
+Visitor Traffic:
+1. Mostly Locals
+2. Groups
+3. Crowds
+4. Droves
+5. Masses 
+6. Multitudes
+
+Disposition:
+1. Hostile
+2. Unfriendly
+3. Neutral 
+4. Friendly 
+5. Open
+
+Night Activity:
+1. Dark
+2. Quiet
+3. Slow 
+4. Active 
+5. Lively 
+6. Raucous
+
+Leadership:
+1. Elected Council
+2. Mayor 
+3. Hereditary
+4. Merchant Monarch
+5. Miltiary Leader 
+6. Oligarchy
+7. Underworld or Criminal Enterprise
+8. Anarcho-Syndicalist Commune
+
+Law Enforcement:
+1. None
+2. Skeleton City Watch
+3. City Watch
+4. Robut City Watch
+5. Extensive City Watch
+
+General Crime:
+1. dangerous
+2. Frequent 
+3. Common 
+4. Uncommon 
+5. Infrequent
+
+Organised Crime:
+1. Completely Secret
+2. Whispers
+3. Talk 
+4. Barely Hidden 
+5. Open
+
+Step 3 - Districts:
+Number of Districts:
+1. 2
+2. 3
+3. 4
+4. 5.
+5. 6
+
+District Types: 
+1. Administration
+2. Arcane 
+3. Botanical
+4. Craft 
+5. Docks 
+6. Industrial
+7. Market 
+8. Merchant
+9. Scholar 
+10. Slums
+11. Temple
+12. Upper Class
+
+District Conditions:
+General Condition:
+1. Squalid
+2. Dilapidated
+3. Decent
+4. Impressive
+5. Magnificent
+
+Proporitionate Condition:
+1. Far Worse
+2. Worse
+3. Equal
+4. better
+5. Far Better 
+
+District Entry:
+1. Open 
+2. Lightly Guarded 
+3. Guarded 
+4. Gated & Guarded
+
+District Crime:
+1. Far Worse
+2. Worse 
+3. Equal 
+4. Better 
+5. Far Better 
+
+Housing:
+1. None 
+2. Limited 
+3. Moderate 
+4. Extensive 
+
+District Notable Locations:
+1. None 
+2. One
+3. Two 
+4. Three 
+
+Individual Districts:
+Number of Additional Districts:
+Depedent on City Size 
+

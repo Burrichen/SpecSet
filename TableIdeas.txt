@@ -62,6 +62,18 @@ Services:
 - Matchmaker
 - Scribe & Notary
 
+Organised Crime:
+Rework into two tables, the original tab becomes visibility, and make a new table to make organised crime syndicates
+
+Districts:
+- Barracks
+- Diplomatic Quarters
+- Undercity
+- Pleasure District
+- Agriculture District
+
+District Quality:
+I feel like inserting 2 more numbers to stop the quality rolls from being so swingy would be useful.
 
 
 
@@ -226,3 +238,27 @@ Even cutting Droves might be a good idea.
 Non-Commercial Locations:
 Generating more of these might be a great idea. I would love this.
 We may need to increase the amount to make up of that.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cities:
+Origin:
+- Royal/Imperial Decree
+- Terminal Point of a Pathway
+- Historical Monument
+
+Priority:
+- War Force
+- Currency & Banking
+- Magical Focus
