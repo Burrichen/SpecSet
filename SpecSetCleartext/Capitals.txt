@@ -1,0 +1,515 @@
+Capitals:
+It's important to state that this isn't THE capital, but A capital.
+
+Step 1 - Basic Information:
+Origin:
+1. First Settlement
+2. Holy City
+3. Miltiary Camp
+4. Invading Occupation
+5. Natural Progression - Trading Post
+6. Resurrected Ruins
+7. Homegrown Inspiration
+8. Haven 
+9. Advantageous Position
+10. Prison
+11. Agriculture
+12. Magical 
+
+Age: 
+1. Recent
+2. Established
+3. Mature
+4. Old 
+5. Ancient 
+
+Size: 
+1. Very Small 
+2. Small
+3. Medium 
+4. Large 
+5. Very Large
+
+Environment:
+1. Coastal
+2. Forest
+3. Mountains
+4. Plains
+5. River
+6. Swamp
+7. Underground
+8. Valley
+9. Tundra
+10. Desert
+
+Outside the Capital:
+Number of Rolls:
+Dependent on Size of Capital
+Outside the Capital Locations:
+1. None 
+2. Farming [Arigculture]
+3. Farming [Livestock]
+4. Resource Harvesting
+5. Barrows 
+6. Caravan Community 
+7. Event Grounds 
+8. Exploration 
+9. Family Estate 
+10. Makeshift Settlement 
+11. Medical Camp 
+12. Prison 
+13. Subterranean Warrens 
+14. Tended Nature 
+15. Training Grounds 
+16. Unusable
+
+Stewardship: 
+1. Neglected 
+2. Minimal 
+3. Passing 
+4. Adequate 
+5. Managed 
+6. Disciplined 
+
+General Condition:
+1. Squalid 
+2. Dilapidated
+3. Decent
+4. Impressive
+5. Magnificent
+
+Fortification:
+1. Unfortified
+2. Lightly Fortified
+3. Fortified 
+4. Heavily Fortified
+5. Extremely Fortified
+
+Market Square: 
+1. Tight 
+2. Ample 
+3. Spacious 
+
+Vendor Stall Acquisition:
+1. First Come, First Served - No Fee 
+2. First Come, First Served - Fee
+3. Lease 
+4. Bid
+5. Sponsered Referral Only - No Fee
+6. Sponsered Referral Only - Fee 
+
+Merchant Overflow:
+1. Banned 
+2. Unpatrolled
+3. Monitored 
+4. Encouraged
+
+Underground Passages: 
+1. None 
+2. Sewers 
+3. Natural Caves
+4. Tunnels 
+5. Forgotten Crypts 
+
+
+
+Step 2 - Government & High Society 
+Leadership:
+1. Elected Council
+2. Governor 
+3. Hereditary
+4. Merchant Monarch 
+5. Military Officer 
+6. Oligarchy
+7. Underworld or Criminal Enterprise 
+8. Anarcho-Syndicalist Commune
+
+Leadership Unity:
+1. Rank Animosity
+2. Thinly-Veiled Discord 
+3. Strained 
+4. Uneasy
+5. Calm 
+6. Close-Knit 
+7. Accord 
+8. United
+
+Governing Priority:
+1. Humanitarian
+2. Control 
+3. Isolationist 
+4. Expansionist 
+5. Cloak and Dagger 
+6. Economic 
+7. Enlightenment 
+8. Industry and Renovation 
+9. Release 
+10. Religious 
+
+Priority Approach: 
+1. Peaceable (Strong)
+2. Peaceable (Moderate)
+3. Aggressive (Moderate)
+4. Aggressive (Strong)
+
+Priority Success:
+1. Failing 
+2. Mediocre
+3. Successful 
+4. Very Successful 
+5. Incredibly Successful
+
+Step 2 - Lifestlye & Residence
+Lifestlye of Leader:
+1. Humble
+2. Respectable
+3. Distinguished
+4. exquisite
+5. Luxurious 
+6. Ostentatious
+
+Residence of Leader:
+1. Modest House 
+2. Large House 
+3. Small Mansion 
+4. Large Mansion 
+5. Small Estate (Inside the Capital)
+6. Small Estate (Outside the Capital)
+7. Large Estate (Inside the Capital)
+8. Large Estate (Outside the Capital)
+9. Palace (Inside the Capital)
+
+Leader's Intent:
+1. Genuine
+2. Positive Deception
+3. Negative Deception
+4. Unknown Alternative
+
+Connections: 
+1. 1
+2. 2
+3. 3
+4. 4
+
+Connection Relation:
+1. Enemy - Hated 
+2. Enemy - Tolerated
+3. Ally - With Reservations 
+4. Ally - Trusted 
+
+Spy Network Size:
+1. None 
+2. Modest 
+3. Adequate
+4. Ample 
+
+Infiltration Depth: 
+1. General 
+2. Deep 
+3. Immersed 
+4. Embroiled
+
+Counterintelligence:
+1. None 
+2. Modest 
+3. Adequate 
+4. Ample 
+
+Counterintelligence Watchfulness:
+1. Passing 
+2. Wary 
+3. Viliant 
+4. Paranoid
+
+Notable Visitors:
+1. 1
+2. 2
+3. 3
+4. 4
+
+Visitor Roles:
+1. Escaped Prisoner 
+2. Ambassador 
+3. Banker 
+4. Ruler's Child
+5. Ruler's Spouse 
+6. Ruler 
+7. Explorer 
+8. Assassin 
+9. Framed Craftperson 
+10. Priest of Priestess
+11. Adventuerer
+12. Scribe
+13. Bard/Storyteller 
+14. Military Commander
+15. Soldier 
+16. Messenger
+17. Spy 
+18. Sentient Small Monster
+19. Sentient Large Monster 
+20. Otherworldy Being 
+
+Reason for Visit:
+1. Escape 
+2. Diplomacy 
+3. Looking for Fun 
+4. An Important Meeting 
+5. Grudge 
+6. Tricked
+7. Visiting an Old Friend 
+8. In Need of Help
+9. Lost 
+10. Took Wrong Transportation 
+11. Angry 
+12. Interesting Place 
+13. Seeking Advice 
+14. Following Propcey:
+15. Had a Vision
+16. Lost a Bet 
+17. Doing a Favor 
+18. Collecting a Debt 
+19. Looking for a Change 
+20. On the Hunt 
+
+Military:
+1. No
+2. Yes 
+
+Standing or Disbanded:
+1. Disbanded
+2. Standing
+
+Recruitment Type:
+1. Mercenary
+2. Mandatory
+3. Volunteer
+4. Hand-Picked
+5. Criminals 
+6. Conscripted
+
+Size of Force:
+1. Insignificant 
+2. Modest 
+3. Strong 
+4. Grand 
+5. Vast 
+
+Specialisation:
+1. None 
+2. Mounted 
+3. Engineering
+4. Berserker 
+5. Cover
+6. Theatrics 
+7. Magical 
+8. Biological
+9. Calculation
+10. Unconventional 
+11. Transport-Based
+12. Defensive
+
+Miltary Facilities:
+1. Temporary Shelters Outside the Capital
+2. Simple Structures Outside the Capital
+3. Moderate Structures Outside the Capital
+4. Simple Structures Inside the Capital 
+5. Moderate Structures Inside the Capital
+6. Roboust Structures Inside the Capital
+
+Nobility:
+1. Egalitarian
+2. Blood 
+3. Deeds
+4. Wealth/Possession
+
+Primary Nobels:
+1. 2
+2. 3
+4. 4
+5. 5
+6. 6
+7. 7
+8. 8
+9. 9
+
+Lesser Nobels: 
+1. 2
+2. 3
+4. 4
+5. 5
+6. 6
+7. 7
+8. 8
+9. 9
+
+Relationship to the Leadership:
+1. Rancorous
+2. Opposed 
+3. Disliked 
+4. Tolerated 
+5. Liked 
+6. Supported 
+7. Defended 
+8. Loved 
+
+Relationship with the people: 
+1. Awful 
+2. Very Bad 
+3. Bad 
+4. Tepid 
+5. Good 
+6. Very Good 
+7. Incredible
+
+Root of Relationship with the People:
+1. Hardships
+2. Resources 
+3. Manipulation 
+4. Opinion of Leadership 
+5. Leadership Treatment 
+
+
+Step 3 - Community: 
+
+Culture:
+1. Non-Specificy
+2. Art & Beauty
+3. Music
+4. Cuisine
+5. Self-Improvement
+6. Enjoyment
+7. Challenge
+
+Pursuit of Culture
+1. Moderate 
+2. Keen Interest 
+3. Obsession 
+4. Rabid Fanaticsm
+
+Population Density:
+1. Skeleton
+2. Sparse 
+3. Populous
+4. Dense 
+5. Crowded 
+
+Population Wealth:
+1. Destitute 
+2. Impoverished 
+3. Average 
+4. Prosperous 
+5. Wealthy 
+6. Affluent 
+
+Visitor Traffic:
+1. Mostly Locals 
+2. Groups 
+3. Crowds 
+4. Droves 
+5. Masses 
+6. Multitudes
+
+Disposition:
+1. Hostile 
+2. Unfriendly 
+3. Neutral 
+4. Friendly 
+5. Open 
+
+Night Activity:
+1. Dark 
+2. Quiet 
+3. Slow 
+4. Active 
+5. Lively 
+6. Raucous
+
+Law Enforcement:
+1. None 
+2. City Watch 
+3. Robust City Watch 
+4. Extensive City Watch 
+
+General Crime:
+1. Dangerous 
+2. Frequent 
+3. Common 
+4. Uncommon
+5. Infrequent 
+
+Organised Crime:
+1. Compeltely Secret
+2. Whispers 
+3. Talk 
+4. Barely Hidden 
+5. Open 
+
+Step 4 - Districts:
+In the Districts.txt file. 
+
+Housing: 
+1. None 
+2. Limited 
+3. Moderate 
+4. Extensive 
+
+District Notable Locations:
+1. None 
+2. One
+3. Two 
+4. Three 
+
+Noteworthy Officials:
+1. Adviser 
+2. Ambassador 
+3. Catchpole
+4. Champion 
+5. Clerk 
+6. Taxman 
+7. Guildmaster 
+8. Herald 
+9. High Priest / Druid 
+10. High Mage 
+11. Jailer 
+12. Judge 
+13. Liner 
+14. Master of Intellience
+15. Master of Revels
+16. Master of Stores 
+17. Master of Trade 
+18. Master of the Treasury
+19. Master of the Wild 
+20. Roadwarden/Dockwarden
+
+Official's Competence:
+1. Corrupt 
+2. Incompetent
+3. Committed 
+4. Overqualified
+
+
+Beneath the surface:
+1. Pack 
+2. Monster 
+3. Markings 
+4. Fight Club 
+5. Secret 
+6. Outside Contact
+7. Tampering 
+8. Unsafe 
+9. Parties 
+10. Black Market 
+11. Races 
+12. Haunted 
+
+Beneath The Surface - Awareness:
+1. Utterly Oblivious
+2. Single, Sublte Occurence
+3. Disparate, Sublte Occurences
+4. Many Subtle Occurances
+5. Single Occurance
+6. Disparate Occurances
+7. Many Occurences
+8. Single, Direct Occurences
+9. Disparate, Direct Occurences
+10. Many Direct Occurences

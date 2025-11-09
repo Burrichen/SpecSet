@@ -283,3 +283,41 @@ Priority:
 - War Force
 - Currency & Banking
 - Magical Focus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Capitals:
+Outside the Capital:
+Make it a new step entirely 
+Greatly expand the outside the capital rolls
+Picture it as if a capital takes like 4 hexes, but only 1 is the city
+- Makeshift Settlement (New Settlement Type) (E)
+
+Leadership:
+Make more tables and a process for the rules of the capital. Create a new step for it.
+
+Leader's Intent:
+This table makes no sense. Getting rid of it or reworking it could help.
+
+Infiltration Depth:
+Simplify this table
+
+Visitor Roles:
+This could be a lot of fun. Could be worth expanding.
+
+Culture:
+I'm not sure if this really works.
+
+Pursuit of Culture:
+Once again, not sure how this would work

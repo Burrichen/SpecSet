@@ -381,57 +381,21 @@ Guild:
 1. Yes 
 2. No 
 
-Noteworthy Officials:
-1. Adviser 
-2. Ambassador 
-3. Catchpole
-4. Champion 
-5. Clerk 
-6. Taxman 
-7. Guildmaster 
-8. Herald 
-9. High Priest / Druid 
-10. High Mage 
-11. Jailer 
-12. Judge 
-13. Liner 
-14. Master of Intellience
-15. Master of Revels
-16. Master of Stores 
-17. Master of Trade 
-18. Master of the Treasury
-19. Master of the Wild 
-20. Roadwarden/Dockwarden
-
-Official's Competence:
-1. Corrupt 
-2. Incompetent
-3. Committed 
-4. Overqualified
 
 
-Beneath the surface:
-1. Pack 
-2. Monster 
-3. Markings 
-4. Fight Club 
-5. Secret 
-6. Outside Contact
-7. Tampering 
-8. Unsafe 
-9. Parties 
-10. Black Market 
-11. Races 
-12. Haunted 
 
-Beneath The Surface - Awareness:
-1. Utterly Oblivious
-2. Single, Sublte Occurence
-3. Disparate, Sublte Occurences
-4. Many Subtle Occurances
-5. Single Occurance
-6. Disparate Occurances
-7. Many Occurences
-8. Single, Direct Occurences
-9. Disparate, Direct Occurences
-10. Many Direct Occurences
+
+
+
+
+
+
+
+
+
+
+
+
+Capital Only:
+Nobel Residence Locations:
+Roll up to the number of districts you have. 1 = district 1 etc
