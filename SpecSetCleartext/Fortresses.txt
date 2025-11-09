@@ -331,3 +331,235 @@ bizarre Location:
 6. Nested Environment
 7. Beast Colony 
 8. Unnatural Object 
+
+
+
+
+Keep: 
+Shape:
+1. Box
+2. Round 
+
+Size:
+1. Small 
+2. Medium 
+3. Large
+4. Very Large 
+
+Exterior Walls Thickness:
+1. 1ft
+2. 2.5ft
+3. 5ft
+4. 10ft
+5. 15ft
+
+Number of Floors:
+1. 1
+2. 2
+3. 3
+4. 4
+5. 5
+6. 6
+
+Raised Entrance:
+1. Ground Level 
+2. Stairs lead to an upper floor Entryway
+
+Entry Defenses:
+1. Simple Heavy Door
+2. Reinforced Heavy Door
+3. Portcullis 
+4. Drawbridge 
+5. Portcullis and Drawbridge 
+
+
+Step 2 - Inside the Keep
+Starting Rooms: 1 Bedroom, 1 Kitchen, 1 Dining Room
+
+Rooms:
+1. Bedroom
+2. Dining and Recieving
+3. Kitchen 
+4. Chapel 
+5. Guard Banks 
+6. Cell 
+7. Closet 
+8. Equipment Storage 
+9. General Storage 
+10. Guest Quarters
+11. Larder 
+12. Library
+13. Privy
+14. Solar 
+15. Stables 
+16. Servant Quarters
+
+Furnishings:
+1. Poor 
+2. Basic 
+3. Decent 
+4. Good 
+5. Fine 
+
+STOP!
+If you are only building a Keep, stop here. If you want to upgrade to a castle or Stronghold, continue.
+
+
+
+
+
+Castle 
+
+Geographic Advantages:
+Coastal:
+1. None 
+2. Hill 
+3. Cliff
+4. Surronded by Natural Water 
+
+Forest:
+1. None 
+2. Hill
+3. Cliff
+4. Congested Approach(es)
+
+Plains:
+1. Narrow Approach(es)
+2. Treacherous Approach(es)
+3. None
+
+River:
+1: Congested Approach(es)
+2. Narrow Approach(es)
+3. Treacherous Approach(es)
+4. Surronded by Natural Water 
+
+Swamp:
+1. None
+2. Treacherous Approach(es)
+3. Congested Approach(es)
+
+Underground:
+1. None 
+2. Narrow Approach(es)
+3. Congested Approach(es)
+4. Carved 
+
+Valley:
+1. None 
+2. Narrow Approach(es)
+3. Cliff
+
+Tundra:
+1. Treacherous Approach(es) 
+2. Narrow Approach(es)
+3. Cliff 
+4. Carved 
+
+Desert:
+1. Narrow Approach(es)
+2. Treacherous Approach(es)
+3. Hill
+4. Cliff 
+
+Style: 
+1. Motte-and-Bailey
+2. Shell Keep
+3. Fortified keep 
+4. Concentric 
+
+Size:
+1. Small 
+2. Medium 
+3. Large 
+4. Very Large 
+
+Curtain Walls:
+Curtain Wall Thickness Stone/Wood:
+1. 10ft/5ft
+2. 15ft/10ft
+3. 20ft/15ft
+4. 25ft/20ft
+
+Curtain Wall Height Stone/Wood:
+1. 10ft/10ft
+2. 20ft/15ft
+3/ 30ft/20ft
+4. 40ft/25ft
+
+Curtain Wall Towers:
+1. Box
+2. Round (Cylinder)
+
+Tower Size:
+1. Small [+0ft]
+2. Medium [+10ft]
+3. Large [+20ft]
+4. Very Large [30ft]
+
+Tower Rooves:
+1. Uncovered 
+2. Flat Roof 
+3. Shallow Slope Roof 
+4. Steep Slope Roof 
+
+Number of Curtain Wall Defenes:
+1. Paltry
+2. Modest 
+3. Moderate 
+4. Extravegent
+
+Type of Curtain Wall Defenses:
+1. Batters 
+2. Bossing 
+3. Hoardings 
+4. Machiolations 
+5. Brattice 
+6. Magical Defenses
+
+Magical Defenses:
+1. Blocking Wards 
+2. Aggressive Wards 
+3. Unliving Sentinels 
+4. Alarm Wards 
+5. Relocation Wards 
+6. Unnatural Elemental Prescense
+
+Barbican:
+1. None 
+2. The Gatehouse leads to a walled approach 
+3. The Gatehouse leads to a walled approach, ending in a Drawbridge
+4. The Gatehouse, precded by a Drawbridge, leads to a walled approach, ending in an additional Drawbridge
+
+Gatehouses:
+1. Standard 
+2. Strong Gatehouse 
+3. Grand Gatehouse 
+
+Moat: 
+1. None 
+2. Dry Moat 
+3. Dry Moat [Trapped]
+4. Filled Moat 
+5. Filled Moat [Trapped]
+
+Moat Width:
+1. 15ft
+2. 20ft.
+3. 25ft
+4. 30ft 
+5. 35ft
+
+Moat Depth:
+1. 20ft
+2. 25ft 
+3. 30ft
+4. 35ft 
+5. 40ft
+
+Barraks Location:
+1. Simple Room(s)
+2. Multiple, Seperate Structures 
+3. Single, Seperate Structure
+4. Built-On [Keep]
+5. Built-In [Walls]
