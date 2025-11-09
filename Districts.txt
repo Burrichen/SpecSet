@@ -1,0 +1,229 @@
+Administration:
+Included Locations:
+Non-Commercial: Courthouse, Chancery, Town Hall, Treasury
+Shops: None
+Services: Hired Help - Scribes & Clerks
+
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Baker
+3. Tailor
+4. Alchemist
+5. Cobbler
+6. Luxury Furnishings
+7. Rare Libations & Fare
+8. Barber
+9. Bathhouse
+10. Doctor/Apothecary
+11. House of Leisure
+12. Inn
+13. Club
+14. Tavern
+15. Hired Help
+16. Archives/library
+17. Academy/University
+18. Schoolhouse
+19. Amphitheater
+20. Roll Again, but the next location is a step UP in quality.
+
+
+Arcane District:
+Included Locations:
+Non-Commercial: Archives/Library, Academy/University
+Shops: Magic Shop roll
+Services: Hired Help - Arcane Academics or Magic Mercenaries
+
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. General Store
+3. Tailor 
+4. Weaver 
+5. Alchemist 
+6. Artist 
+7. Rare Botanicals
+8. Magic Shop roll
+9. Barber
+10. Soothsayer
+11. House of Leisure
+12. Club 
+13. Tavern
+14. Hired Help - Arcane Academics 
+15. Hired Help - Magic Mercenaries
+16. Forum
+17. Barber 
+18. Schoolhouse 
+19. Lodge
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Botanical District:
+Included Locations:
+Non-Commercial: Outdoor Recreation Area
+Shops: 
+Services: Inn, Stable
+
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Baker
+3. Tailor 
+4. Weaver 
+5. Alchemist
+6. Artist 
+7. Cobbler
+8. Rare Botanicals
+9. Rare Libations & Fare 
+10. Magic Shop Roll
+11. Doctor/Apothecary
+12. House of Leisure
+13. Inn
+14. Soothsayer
+15. Tavern 
+16. Hired Help - Guiders & Trackers 
+17. Outdoor Recreation Area 
+18. Dance Hall
+19. Altar 
+20. Roll Again, but the next location is a step UP in quality.
+
+
+Craft District: 
+Included Locations:
+Non-Commercial: 
+Shops: Smithy, Carpenter, General Store, Tailor, Magic Shop Roll
+Services: 
+
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Cooper 
+3. Carpenter 
+4. Thatcher 
+5. Wainwright 
+6. Armoursmith
+7. Artist 
+8. Bank & exchange
+9. Cobbler 
+10. Foundry/Smelting
+11. Miller 
+12. Textile Production 
+13. Shipwright 
+14. Magic Shop Roll 
+15. Luxury Furnishings
+16. Rare Trade goods
+17. Weaponsmith 
+18. Tavern 
+19. Hired Help Roll 
+20. Roll Again, but the next location is a step UP in quality.
+
+
+Dock District:
+Included Locations:
+Non-Commercial: 
+Shops: Shipwright, Weaver
+Services: House of Leisure, Inn, Tavern
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Cooper 
+3. Carpenter
+4. Smithy
+5. Bank & Exchange 
+6. Shipwright 
+7. Rare Botanicals
+8. Rare Libations and Goods 
+9. Rare Trade Goods 
+10. Magic Shop Roll 
+11. Barber 
+12. Bathhouse
+13. Doctor/Apothecary
+14. House of Leisure
+15. Inn 
+16. Club 
+17. Tavern 
+18. Hired Help Roll 
+19. Altar 
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Industrial District:
+Included Locations:
+Non-Commercial: 
+Shops: Smithy, Foundry/Smelther OR Miller OR Textile Production
+Services: 
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Cooper 
+3. Carpenter 
+4. General Store 
+5. Smithy 
+6. Tailor 
+7. Thatcher 
+8. Wainwright 
+9. Weaver 
+10. Foundry/Smelting 
+11. Miller 
+12. Textile Production
+13. Shipwright 
+14. House of Leisure
+15. Club
+16. Tavern 
+17. Hired Help Roll
+18. Gathering Hall
+19. Treasury
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Market District:
+Included Locations:
+Non-Commercial: 
+Shops: Baker, Butcher, General Store, Smithy, Tailor
+Services: 
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. Wainwright
+3. Weaver
+4. Alchemist
+5. Artist
+6. Bank & Exchange
+7. Cobbler
+8. Rare Botanicals
+9. Luxury Furnishings
+10. Rare Trade Goods
+11. Rare Libations and Fare
+12. Magic Shop Roll
+13. Barber 
+14. Inn
+15. Club 
+16. Soothsayer
+17. Stable
+18. Tavern 
+19. Hired Help Roll
+20. Roll Again, but the next location is a step UP in quality.
+
+
+
+Merchant District:
+Included Locations:
+Non-Commercial: 
+Shops: Bank & Exchange, Tailor, Artist, Cobbler, Magic Shop Roll
+Services: 
+Additional Locations:
+1. Roll Again, but the next location is a step DOWN in quality.
+2. General Store
+3. Wainwright
+4. Alchemist
+5. Artist
+6. Bank & Exchange
+7. Cobbler
+8. Luxury Furnishings
+9. Rare Libations & Fare
+10. Rare Trade Goods
+11. Magic Shop Roll
+12. Barber
+13. Bathhouse
+14. House of Leisure
+15. Inn
+16. Club
+17. Tavern
+18. Hired Help Roll
+19. Roll Again, but the next location is a step UP in quality.

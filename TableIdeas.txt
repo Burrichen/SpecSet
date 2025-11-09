@@ -75,6 +75,10 @@ Districts:
 District Quality:
 I feel like inserting 2 more numbers to stop the quality rolls from being so swingy would be useful.
 
+Districts:
+Arcane:
+- Add a general Magic Shop for free.
+
 
 
 
