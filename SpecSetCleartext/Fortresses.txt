@@ -563,3 +563,59 @@ Barraks Location:
 3. Single, Seperate Structure
 4. Built-On [Keep]
 5. Built-In [Walls]
+
+Bailey Outbuildings:
+1. Small 
+2. Medium 
+3. Large 
+4. Very Large
+
+
+
+
+
+Stronghold
+Curtain Wall Reinforcement:
+Additional Thickness 
+1. +5ft 
+2. +10ft 
+3. +15ft 
+4. +20ft 
+
+Additional Height:
+1. +20ft 
+2. +25ft 
+3. +30ft 
+4. +35ft 
+
+Additional Curtain Wall Towers 
++1d8 towers 
+
+Style Amplifications:
+1. Additional Curtain Wall 
+2. Low Hulk 
+3. Great Drums 
+4. Tiered 
+5. Massive Curtain Walls 
+6. Bristling Defenses 
+7. Fortified Entries 
+8. Great Moat 
+9. Mighty Keep
+10. Watchful 
+11. Under Cover 
+12. Magical Forms 
+
+Brutal Defenses: 
+1. Stalwart Defenders 
+2. Shards 
+3. Scythe 
+4. Quake 
+5. ROlling Pin 
+6. Oiled Surface 
+7. Gas Spouts 
+8. Walls of Darts 
+9. Vertigo 
+10. Mighty Adhesive 
+11. Tar Fields 
+12. Melded Guardians 
+13. Thunder Horn 
