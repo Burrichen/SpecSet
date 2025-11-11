@@ -1,3 +1,5 @@
+// menu.js
+
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { startAdventure } from './SetGen.js';
@@ -13,18 +15,14 @@ async function pressEnterToContinue() {
   ]);
 }
 
-// This is our main application loop
 async function mainMenu() {
   while (true) {
-    // Clear the console for a clean look each time the menu is shown
     console.clear();
 
-    // Display the main title
     console.log(chalk.bold.yellow('======================================'));
     console.log(chalk.bold.yellow("  Burrichen's Spectacular Settlements "));
     console.log(chalk.bold.yellow('======================================\n'));
 
-    // Ask the user for their choice
     const { choice } = await inquirer.prompt([
       {
         type: 'list',
@@ -35,9 +33,11 @@ async function mainMenu() {
       },
     ]);
 
-    // Handle the user's choice
     switch (choice) {
       case 'Start':
+        // --- BUG FIX IS HERE ---
+        // Clear the console immediately for a clean start to the generator.
+        console.clear();
         await startAdventure();
         await pressEnterToContinue();
         break;
@@ -56,7 +56,7 @@ async function mainMenu() {
         break;
 
       case 'Exit':
-        process.exit(0); // This exits the application
+        process.exit(0);
     }
   }
 }
