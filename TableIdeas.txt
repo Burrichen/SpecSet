@@ -126,6 +126,7 @@ Trading Post Specialities:
 - Animal Handling / Vechiles
 - Security Services
 - Front
+- Expand food and drink to regional 
 
 Law Enforcement:
 - Well-Equipped (E)

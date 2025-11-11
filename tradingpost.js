@@ -12,8 +12,8 @@ const tradingPostOrigins = [
 ];
 
 const tradingPostSpecialties = [
-  { dice: 1, name: 'Food & Drink', description: 'It is known for a particular kind of food or drink.' },
-  { dice: 2, name: 'Hired Hands', description: 'It is a haven for shady guilds and mercenaries.' },
+  { dice: 1, name: 'Food & Drink', description: 'It is known for..' },
+  { dice: 2, name: 'Hired Hands', description: 'It is known for having people who can get just about anything done...' },
   { dice: 3, name: 'Your Third Specialty', description: 'Describe the unique goods or services found here.' },
   { dice: 4, name: 'Your Fourth Specialty', description: 'Describe the unique goods or services found here.' },
   { dice: 5, name: 'Your Fifth Specialty', description: 'Describe the unique goods or services found here.' },
@@ -21,19 +21,17 @@ const tradingPostSpecialties = [
 ];
 
 const foodAndDrink = [
-  { dice: 1, name: 'Your First Food/Drink', description: 'e.g., A rare vintage, a potent spirit, a delicious pie.' },
-  { dice: 2, name: 'Your Second Food/Drink', description: 'Describe the special consumable.' },
-  { dice: 3, name: 'Your Third Food/Drink', description: 'Describe the special consumable.' },
-  { dice: 4, name: 'Your Fourth Food/Drink', description: 'Describe the special consumable.' },
+  { dice: 1, name: 'Food', description: 'Excellent or unqiue food.' },
+  { dice: 2, name: 'Drink', description: 'Plentiful and varied high-quality deverages' },
 ];
 
 const tradingPostAges = [
-  { dice: 1, name: 'Your First Age', description: 'e.g., Ancient, Established, Recent, New.' },
-  { dice: 2, name: 'Your Second Age', description: 'Describe the age of the settlement.' },
-  { dice: 3, name: 'Your Third Age', description: 'Describe the age of the settlement.' },
-  { dice: 4, name: 'Your Fourth Age', description: 'Describe the age of the settlement.' },
-  { dice: 5, name: 'Your Fifth Age', description: 'Describe the age of the settlement.' },
-  { dice: 6, name: 'Your Sixth Age', description: 'Describe the age of the settlement.' },
+  { dice: 1, name: 'Recent', description: 'It was established within the past year.' },
+  { dice: 2, name: 'Established', description: 'It has been around for at least a couple of years.' },
+  { dice: 3, name: 'Mature', description: 'It was originally built decades ago.' },
+  { dice: 4, name: 'Old', description: 'It was build around 100 years ago.' },
+  { dice: 5, name: 'Ancient', description: 'It was built hundereds of years ago.' },
+  { dice: 6, name: 'Unknown', description: 'No one knows when it was established.' },
 ];
 
 
