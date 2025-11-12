@@ -110,6 +110,14 @@ const shopLocationsData = {
     'Very Large': { dieCount: 1, dieSize: 8, bonus: 10 },
 };
 
+const serviceLocationsData = {
+    'Very Small': { dieCount: 1, dieSize: 6, bonus: 0 },
+    'Small':      { dieCount: 1, dieSize: 6, bonus: 1 },
+    'Medium':     { dieCount: 1, dieSize: 6, bonus: 3 },
+    'Large':      { dieCount: 1, dieSize: 6, bonus: 5 },
+    'Very Large': { dieCount: 1, dieSize: 6, bonus: 7 },
+};
+
 const shopsTable = [
     { min: 1, max: 4, name: 'Baker (B)', description: 'Bakes and sells fresh bread and, possibly, pastries.' },
     { min: 5, max: 8, name: 'Butcher (B)', description: 'Processes and sells fresh and/or dried meat.' },
@@ -143,6 +151,20 @@ const shopsTable = [
     { min: 99, max: 100, name: 'Magic Shop - Miscellaneous & Curiosities (E)', description: 'Procures and sells strange and rare artifacts of a wondrous or intriguing nature.' },
 ];
 
+const placeOfWorshipDecisionTable = [
+    { min: 1, max: 3, name: 'No' },
+    { min: 4, max: 6, name: 'Yes' },
+];
+
+const placeOfWorshipSizeTable = [
+    { min: 1, max: 1, name: 'Secret', description: 'The place of worship\'s size is unclear, as the location is not publicly known.' },
+    { min: 2, max: 8, name: 'Altar', description: 'A small shrine or, perhaps, a tiny shack, usually evincing some various items or images relating to that which the faith venerates.' },
+    { min: 9, max: 14, name: 'Oratory', description: 'A modest building with seating for attendees, appointed with various items or images relating to that which the faith venerates.' },
+    { min: 15, max: 17, name: 'Sanctuary', description: 'A large, well-appointed structure, able to comfortably accommodate up to a few hundred people.' },
+    { min: 18, max: 19, name: 'Temple', description: 'A grand building, replete with elements like high ceilings, plush furnishings, and other impressive ornamental and/or architectural features. It can hold nearly a thousand attendees.' },
+    { min: 20, max: 20, name: 'Great Temple', description: 'An awe-inspiring structure, devoted to that which it venerates. No expense was spared in its construction. It might display such elements as stunning frescos, elaborate stained-glass scenes, and towering, gilded statues. Walking into a great temple is a rare and striking experience for those who do not live near one.' },
+];
+
 
 export {
   tradingPostOrigins,
@@ -159,4 +181,7 @@ export {
   crimeTable,
   shopLocationsData,
   shopsTable,
+  serviceLocationsData,
+  placeOfWorshipDecisionTable,
+  placeOfWorshipSizeTable,
 };
