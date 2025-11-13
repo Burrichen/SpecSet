@@ -1,5 +1,7 @@
 // SetGen.js
 
+// --- MODIFIED: Added the 'fs' module for file system operations ---
+import fs from 'fs/promises';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable } from './tradingpost.js';
@@ -35,7 +37,10 @@ function applyModifierAndClamp(baseValue, modifier, min, max) {
   return finalValue;
 }
 
-async function getHiredHelpSize() {
+async function getHiredHelpSize(isAutoRolling) {
+    if (isAutoRolling) {
+        return rollHiredHelpSize();
+    }
     console.log(chalk.bold.cyan(`\nWhat is the size of this hired help group?`));
     const { size } = await inquirer.prompt([
         {
@@ -57,11 +62,71 @@ function rollHiredHelpSize() {
     return hiredHelpSizeTable.find(item => roll >= item.min && roll <= item.max);
 }
 
-// --- NEW HELPER: For formatting keys in the summary ---
 function formatKeyName(key) {
-    // This turns 'populationWealth' into 'Population Wealth'
     return key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim();
 }
+
+const namePrefixes = ['Green', 'Far', 'Clear', 'Red', 'Black', 'White', 'Silver', 'Gold', 'Iron', 'Stone', 'Oak', 'Pine', 'Wolf', 'Eagle', 'Sun', 'Moon', 'Star', 'North', 'South', 'High', 'Low', 'Bright', 'Still', 'Cold'];
+const nameSuffixes = ['water', 'view', 'crest', 'hollow', 'dale', 'moor', 'hill', 'pass', 'ridge', 'town', 'burg', 'stead', 'ham', 'wick', 'port', 'watch', 'wood', 'field', 'grove', 'marsh', 'bridge', 'ford', 'brook', 'well'];
+
+function generateSettlementName() {
+    const prefix = namePrefixes[Math.floor(Math.random() * namePrefixes.length)];
+    let suffix = nameSuffixes[Math.floor(Math.random() * nameSuffixes.length)];
+
+    while (prefix.toLowerCase() === suffix.toLowerCase()) {
+        suffix = nameSuffixes[Math.floor(Math.random() * nameSuffixes.length)];
+    }
+
+    return prefix + suffix;
+}
+
+// --- NEW: Function to sanitize the filename ---
+function sanitizeFilename(name) {
+    // This removes any characters that are not allowed in filenames on most operating systems.
+    return name.replace(/[\/\\?%*:|"<>]/g, '-');
+}
+
+// --- NEW: Function to format the final choices object into a string for the text file ---
+function formatForExport(choices, settlementName) {
+    let content = `================================\n`;
+    content += `   ${settlementName.toUpperCase()}   \n`;
+    content += `================================\n\n`;
+
+    content += `Name: ${settlementName}\n`;
+    content += `Type: ${choices.type.name}\n\n`;
+
+    for (const key in choices) {
+        if (key === 'type') continue;
+        const choice = choices[key];
+        const keyName = formatKeyName(key);
+
+        if (Array.isArray(choice)) {
+            content += `--- ${keyName.toUpperCase()} ---\n`;
+            if (choice.length === 0) {
+                content += `(None)\n`;
+            } else {
+                choice.forEach(entry => {
+                    content += `- ${entry.item.name}\n`;
+                    if (entry.item.description) {
+                        content += `  ${entry.item.description}\n`;
+                    }
+                    if (entry.size) {
+                        content += `  Size: ${entry.size.name}\n`;
+                        content += `  ${entry.size.description}\n`;
+                    }
+                });
+            }
+            content += `\n`;
+        } else if (choice && choice.name) {
+             content += `${keyName}: ${choice.name}\n`;
+             if (choice.description) {
+                content += `  - ${choice.description}\n\n`;
+             }
+        }
+    }
+    return content;
+}
+
 
 // --- DATA: SETTLEMENT TYPES (UNCHANGED) ---
 const settlementOrigins = {
@@ -130,7 +195,7 @@ async function startAdventure(autoRollEnabled = false) {
     
     let choices = {};
     let rollDetails = {};
-    let generationComplete = false; // --- Flag to handle early exit ---
+    let generationComplete = false;
 
     let currentMode = autoRollEnabled ? 'autoRollAll' : 'manual';
 
@@ -155,40 +220,36 @@ async function startAdventure(autoRollEnabled = false) {
     const path = settlementPaths[settlementType];
 
     for (const step of path) {
-        if (generationComplete) break; // --- If 'Done' was selected, stop the loop ---
+        if (generationComplete) break;
         if (step.condition && !step.condition(choices)) continue;
 
         const isAutoRolling = currentMode !== 'manual';
 
-        if (isAutoRolling) {
-            console.log(chalk.gray(`\nRolling for ${step.title || step.stepName || step.key}...`));
+        if (step.title) {
+            console.log(chalk.bold.cyan(`\nDetermining ${step.title}...`));
         }
 
         switch(step.type) {
             case 'CHOICE': {
-                let choice;
-                if (isAutoRolling) {
-                    choice = rollOnTable(step.table);
-                    console.log(chalk.white(` -> Result: ${choice.name}`));
-                } else {
-                    console.log(chalk.bold.cyan(`\nNow, let's determine ${step.title}.`));
-                    const answer = await inquirer.prompt([{
+                const choice = isAutoRolling
+                    ? rollOnTable(step.table)
+                    : (await inquirer.prompt([{
                         type: 'list', name: 'choice', message: step.prompt,
                         choices: step.table.map(item => ({
                             name: `${chalk.white(`[${item.dice || `${item.min}-${item.max}`}]`)} ${chalk.bold(item.name)}: ${item.description || ''}`,
                             value: item
                         })),
                         loop: false, pageSize: 15,
-                    }]);
-                    choice = answer.choice;
-                }
+                    }])).choice;
+                
+                console.log(`  ${chalk.magenta('Result:')} ${chalk.white(choice.name)}`);
                 choices[step.key] = choice;
                 applyModifiersFromChoice(choice);
                 break;
             }
             case 'HIRED_HELP_SIZE_CHOICE': {
-                const choice = isAutoRolling ? rollHiredHelpSize() : await getHiredHelpSize();
-                if (isAutoRolling) console.log(chalk.white(` -> Result: ${choice.name}`));
+                const choice = await getHiredHelpSize(isAutoRolling);
+                console.log(`  ${chalk.magenta('Result:')} ${chalk.white(choice.name)}`);
                 choices[step.key] = choice;
                 break;
             }
@@ -197,36 +258,32 @@ async function startAdventure(autoRollEnabled = false) {
                     console.log(chalk.gray(`--- Reached ${step.stepName}, continuing automatically. ---`));
                     continue;
                 }
-                
                 if (currentMode === 'autoRollSection') {
-                    currentMode = 'manual'; // Switch back to manual after the section.
+                    currentMode = 'manual';
                 }
 
                 console.log(chalk.bold.green(`\n--- End of ${step.stepName} ---`));
                 const { breakChoice } = await inquirer.prompt([{
                     type: 'list', name: 'breakChoice', message: 'What would you like to do?',
-                    choices: [
-                        'Continue',
-                        'Auto-Roll: Section', // --- Renamed ---
-                        'Auto-Roll: Finish',  // --- Renamed ---
-                        'Done',
-                    ],
+                    choices: ['Continue', 'Auto-Roll: Section', 'Auto-Roll: Finish', 'Done'],
                     loop: false,
                 }]);
 
                 if (breakChoice === 'Auto-Roll: Section') currentMode = 'autoRollSection';
                 else if (breakChoice === 'Auto-Roll: Finish') currentMode = 'autoRollAll';
-                else if (breakChoice === 'Done') generationComplete = true; // --- Set the flag to exit ---
+                else if (breakChoice === 'Done') generationComplete = true;
                 break;
             }
             case 'DERIVED': {
                 const baseRoll = rollDice(1, 20);
                 const finalScore = applyModifierAndClamp(baseRoll, currentModifiers[step.modifierKey], 1, 20);
                 const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
+                
                 if (result) {
+                    console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
+                    console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${currentModifiers[step.modifierKey] >= 0 ? '+' : ''}${currentModifiers[step.modifierKey]}, Final ${finalScore})`)}`);
                     choices[step.key] = result;
                     rollDetails[step.key] = { base: baseRoll, modifier: currentModifiers[step.modifierKey], final: finalScore };
-                    if(isAutoRolling) console.log(chalk.white(` -> Result: ${result.name} (Rolled ${baseRoll} + ${currentModifiers[step.modifierKey]} = ${finalScore})`));
                     applyModifiersFromChoice(result);
                 }
                 break;
@@ -238,21 +295,16 @@ async function startAdventure(autoRollEnabled = false) {
                     numberOfItems = rollDice(calcData.dieCount, calcData.dieSize) + calcData.bonus;
                 }
 
+                console.log(chalk.bold.cyan(`\nThis settlement has ${numberOfItems} ${step.stepName.toLowerCase()}.`));
+                
+                const choiceMethod = isAutoRolling ? 'Auto-Roll' : (await inquirer.prompt([{
+                    type: 'list', name: 'choiceMethod', message: 'How would you like to determine them?',
+                    choices: ['Auto-Roll', 'Manual Selection'], loop: false,
+                }])).choiceMethod;
+
                 let chosenItems = [];
-                let choiceMethod = isAutoRolling ? 'Auto-Roll' : '';
-
-                if (!isAutoRolling) {
-                    console.log(chalk.bold.cyan(`\nBased on its size, this settlement has ${numberOfItems} ${step.stepName.toLowerCase()}.`));
-                    const answer = await inquirer.prompt([{
-                        type: 'list', name: 'choiceMethod', message: `How would you like to determine the ${step.stepName.toLowerCase()}?`,
-                        choices: ['Auto-Roll', 'Manual Selection'], loop: false,
-                    }]);
-                    choiceMethod = answer.choiceMethod;
-                } else {
-                    console.log(chalk.white(` -> Generating ${numberOfItems} ${step.stepName.toLowerCase()}.`));
-                }
-
                 if (choiceMethod === 'Auto-Roll') {
+                    if (!isAutoRolling) console.log(chalk.gray('Auto-rolling the selection...'));
                     for (let i = 0; i < numberOfItems; i++) {
                         const roll = rollDice(1, 100);
                         const item = step.table.find(s => roll >= s.min && roll <= s.max);
@@ -261,6 +313,15 @@ async function startAdventure(autoRollEnabled = false) {
                             chosenItems.push({ item, size });
                         }
                     }
+                    if (chosenItems.length === 0) {
+                         console.log(chalk.gray('  -> None were generated.'));
+                    } else {
+                        chosenItems.forEach(entry => {
+                            let output = `${chalk.green('  -')} ${chalk.white(entry.item.name)}`;
+                            if (entry.size) output += chalk.gray(` (Size: ${entry.size.name})`);
+                            console.log(output);
+                        });
+                    }
                 } else { // Manual Selection
                     while (chosenItems.length < numberOfItems) {
                         console.clear();
@@ -268,7 +329,7 @@ async function startAdventure(autoRollEnabled = false) {
                         console.log(chalk.white(`You can select up to ${numberOfItems}. (${chosenItems.length} selected so far)`));
                         if (chosenItems.length > 0) console.log(chalk.gray('Current Items: ' + chosenItems.map(e => e.item.name).join(', ')));
 
-                        const answer = await inquirer.prompt([{
+                        const { manualItemChoice } = await inquirer.prompt([{
                             type: 'list', name: 'manualItemChoice', message: 'Select an item to add:',
                             choices: [
                                 { name: chalk.bold.red('--- I\'m done selecting ---'), value: 'done' },
@@ -281,9 +342,9 @@ async function startAdventure(autoRollEnabled = false) {
                             loop: false, pageSize: 15
                         }]);
 
-                        if (answer.manualItemChoice === 'done') break;
-                        let size = answer.manualItemChoice.name.includes('Hired Help') ? await getHiredHelpSize() : null;
-                        chosenItems.push({ item: answer.manualItemChoice, size });
+                        if (manualItemChoice === 'done') break;
+                        let size = manualItemChoice.name.includes('Hired Help') ? await getHiredHelpSize(false) : null;
+                        chosenItems.push({ item: manualItemChoice, size });
                     }
                 }
                 choices[step.key] = chosenItems;
@@ -292,16 +353,18 @@ async function startAdventure(autoRollEnabled = false) {
         }
     }
     
-    // --- FINAL SUMMARY (Unchanged but benefits from formatKeyName helper) ---
+    // --- FINAL SUMMARY ---
+    const settlementName = generateSettlementName();
+
     console.log(chalk.bold.yellow('\n\n================================'));
     console.log(chalk.bold.yellow('   Final Settlement Summary   '));
     console.log(chalk.bold.yellow('================================\n'));
-
+    
+    console.log(`${chalk.bold.cyan('Name:')} ${chalk.bold.yellowBright(settlementName)}`);
     console.log(`${chalk.bold.cyan('Type:')} ${chalk.white(choices.type.name)}`);
 
     for (const key in choices) {
         if (key === 'type') continue;
-
         const choice = choices[key];
         const keyName = formatKeyName(key);
 
@@ -312,9 +375,7 @@ async function startAdventure(autoRollEnabled = false) {
             } else {
                 choice.forEach(entry => {
                     console.log(`${chalk.green('  -')} ${chalk.white(entry.item.name)}`);
-                    if (entry.size) {
-                        console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.gray(entry.size.name)}`);
-                    }
+                    if (entry.size) console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.gray(entry.size.name)}`);
                 });
             }
         } else if (choice && choice.name) {
@@ -338,6 +399,27 @@ async function startAdventure(autoRollEnabled = false) {
     }
     
     console.log(chalk.bold.yellow('\n================================'));
+
+    // --- NEW: Ask to save the file ---
+    const { shouldSave } = await inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'shouldSave',
+            message: 'Save this settlement to a text file?',
+            default: true,
+        },
+    ]);
+
+    if (shouldSave) {
+        const filename = `${sanitizeFilename(settlementName)}.txt`;
+        const content = formatForExport(choices, settlementName);
+        try {
+            await fs.writeFile(filename, content);
+            console.log(chalk.green(`\nSettlement saved successfully as ${chalk.bold(filename)}`));
+        } catch (error) {
+            console.error(chalk.red(`\nError saving file: ${error.message}`));
+        }
+    }
 }
 
 export { startAdventure };
