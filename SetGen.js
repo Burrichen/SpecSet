@@ -15,16 +15,12 @@ function rollDice(count, size) {
     return total;
 }
 
-// --- NEW HELPER FUNCTION ---
-// A generic function to get a random result from any of our table formats.
 function rollOnTable(table) {
-    // If the table uses 'min' and 'max', find the highest possible roll.
     if (table[0].min !== undefined) {
         const maxRoll = table[table.length - 1].max;
         const roll = rollDice(1, maxRoll);
         return table.find(item => roll >= item.min && roll <= item.max);
     }
-    // Otherwise, just pick a random item from the array (for tables with 'dice').
     else {
         const randomIndex = Math.floor(Math.random() * table.length);
         return table[randomIndex];
@@ -59,6 +55,12 @@ async function getHiredHelpSize() {
 function rollHiredHelpSize() {
     const roll = rollDice(1, 12);
     return hiredHelpSizeTable.find(item => roll >= item.min && roll <= item.max);
+}
+
+// --- NEW HELPER: For formatting keys in the summary ---
+function formatKeyName(key) {
+    // This turns 'populationWealth' into 'Population Wealth'
+    return key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim();
 }
 
 // --- DATA: SETTLEMENT TYPES (UNCHANGED) ---
@@ -116,9 +118,6 @@ const settlementPaths = {
 };
 
 // --- THE "SMART CHEF" ---
-// --- MODIFIED ---
-// The function now accepts the `autoRollEnabled` setting.
-// A default value of `false` is set for safety.
 async function startAdventure(autoRollEnabled = false) {
     const currentModifiers = {
         visitorTraffic: 0,
@@ -131,6 +130,9 @@ async function startAdventure(autoRollEnabled = false) {
     
     let choices = {};
     let rollDetails = {};
+    let generationComplete = false; // --- Flag to handle early exit ---
+
+    let currentMode = autoRollEnabled ? 'autoRollAll' : 'manual';
 
     function applyModifiersFromChoice(choice) {
         if (!choice || !choice.modifiers) return;
@@ -141,247 +143,201 @@ async function startAdventure(autoRollEnabled = false) {
         }
     }
 
-    // --- MODIFIED ---
-    // Added a check to show the mode at the start.
-    if (autoRollEnabled) {
+    if (currentMode === 'autoRollAll') {
         console.log(chalk.bold.magenta('--- Auto-Roll Mode Enabled ---'));
     } else {
         console.log(chalk.bold.cyan('Starting the Settlement Generator...'));
     }
     
-    // This first choice is ALWAYS manual, as per your instruction.
     const { settlementType } = await inquirer.prompt([{ type: 'list', name: 'settlementType', message: 'Choose a settlement type to begin:', choices: settlementTypes, loop: false }]);
     choices.type = { name: settlementType };
 
     const path = settlementPaths[settlementType];
 
     for (const step of path) {
-        if (step.condition && !step.condition(choices)) {
-            continue;
+        if (generationComplete) break; // --- If 'Done' was selected, stop the loop ---
+        if (step.condition && !step.condition(choices)) continue;
+
+        const isAutoRolling = currentMode !== 'manual';
+
+        if (isAutoRolling) {
+            console.log(chalk.gray(`\nRolling for ${step.title || step.stepName || step.key}...`));
         }
 
-        // --- NEW: AUTO-ROLL LOGIC ---
-        if (autoRollEnabled) {
-            // This block runs if auto-roll is ON.
-            console.log(chalk.gray(`\nRolling for ${step.title || step.stepName || step.key}...`));
-
-            switch(step.type) {
-                case 'CHOICE': {
-                    const choice = rollOnTable(step.table);
-                    choices[step.key] = choice;
+        switch(step.type) {
+            case 'CHOICE': {
+                let choice;
+                if (isAutoRolling) {
+                    choice = rollOnTable(step.table);
                     console.log(chalk.white(` -> Result: ${choice.name}`));
-                    applyModifiersFromChoice(choice);
-                    break;
+                } else {
+                    console.log(chalk.bold.cyan(`\nNow, let's determine ${step.title}.`));
+                    const answer = await inquirer.prompt([{
+                        type: 'list', name: 'choice', message: step.prompt,
+                        choices: step.table.map(item => ({
+                            name: `${chalk.white(`[${item.dice || `${item.min}-${item.max}`}]`)} ${chalk.bold(item.name)}: ${item.description || ''}`,
+                            value: item
+                        })),
+                        loop: false, pageSize: 15,
+                    }]);
+                    choice = answer.choice;
                 }
-                case 'HIRED_HELP_SIZE_CHOICE': {
-                    const choice = rollHiredHelpSize();
-                    choices[step.key] = choice;
-                    console.log(chalk.white(` -> Result: ${choice.name}`));
-                    break;
-                }
-                case 'BREAKPOINT': {
-                    // In auto-roll mode, we don't stop at breakpoints.
+                choices[step.key] = choice;
+                applyModifiersFromChoice(choice);
+                break;
+            }
+            case 'HIRED_HELP_SIZE_CHOICE': {
+                const choice = isAutoRolling ? rollHiredHelpSize() : await getHiredHelpSize();
+                if (isAutoRolling) console.log(chalk.white(` -> Result: ${choice.name}`));
+                choices[step.key] = choice;
+                break;
+            }
+            case 'BREAKPOINT': {
+                if (currentMode === 'autoRollAll') {
                     console.log(chalk.gray(`--- Reached ${step.stepName}, continuing automatically. ---`));
-                    break;
+                    continue;
                 }
-                case 'DERIVED': {
-                    const baseRoll = rollDice(1, 20);
-                    const finalScore = applyModifierAndClamp(baseRoll, currentModifiers[step.modifierKey], 1, 20);
-                    const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
-                    if (result) {
-                        choices[step.key] = result;
-                        rollDetails[step.key] = { base: baseRoll, modifier: currentModifiers[step.modifierKey], final: finalScore };
-                        console.log(chalk.white(` -> Result: ${result.name} (Rolled ${baseRoll} + ${currentModifiers[step.modifierKey]} = ${finalScore})`));
-                        applyModifiersFromChoice(result);
-                    }
-                    break;
+                
+                if (currentMode === 'autoRollSection') {
+                    currentMode = 'manual'; // Switch back to manual after the section.
                 }
-                case 'MULTIPLE': {
-                    let numberOfItems = 0;
-                    if (choices.size && step.countSource[choices.size.name]) {
-                        const calcData = step.countSource[choices.size.name];
-                        numberOfItems = rollDice(calcData.dieCount, calcData.dieSize) + calcData.bonus;
-                    }
+
+                console.log(chalk.bold.green(`\n--- End of ${step.stepName} ---`));
+                const { breakChoice } = await inquirer.prompt([{
+                    type: 'list', name: 'breakChoice', message: 'What would you like to do?',
+                    choices: [
+                        'Continue',
+                        'Auto-Roll: Section', // --- Renamed ---
+                        'Auto-Roll: Finish',  // --- Renamed ---
+                        'Done',
+                    ],
+                    loop: false,
+                }]);
+
+                if (breakChoice === 'Auto-Roll: Section') currentMode = 'autoRollSection';
+                else if (breakChoice === 'Auto-Roll: Finish') currentMode = 'autoRollAll';
+                else if (breakChoice === 'Done') generationComplete = true; // --- Set the flag to exit ---
+                break;
+            }
+            case 'DERIVED': {
+                const baseRoll = rollDice(1, 20);
+                const finalScore = applyModifierAndClamp(baseRoll, currentModifiers[step.modifierKey], 1, 20);
+                const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
+                if (result) {
+                    choices[step.key] = result;
+                    rollDetails[step.key] = { base: baseRoll, modifier: currentModifiers[step.modifierKey], final: finalScore };
+                    if(isAutoRolling) console.log(chalk.white(` -> Result: ${result.name} (Rolled ${baseRoll} + ${currentModifiers[step.modifierKey]} = ${finalScore})`));
+                    applyModifiersFromChoice(result);
+                }
+                break;
+            }
+            case 'MULTIPLE': {
+                let numberOfItems = 0;
+                if (choices.size && step.countSource[choices.size.name]) {
+                    const calcData = step.countSource[choices.size.name];
+                    numberOfItems = rollDice(calcData.dieCount, calcData.dieSize) + calcData.bonus;
+                }
+
+                let chosenItems = [];
+                let choiceMethod = isAutoRolling ? 'Auto-Roll' : '';
+
+                if (!isAutoRolling) {
+                    console.log(chalk.bold.cyan(`\nBased on its size, this settlement has ${numberOfItems} ${step.stepName.toLowerCase()}.`));
+                    const answer = await inquirer.prompt([{
+                        type: 'list', name: 'choiceMethod', message: `How would you like to determine the ${step.stepName.toLowerCase()}?`,
+                        choices: ['Auto-Roll', 'Manual Selection'], loop: false,
+                    }]);
+                    choiceMethod = answer.choiceMethod;
+                } else {
                     console.log(chalk.white(` -> Generating ${numberOfItems} ${step.stepName.toLowerCase()}.`));
-                    
-                    let rolledItems = [];
+                }
+
+                if (choiceMethod === 'Auto-Roll') {
                     for (let i = 0; i < numberOfItems; i++) {
                         const roll = rollDice(1, 100);
                         const item = step.table.find(s => roll >= s.min && roll <= s.max);
                         if (item) {
-                            let size = null;
-                            if (item.name.includes('Hired Help')) size = rollHiredHelpSize();
-                            rolledItems.push({ item, size });
+                            let size = item.name.includes('Hired Help') ? rollHiredHelpSize() : null;
+                            chosenItems.push({ item, size });
                         }
                     }
-                    choices[step.key] = rolledItems;
-                    break;
-                }
-            }
+                } else { // Manual Selection
+                    while (chosenItems.length < numberOfItems) {
+                        console.clear();
+                        console.log(chalk.bold.yellow(`\n--- Manual ${step.stepName} Selection ---`));
+                        console.log(chalk.white(`You can select up to ${numberOfItems}. (${chosenItems.length} selected so far)`));
+                        if (chosenItems.length > 0) console.log(chalk.gray('Current Items: ' + chosenItems.map(e => e.item.name).join(', ')));
 
-        } else {
-            // --- This is the ORIGINAL manual logic, which runs if auto-roll is OFF. ---
-            switch(step.type) {
-                case 'CHOICE': {
-                    console.log(chalk.bold.cyan(`\nNow, let's determine ${step.title}.`));
-                    const { choice } = await inquirer.prompt([{
-                        type: 'list', name: 'choice', message: step.prompt,
-                        choices: step.table.map(item => {
-                            let rollDisplay = item.dice ? `[${item.dice}]` : `[${item.min}-${item.max}]`;
-                            return { name: `${chalk.white(rollDisplay)} ${chalk.bold(item.name)}: ${item.description || ''}`, value: item };
-                        }),
-                        loop: false, pageSize: 15,
-                    }]);
-                    choices[step.key] = choice;
-                    applyModifiersFromChoice(choice);
-                    break;
-                }
-                case 'HIRED_HELP_SIZE_CHOICE': {
-                    choices[step.key] = await getHiredHelpSize();
-                    break;
-                }
-                case 'BREAKPOINT': {
-                    console.log(chalk.bold.green(`\n--- End of ${step.stepName} ---`));
-                    const { breakChoice } = await inquirer.prompt([{
-                        type: 'list', name: 'breakChoice', message: `You have completed ${step.stepName}. What next?`,
-                        choices: ['Continue', 'Exit here'], loop: false,
-                    }]);
-
-                    if (breakChoice === 'Exit here') {
-                         // We will let the loop finish and the summary will be displayed at the end.
-                         // For a true early exit, we would need to restructure the summary display.
-                         // For now, we will just break the loop. A full summary will still be generated.
-                         console.log(chalk.yellow("\nExiting generation early... Final summary of completed steps:"));
-                         return; // This will jump out of the startAdventure function
-                    }
-                    break;
-                }
-                case 'DERIVED': {
-                    const baseRoll = rollDice(1, 20);
-                    const finalScore = applyModifierAndClamp(baseRoll, currentModifiers[step.modifierKey], 1, 20);
-                    const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
-                    if (result) {
-                        choices[step.key] = result;
-                        rollDetails[step.key] = { base: baseRoll, modifier: currentModifiers[step.modifierKey], final: finalScore };
-                        applyModifiersFromChoice(result);
-                    }
-                    break;
-                }
-                case 'MULTIPLE': {
-                    let numberOfItems = 0;
-                    let details = {};
-                    let chosenItems = [];
-
-                    if (choices.size && step.countSource[choices.size.name]) {
-                        const calcData = step.countSource[choices.size.name];
-                        const baseRoll = rollDice(calcData.dieCount, calcData.dieSize);
-                        numberOfItems = baseRoll + calcData.bonus;
-                        details = { base: baseRoll, bonus: calcData.bonus, formula: `${calcData.dieCount}d${calcData.dieSize}+${calcData.bonus}` };
-                    }
-                    rollDetails[step.key] = details;
-
-                    console.log(chalk.bold.cyan(`\nBased on its size, this settlement has ${numberOfItems} ${step.stepName.toLowerCase()}.`));
-                    const { choiceMethod } = await inquirer.prompt([{
-                        type: 'list', name: 'choiceMethod', message: `How would you like to determine the ${step.stepName.toLowerCase()}?`,
-                        choices: ['Auto-Roll', 'Manual Selection'], loop: false,
-                    }]);
-
-                    if (choiceMethod === 'Auto-Roll') {
-                        let reroll = true;
-                        while(reroll) {
-                            let rolledItems = [];
-                            for (let i = 0; i < numberOfItems; i++) {
-                                const roll = rollDice(1, 100);
-                                const item = step.table.find(s => roll >= s.min && roll <= s.max);
-                                if (item) {
-                                    let size = null;
-                                    if (item.name.includes('Hired Help')) size = rollHiredHelpSize();
-                                    rolledItems.push({ item, size });
-                                }
-                            }
-
-                            console.clear();
-                            console.log(chalk.bold.yellow(`\n--- Rolled ${step.stepName} ---`));
-                            rolledItems.forEach(entry => {
-                                console.log(chalk.white(`- ${entry.item.name}`));
-                                if (entry.size) console.log(chalk.gray(`  ↳ Size: ${entry.size.name}`));
-                            });
-
-                            const { rerollChoice } = await inquirer.prompt([
-                                { type: 'list', name: 'rerollChoice', message: 'Are you happy with this selection?', choices: ['I\'m fine', 'Re-Roll!'], loop: false }
-                            ]);
-                            if (rerollChoice === 'I\'m fine') {
-                                chosenItems = rolledItems;
-                                reroll = false;
-                            }
-                        }
-                    } else { // Manual Selection
-                        while (chosenItems.length < numberOfItems) {
-                            console.clear();
-                            console.log(chalk.bold.yellow(`\n--- Manual ${step.stepName} Selection ---`));
-                            console.log(chalk.white(`You can select up to ${numberOfItems}. (${chosenItems.length} selected so far)`));
-                            if (chosenItems.length > 0) {
-                                const currentSelection = chosenItems.map(entry => entry.item.name + (entry.size ? ` (${entry.size.name})` : '')).join(', ');
-                                console.log(chalk.gray('Current Items: ' + currentSelection));
-                            }
-
-                            const itemChoices = [
+                        const answer = await inquirer.prompt([{
+                            type: 'list', name: 'manualItemChoice', message: 'Select an item to add:',
+                            choices: [
                                 { name: chalk.bold.red('--- I\'m done selecting ---'), value: 'done' },
                                 new inquirer.Separator(),
                                 ...step.table.map(item => ({
                                     name: `[${String(item.min).padStart(2, '0')}-${String(item.max).padStart(2, '0')}] ${chalk.bold(item.name)}`,
                                     value: item
                                 })),
-                            ];
+                            ],
+                            loop: false, pageSize: 15
+                        }]);
 
-                            const { manualItemChoice } = await inquirer.prompt([
-                                { type: 'list', name: 'manualItemChoice', message: 'Select an item to add:', choices: itemChoices, loop: false, pageSize: 15 }
-                            ]);
-
-                            if (manualItemChoice === 'done') break;
-                            let size = null;
-                            if (manualItemChoice.name.includes('Hired Help')) size = await getHiredHelpSize();
-                            chosenItems.push({ item: manualItemChoice, size });
-                        }
+                        if (answer.manualItemChoice === 'done') break;
+                        let size = answer.manualItemChoice.name.includes('Hired Help') ? await getHiredHelpSize() : null;
+                        chosenItems.push({ item: answer.manualItemChoice, size });
                     }
-                    choices[step.key] = chosenItems;
-                    break;
                 }
+                choices[step.key] = chosenItems;
+                break;
             }
         }
     }
     
-    // --- FINAL SUMMARY (This part works for both modes) ---
-    console.log(chalk.bold.green('\n--- Final Settlement Summary ---'));
-    console.log(chalk.yellow(`Type: ${choices.type.name}`));
+    // --- FINAL SUMMARY (Unchanged but benefits from formatKeyName helper) ---
+    console.log(chalk.bold.yellow('\n\n================================'));
+    console.log(chalk.bold.yellow('   Final Settlement Summary   '));
+    console.log(chalk.bold.yellow('================================\n'));
+
+    console.log(`${chalk.bold.cyan('Type:')} ${chalk.white(choices.type.name)}`);
 
     for (const key in choices) {
-        if (key === 'type' || key.endsWith('Count') || key.endsWith('RollDetails')) continue;
+        if (key === 'type') continue;
 
         const choice = choices[key];
-        if (Array.isArray(choice)) { // For Shops and Services
-            console.log(chalk.rgb(100, 255, 100)(`${key.charAt(0).toUpperCase() + key.slice(1)}:`));
-            choice.forEach(entry => {
-                console.log(chalk.rgb(150, 255, 150)(`  - ${entry.item.name}`));
-                if (entry.size) console.log(chalk.rgb(180, 255, 180)(`    ↳ Size: ${entry.size.name}`));
-            });
-        } else if (choice && choice.name) { // For single choices
-             console.log(chalk.white(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${choice.name}`));
+        const keyName = formatKeyName(key);
+
+        if (Array.isArray(choice)) {
+            console.log(chalk.bold.cyan(`\n--- ${keyName} ---`));
+            if (choice.length === 0) {
+                console.log(chalk.gray('  (None)'));
+            } else {
+                choice.forEach(entry => {
+                    console.log(`${chalk.green('  -')} ${chalk.white(entry.item.name)}`);
+                    if (entry.size) {
+                        console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.gray(entry.size.name)}`);
+                    }
+                });
+            }
+        } else if (choice && choice.name) {
+             console.log(`${chalk.bold.cyan(keyName + ':')} ${chalk.white(choice.name)}`);
         }
     }
 
-    console.log(chalk.bold.yellow('\n--- Background Modifier Tracking ---'));
+    console.log(chalk.bold.yellow('\n\n--- Background Modifier Tracking ---'));
     for (const key in rollDetails) {
         const details = rollDetails[key];
+        const keyName = formatKeyName(key);
         if(details.final !== undefined) {
-             console.log(chalk.white(`${key} Roll: ${details.base} | Modifier: ${details.modifier >= 0 ? '+' : ''}${details.modifier} | Final: ${details.final}`));
+             const modifierText = details.modifier >= 0 ? `+${details.modifier}` : `${details.modifier}`;
+             console.log(`${chalk.cyan(keyName + ' Roll:')} ${chalk.white(details.base)} | ${chalk.magenta('Modifier:')} ${chalk.white(modifierText)} | ${chalk.green('Final:')} ${chalk.white(details.final)}`);
         }
     }
     for (const key in currentModifiers) {
-        console.log(chalk.white(`Final ${key} Modifier Collected: ${currentModifiers[key] >= 0 ? '+' : ''}${currentModifiers[key]}`));
+        const keyName = formatKeyName(key);
+        const modifierText = currentModifiers[key] >= 0 ? `+${currentModifiers[key]}` : `${currentModifiers[key]}`;
+        console.log(`${chalk.gray('Final')} ${chalk.cyan(keyName)} ${chalk.gray('Modifier Collected:')} ${chalk.white(modifierText)}`);
     }
     
-    console.log(chalk.bold.green('----------------------------------------------------'));
+    console.log(chalk.bold.yellow('\n================================'));
 }
 
 export { startAdventure };
