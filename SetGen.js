@@ -66,8 +66,9 @@ function formatKeyName(key) {
     return key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1').trim();
 }
 
-const namePrefixes = ['Green', 'Far', 'Clear', 'Red', 'Black', 'White', 'Silver', 'Gold', 'Iron', 'Stone', 'Oak', 'Pine', 'Wolf', 'Eagle', 'Sun', 'Moon', 'Star', 'North', 'South', 'High', 'Low', 'Bright', 'Still', 'Cold'];
-const nameSuffixes = ['water', 'view', 'crest', 'hollow', 'dale', 'moor', 'hill', 'pass', 'ridge', 'town', 'burg', 'stead', 'ham', 'wick', 'port', 'watch', 'wood', 'field', 'grove', 'marsh', 'bridge', 'ford', 'brook', 'well'];
+const namePrefixes = ['Green', 'Far', 'Clear', 'Red', 'Black', 'White', 'Silver', 'Gold', 'Iron', 'Stone', 'Oak', 'Pine', 'Wolf', 'Eagle', 'Sun', 'Moon', 'Star', 'North', 'South', 'High', 'Low', 'Bright', 'Still', 'Cold', 'Aber', 'Ash', 'Dun', 'Glen', 'Inver', 'Kil', 'Lang', 'Stan', 'Strath', 'Lin', 'Lur'];
+const nameSuffixes = ['water', 'view', 'crest', 'hollow', 'dale', 'moor', 'hill', 'pass', 'ridge', 'town', 'burg', 'stead', 'ham', 'wick', 'port', 'watch', 'wood', 'field', 'grove', 'marsh', 'bridge', 'ford', 'brook', 'well', 'bury', 'bourne', 'bridge', 'burgh', 'caster', 'combe', 'cott', 'dale', 'den', 'don', 'ford', 'leigh', 'ley', 'strath', 'ton', 'wich', 'wick', 'worth', 'worthy'];
+
 
 function generateSettlementName() {
     const prefix = namePrefixes[Math.floor(Math.random() * namePrefixes.length)];
