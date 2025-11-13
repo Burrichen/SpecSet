@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable } from './tradingpost.js';
+import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
 import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable } from './commonTables.js';
 
 // --- HELPER FUNCTIONS ---
@@ -80,8 +80,10 @@ const settlementTypes = [
   { name: 'Fortress', value: 'Fortress' },
 ];
 
+// --- THE "RECIPE BOOK" ---
 const settlementPaths = {
     'Trading Post': [
+        // --- STEP 1 ---
         { key: 'origin', title: "its origin", prompt: "Select an origin:", table: tradingPostOrigins, type: 'CHOICE' },
         { key: 'specialty', title: "its specialty", prompt: "Select a specialty:", table: tradingPostSpecialties, type: 'CHOICE' },
         { key: 'subSpecialty', title: "its specific food or drink", prompt: "Select a food or drink:", table: foodAndDrink, type: 'CHOICE', condition: (choices) => choices.specialty?.name === 'Food & Drink' },
@@ -93,6 +95,8 @@ const settlementPaths = {
         { key: 'size', title: "its size", prompt: "Select the settlement size:", table: tradingPostSizeTable, type: 'CHOICE' },
         { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
         { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details" },
+        
+        // --- STEP 2 ---
         { key: 'population', title: "its population density", prompt: "Select the resident population level:", table: residentPopulationTable, type: 'CHOICE' },
         { key: 'disposition', title: "the disposition of the locals", prompt: "Select the resident disposition:", table: dispositionTable, type: 'CHOICE' },
         { key: 'lawEnforcement', title: "the state of law enforcement", prompt: "Select the law enforcement level:", table: lawEnforcementTable, type: 'CHOICE' },
@@ -101,16 +105,26 @@ const settlementPaths = {
         { key: 'populationWealth', type: 'DERIVED', table: populationWealthTable, modifierKey: 'populationWealth', dice: 'd20' },
         { key: 'crime', type: 'DERIVED', table: crimeTable, modifierKey: 'crime', dice: 'd20' },
         { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Population & Authority" },
+        
+        // --- STEP 3 ---
         { key: 'shops', type: 'MULTIPLE', stepName: 'Shop Locations', table: shopsTable, countSource: shopLocationsData },
         { key: 'services', type: 'MULTIPLE', stepName: 'Service Locations', table: servicesTable, countSource: serviceLocationsData },
         { key: 'worshipDecision', title: "if there is a place of worship", prompt: "Is there a place of worship in the settlement?", table: placeOfWorshipDecisionTable, type: 'CHOICE' },
         { key: 'worshipSize', title: "the size of the place of worship", prompt: "How large is the place of worship?", table: placeOfWorshipSizeTable, type: 'CHOICE', condition: (choices) => choices.worshipDecision?.name === 'Yes' },
         { key: 'fervency', title: "the fervency of the local following", prompt: "Select the local fervency:", table: fervencyTable, type: 'CHOICE', condition: (choices) => choices.worshipDecision?.name === 'Yes' },
+        { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Locations & Religion" },
+
+        // --- STEP 4 ---
+        { key: 'recentHistory', title: "its recent history", prompt: "Select a recent historical event:", table: recentHistoryTable, type: 'CHOICE' },
+        { key: 'event', title: "a current event", prompt: "Select a current event:", table: eventsTable, type: 'CHOICE' },
+        { key: 'opportunity', title: "a potential opportunity", prompt: "Select a potential opportunity:", table: opportunitiesTable, type: 'CHOICE' },
+        { key: 'dangerLevel', title: "the local danger level", prompt: "Select the local danger level:", table: dangerLevelTable, type: 'CHOICE' },
+        { key: 'dangerType', title: "the type of danger", prompt: "Select the type of danger:", table: dangerTypeTable, type: 'CHOICE' },
+        { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Extra Intrigue" },
     ]
 };
 
-// --- REFACTORED: STEP PROCESSORS ---
-// Each function handles a specific step type. This makes the main loop simple and scalable.
+// --- STEP PROCESSORS ---
 const stepProcessors = {
     CHOICE: async (step, { isAutoRolling }) => {
         const choice = isAutoRolling
@@ -218,7 +232,7 @@ const stepProcessors = {
     }
 };
 
-// --- REFACTORED: SUMMARY AND EXPORT FUNCTIONS ---
+// --- SUMMARY AND EXPORT FUNCTIONS ---
 function displaySummary(choices, settlementName, rollDetails, currentModifiers) {
     console.log(chalk.bold.yellow('\n\n================================'));
     console.log(chalk.bold.yellow('   Final Settlement Summary   '));
@@ -296,8 +310,7 @@ async function handleExport(choices, settlementName) {
     }
 }
 
-// --- REFACTORED: MAIN ADVENTURE FUNCTION ---
-// This function is now a high-level coordinator. The complex logic is handled by the processors.
+// --- MAIN ADVENTURE FUNCTION ---
 async function startAdventure(autoRollEnabled = false) {
     const choices = {};
     const rollDetails = {};
@@ -338,6 +351,8 @@ async function startAdventure(autoRollEnabled = false) {
             }
         }
     }
+
+    console.log(chalk.bold.green('\nGeneration complete! Preparing final summary...'));
 
     const settlementName = generateSettlementName();
     displaySummary(choices, settlementName, rollDetails, modifiers);

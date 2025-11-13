@@ -165,6 +165,51 @@ const placeOfWorshipSizeTable = [
     { min: 20, max: 20, name: 'Great Temple', description: 'An awe-inspiring structure, devoted to that which it venerates. No expense was spared in its construction. It might display such elements as stunning frescos, elaborate stained-glass scenes, and towering, gilded statues. Walking into a great temple is a rare and striking experience for those who do not live near one.' },
 ];
 
+const recentHistoryTable = [
+  { dice: 1, name: 'Benevolence of Yesteryear', description: 'The trading post was run by a benevolent leader, or council, but a corrupt individual, or group, has taken over.' },
+  { dice: 2, name: 'Construction', description: 'Certain parts of the trading post have been (or currently are) under construction. Tools, scaffolding, and other such elements can still be seen, as well as individuals working throughout the day.' },
+  { dice: 3, name: 'Crime Central', description: 'Some of the older population remember when the trading post was run by a criminal organization, but they were ousted some time ago.' },
+  { dice: 4, name: 'Neutrality', description: 'The trading post has always professed neutrality, setting itself apart as a safe haven, even if pressured by nearby settlements.' },
+  { dice: 5, name: 'Popular Producer', description: 'The trading post was known for the production of a unique and/or popular item or service, which is now unavailable or no longer in demand.' },
+  { dice: 6, name: 'Wartorn', description: 'The trading post was occupied by military forces, and suffered damages, during wartime in the recent past.' },
+];
+
+// --- NEW TABLES ---
+
+const eventsTable = [
+    { dice: 1, name: 'High-Class Visitor', description: 'A wealthy aristocrat is passing through and throwing their money around. It seems like anything can be bought, and no price is too high.' },
+    { dice: 2, name: 'Troublemakers', description: 'A pack of ruffians is making themselves a nuisance to the locals. Hostile encounters are escalating and might become violent.' },
+    { dice: 3, name: 'Fool\'s Festival', description: 'It\'s the day of the fool. Many folk are dressed as jesters and tumblers. The drink is flowing and the mood is merry.' },
+    { dice: 4, name: 'Caught Red-Handed', description: 'A shop owner has caught a thief, and is threatening them with a weapon in the street as they beg for mercy.' },
+    { dice: 5, name: 'Strangers', description: 'A large trade caravan just arrived, full of people locals have never seen, and some don\'t know what to make of them.' },
+    { dice: 6, name: 'Public Emergency', description: 'There is an emergency situation in town, such as a fire. There is lots of commotion as people rush to help, or get a look at what\'s going on.' },
+];
+
+const opportunitiesTable = [
+    { dice: 1, name: 'Political Intrigue', description: 'A locally-known noble has gone missing recently. Perhaps they were traveling through and never made it to their destination? Perhaps no one even saw them leave at all...' },
+    { dice: 2, name: 'Missing Person', description: 'A local has gone missing, possibly a child, and rumors abound. Some talk of monsters, but their whispers are quickly dismissed as fairy tales. Others have theories, but none have yielded fruit.' },
+    { dice: 3, name: 'Monster', description: 'A monster has been causing trouble for the locals. Someone in the trading post is asking for help to deal with it.' },
+    { dice: 4, name: 'Guard Duty', description: 'The local constabulary are in need of more hands for an upcoming event, and capable adventurers are prime candidates.' },
+    { dice: 5, name: 'Transportation', description: 'A visitor feels they\'ve outstayed their welcome, or urgently needs to leave, for some reason. They need help leaving and getting to their destination.' },
+    { dice: 6, name: 'Acquisition', description: 'Rumours abound that an item of value is hidden nearby, perhaps one tied to the trading post\'s history. Several locals are interested in acquiring it, but not all for the same reason.' },
+];
+
+const dangerLevelTable = [
+    { min: 1, max: 2, name: 'Ever-Present', description: 'The trading post is constantly in peril. Encountering some form of hardship or adversity, when in the area, is almost guaranteed. It is never safe to go anywhere alone. Preparation and caution (even in and around the trading post) are critical.' },
+    { min: 3, max: 6, name: 'Frequent', description: 'Traveling near the trading post and not encountering danger or hazards is a rarity. Preparation and caution are strongly advised.' },
+    { min: 7, max: 14, name: 'Common', description: 'Danger or hazards are commonplace. Preparation and caution are advised.' },
+    { min: 15, max: 18, name: 'Uncommon', description: 'Danger or hazards are not encountered often, though preparation is encouraged.' },
+    { min: 19, max: 20, name: 'Rare', description: 'This trading post is built in a place known to be extremely safe; danger or hazards are a rarity.' },
+];
+
+const dangerTypeTable = [
+    { min: 1, max: 2, name: 'Suspicious Locals', description: 'Outsiders are often considered untrustworthy, and may be prime suspects in the event of crime.' },
+    { min: 3, max: 4, name: 'Raids', description: 'The trading post is often raided by nearby groups of bandits, or packs of marauding creatures.' },
+    { min: 5, max: 6, name: 'Monster', description: 'The trading post is terrorized by a monster that roams the local area.' },
+    { min: 7, max: 8, name: 'Environmental', description: 'The environment in which the trading post exists is hazardous. It could be subject to frequent earthquakes, volcanoes, floods, mudslides, avalanches, frequent storms, or the like.' },
+    { min: 9, max: 10, name: 'Cult', description: 'There is a cult within the trading post. The cult may be known, and present a direct form of threat, or they may be unknown, and the dangers they present may seem to stem from another source, or be unrelated.' },
+];
+
 
 export {
   tradingPostOrigins,
@@ -184,4 +229,9 @@ export {
   serviceLocationsData,
   placeOfWorshipDecisionTable,
   placeOfWorshipSizeTable,
+  recentHistoryTable,
+  eventsTable,
+  opportunitiesTable,
+  dangerLevelTable,
+  dangerTypeTable,
 };
