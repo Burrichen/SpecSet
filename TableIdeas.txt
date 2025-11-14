@@ -109,7 +109,7 @@ Expand these options - make them match district, then make equivilent tables
 
 
 
-Types of Settlement:
+Trading post:
 I was originally going to rename Trade Post to Hamlet, but it ended up making little sense. Trading Post is designed to be more shop-heavy.
 
 Trading Post Origins:
@@ -140,7 +140,7 @@ Extra Intrigue:
 This needs a full rework. These tables mostly do nothing and are too limited to really create any depth.
 
 Recent History:
-- Political Issue: Faux Pax
+- Political Issue: Faux Pas
 - Political Issue: Trade Dealings
 - Political Issue: Border Despute
 - Rival Dispute

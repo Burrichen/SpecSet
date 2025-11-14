@@ -5,6 +5,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
 import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable } from './commonTables.js';
+import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable } from './villages.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -83,7 +84,7 @@ const settlementTypes = [
 // --- THE "RECIPE BOOK" ---
 const settlementPaths = {
     'Trading Post': [
-        // --- STEP 1 ---
+        // ... (Trading Post path remains unchanged)
         { key: 'origin', title: "its origin", prompt: "Select an origin:", table: tradingPostOrigins, type: 'CHOICE' },
         { key: 'specialty', title: "its specialty", prompt: "Select a specialty:", table: tradingPostSpecialties, type: 'CHOICE' },
         { key: 'subSpecialty', title: "its specific food or drink", prompt: "Select a food or drink:", table: foodAndDrink, type: 'CHOICE', condition: (choices) => choices.specialty?.name === 'Food & Drink' },
@@ -95,33 +96,51 @@ const settlementPaths = {
         { key: 'size', title: "its size", prompt: "Select the settlement size:", table: tradingPostSizeTable, type: 'CHOICE' },
         { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
         { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details" },
-        
-        // --- STEP 2 ---
         { key: 'population', title: "its population density", prompt: "Select the resident population level:", table: residentPopulationTable, type: 'CHOICE' },
         { key: 'disposition', title: "the disposition of the locals", prompt: "Select the resident disposition:", table: dispositionTable, type: 'CHOICE' },
         { key: 'lawEnforcement', title: "the state of law enforcement", prompt: "Select the law enforcement level:", table: lawEnforcementTable, type: 'CHOICE' },
         { key: 'leadership', title: "who is in charge", prompt: "Select the leadership type:", table: leadershipTable, type: 'CHOICE' },
         { key: 'oligarchyType', title: "the kind of oligarchy", prompt: "Select the oligarchy type:", table: oligarchyTypeTable, type: 'CHOICE', condition: (choices) => choices.leadership?.name === 'Oligarchy' },
-        { key: 'populationWealth', type: 'DERIVED', table: populationWealthTable, modifierKey: 'populationWealth', dice: 'd20' },
-        { key: 'crime', type: 'DERIVED', table: crimeTable, modifierKey: 'crime', dice: 'd20' },
+        { key: 'populationWealth', title: 'its population wealth', table: populationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
+        { key: 'crime', title: 'its crime level', table: crimeTable, type: 'DERIVED', modifierKey: 'crime' },
         { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Population & Authority" },
-        
-        // --- STEP 3 ---
         { key: 'shops', type: 'MULTIPLE', stepName: 'Shop Locations', table: shopsTable, countSource: shopLocationsData },
         { key: 'services', type: 'MULTIPLE', stepName: 'Service Locations', table: servicesTable, countSource: serviceLocationsData },
         { key: 'worshipDecision', title: "if there is a place of worship", prompt: "Is there a place of worship in the settlement?", table: placeOfWorshipDecisionTable, type: 'CHOICE' },
         { key: 'worshipSize', title: "the size of the place of worship", prompt: "How large is the place of worship?", table: placeOfWorshipSizeTable, type: 'CHOICE', condition: (choices) => choices.worshipDecision?.name === 'Yes' },
         { key: 'fervency', title: "the fervency of the local following", prompt: "Select the local fervency:", table: fervencyTable, type: 'CHOICE', condition: (choices) => choices.worshipDecision?.name === 'Yes' },
         { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Locations & Religion" },
-
-        // --- STEP 4 ---
         { key: 'recentHistory', title: "its recent history", prompt: "Select a recent historical event:", table: recentHistoryTable, type: 'CHOICE' },
         { key: 'event', title: "a current event", prompt: "Select a current event:", table: eventsTable, type: 'CHOICE' },
         { key: 'opportunity', title: "a potential opportunity", prompt: "Select a potential opportunity:", table: opportunitiesTable, type: 'CHOICE' },
         { key: 'dangerLevel', title: "the local danger level", prompt: "Select the local danger level:", table: dangerLevelTable, type: 'CHOICE' },
         { key: 'dangerType', title: "the type of danger", prompt: "Select the type of danger:", table: dangerTypeTable, type: 'CHOICE' },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Extra Intrigue" },
-    ]
+    ],
+    'Village': [
+        // --- STEP 1: Core Details & History ---
+        { key: 'age', title: "its age", prompt: "Select the village's age:", table: villageAges, type: 'CHOICE' },
+        { key: 'hardships', title: "any hardships it has faced", prompt: "Select the village's hardship likelihood:", type: 'HARDSHIP' },
+        { key: 'size', title: "its size", table: villageSizeTable, type: 'DERIVED', modifierKey: 'size' },
+        { key: 'condition', title: "its condition", table: villageConditionTable, type: 'DERIVED', modifierKey: 'condition' },
+        { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
+        { key: 'specialty', title: "its specialty", prompt: "Select the village's specialty:", table: villageSpecialtyTable, type: 'CHOICE' },
+        { key: 'resource', title: "its primary resource", prompt: "Select the village's primary resource:", table: villageResourceTable, type: 'CHOICE' },
+        { key: 'recentHistory', title: "its recent history", prompt: "Select the village's recent history:", table: villageHistoryTable, type: 'CHOICE' },
+        { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details & History" },
+        
+        // --- STEP 2: Community ---
+        { key: 'populationDensity', title: 'its population density', table: villagePopulationDensityTable, type: 'DERIVED', modifierKey: 'populationDensity' },
+        { key: 'disposition', title: 'the disposition of the locals', table: dispositionTable, type: 'DERIVED', modifierKey: 'disposition' },
+        { key: 'lawEnforcement', title: 'its law enforcement', table: villageLawEnforcementTable, type: 'DERIVED', modifierKey: 'lawEnforcement' },
+        { key: 'leadership', title: 'its leadership', prompt: "Select the village's leadership:", table: villageLeadershipTable, type: 'CHOICE' },
+        { key: 'populationWealth', title: 'its population wealth', table: villagePopulationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
+        { key: 'crime', title: 'its crime level', table: villageCrimeTable, type: 'DERIVED', modifierKey: 'crime' },
+        { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Community" },
+
+        // --- STEP 3: Points of Interest ---
+        { key: 'worshipPlaces', title: 'its places of worship', type: 'WORSHIP_PLACES', countSource: placesOfWorshipCountData },
+    ],
 };
 
 // --- STEP PROCESSORS ---
@@ -147,19 +166,112 @@ const stepProcessors = {
         return { key: step.key, value: choice };
     },
 
-    DERIVED: async (step, { choices, modifiers }) => {
-        const baseRoll = rollDice(1, 20);
-        const modifier = modifiers[step.modifierKey] || 0;
-        const finalScore = applyModifierAndClamp(baseRoll, modifier, 1, 20);
-        const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
+    DERIVED: async (step, { modifiers, isAutoRolling }) => {
+        const modifier = (modifiers[step.modifierKey] || 0) + (modifiers[`${step.modifierKey}Penalty`] || 0);
+        
+        if (isAutoRolling) {
+            const baseRoll = rollDice(1, 20);
+            const finalScore = applyModifierAndClamp(baseRoll, modifier, 1, 20);
+            const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
 
-        if (result) {
-            console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
-            console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
-            const rollDetail = { base: baseRoll, modifier, final: finalScore };
-            return { key: step.key, value: result, rollDetail };
+            if (result) {
+                console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
+                console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
+                const rollDetail = { base: baseRoll, modifier, final: finalScore };
+                return { key: step.key, value: result, rollDetail };
+            }
+        } else {
+            console.log(chalk.gray(`  (Current modifier for this roll is ${modifier >= 0 ? '+' : ''}${modifier})`));
+            const answer = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: `Select ${step.title}:`,
+                choices: step.table.map(item => ({
+                    name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`,
+                    value: item,
+                })),
+                loop: false,
+            }]);
+            const choice = answer.choice;
+            console.log(`  ${chalk.magenta('Result:')} ${chalk.white(choice.name)}`);
+            return { key: step.key, value: choice };
         }
         return null;
+    },
+
+    HARDSHIP: async (step, { modifiers, isAutoRolling }) => {
+        let likelihood;
+        if (isAutoRolling) {
+            const baseRoll = rollDice(1, 20);
+            const modifier = modifiers.hardshipLikelihood || 0;
+            const finalScore = applyModifierAndClamp(baseRoll, modifier, 1, 20);
+            likelihood = hardshipLikelihoodTable.find(item => finalScore >= item.min && finalScore <= item.max);
+            console.log(`  ${chalk.magenta('Likelihood:')} ${chalk.white(likelihood.name)}`);
+            console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
+        } else {
+            const modifier = modifiers.hardshipLikelihood || 0;
+            console.log(chalk.gray(`  (Current modifier for this roll is ${modifier >= 0 ? '+' : ''}${modifier})`));
+            const answer = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: step.prompt,
+                choices: hardshipLikelihoodTable.map(item => ({
+                    name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`,
+                    value: item,
+                })),
+                loop: false,
+            }]);
+            likelihood = answer.choice;
+            console.log(`  ${chalk.magenta('Likelihood:')} ${chalk.white(likelihood.name)}`);
+        }
+        
+        if (likelihood.count === 0) {
+            return { key: step.key, value: [{ type: likelihood, outcomes: [] }] };
+        }
+
+        const hardships = [];
+        for (let i = 0; i < likelihood.count; i++) {
+            console.log(chalk.cyan(`\n    -> Determining Hardship #${i + 1}...`));
+            
+            let hardshipType;
+            if (isAutoRolling) {
+                hardshipType = rollOnTable(hardshipTypeTable);
+            } else {
+                const answer = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select the type for Hardship #${i + 1}:`,
+                    choices: hardshipTypeTable.map(item => ({
+                        name: `[${item.dice}] ${chalk.bold(item.name)}: ${item.description}`,
+                        value: item,
+                    })),
+                    loop: false,
+                }]);
+                hardshipType = answer.choice;
+            }
+            console.log(`      ${chalk.magenta('Type:')} ${chalk.white(hardshipType.name)}`);
+
+            const outcomes = [];
+            for (const attribute of hardshipType.modifiedAttributes) {
+                let outcome;
+                if (isAutoRolling) {
+                    outcome = rollOnTable(hardshipOutcomeTable);
+                } else {
+                     const answer = await inquirer.prompt([{
+                        type: 'list', name: 'choice', message: `Select the outcome for the '${formatKeyName(attribute)}' attribute:`,
+                        choices: hardshipOutcomeTable.map(item => ({
+                            name: `[${item.min}-${item.max}] ${chalk.bold(item.name)} (${item.modifier}): ${item.description}`,
+                            value: item,
+                        })),
+                        loop: false,
+                    }]);
+                    outcome = answer.choice;
+                }
+                
+                outcomes.push({ attribute, outcome });
+                const penaltyKey = `${attribute}Penalty`;
+                modifiers[penaltyKey] = (modifiers[penaltyKey] || 0) + outcome.modifier;
+                
+                console.log(`        ${chalk.gray(`- Outcome for ${formatKeyName(attribute)}:`)} ${chalk.white(outcome.name)} (${chalk.red(outcome.modifier)})`);
+            }
+            hardships.push({ type: hardshipType, outcomes });
+        }
+        
+        return { key: step.key, value: hardships };
     },
 
     MULTIPLE: async (step, { choices, isAutoRolling }) => {
@@ -180,7 +292,7 @@ const stepProcessors = {
             if (!isAutoRolling) console.log(chalk.gray('Auto-rolling the selection...'));
             for (let i = 0; i < numberOfItems; i++) {
                 const roll = rollDice(1, 100);
-                const item = step.table.find(s => roll >= s.min && roll <= s.max);
+                const item = step.table.find(s => roll >= s.min && s.max);
                 if (item) chosenItems.push({ item, size: item.name.includes('Hired Help') ? rollHiredHelpSize() : null });
             }
             if (chosenItems.length === 0) console.log(chalk.gray('  -> None were generated.'));
@@ -229,10 +341,68 @@ const stepProcessors = {
         else if (breakChoice === 'Auto-Roll: Finish') modeState.current = 'autoRollAll';
         else if (breakChoice === 'Done') modeState.generationComplete = true;
         return null;
+    },
+    
+    WORSHIP_PLACES: async (step, { choices, isAutoRolling }) => {
+        let numberOfWorshipPlaces = 0;
+        const sizeName = choices.size.name;
+        const countData = step.countSource;
+
+        if (sizeName === 'Very Small') {
+            numberOfWorshipPlaces = countData['Very Small'];
+        } else if (sizeName === 'Small' || sizeName === 'Medium') {
+            const rollData = countData['Small / Medium'];
+            numberOfWorshipPlaces = rollDice(rollData.dieCount, rollData.dieSize) + rollData.bonus;
+        } else if (sizeName === 'Large' || sizeName === 'Very Large') {
+            const rollData = countData['Large / Very Large'];
+            numberOfWorshipPlaces = rollDice(rollData.dieCount, rollData.dieSize) + rollData.bonus;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This village has ${chalk.white(numberOfWorshipPlaces)} place(s) of worship.`);
+        
+        if (numberOfWorshipPlaces === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const generatedPlaces = [];
+        for (let i = 0; i < numberOfWorshipPlaces; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Place of Worship #${i + 1}...`));
+
+            let worshipSize;
+            if (isAutoRolling) {
+                worshipSize = rollOnTable(villagePlaceOfWorshipSizeTable);
+            } else {
+                const answer = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select its size:',
+                    choices: villagePlaceOfWorshipSizeTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                    loop: false,
+                }]);
+                worshipSize = answer.choice;
+            }
+            console.log(`      ${chalk.magenta('Size:')} ${chalk.white(worshipSize.name)}`);
+            
+            let fervency;
+            if (isAutoRolling) {
+                fervency = rollOnTable(fervencyTable);
+            } else {
+                const answer = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select its fervency:',
+                    choices: fervencyTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                    loop: false,
+                }]);
+                fervency = answer.choice;
+            }
+            console.log(`      ${chalk.magenta('Fervency:')} ${chalk.white(fervency.name)}`);
+            
+            generatedPlaces.push({ size: worshipSize, fervency: fervency });
+        }
+
+        return { key: step.key, value: generatedPlaces };
     }
 };
 
 // --- SUMMARY AND EXPORT FUNCTIONS ---
+
 function displaySummary(choices, settlementName, rollDetails, currentModifiers) {
     console.log(chalk.bold.yellow('\n\n================================'));
     console.log(chalk.bold.yellow('   Final Settlement Summary   '));
@@ -247,11 +417,34 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers) 
         const keyName = formatKeyName(key);
         if (Array.isArray(choice)) {
             console.log(chalk.bold.cyan(`\n--- ${keyName} ---`));
-            if (choice.length === 0) console.log(chalk.gray('  (None)'));
-            else choice.forEach(entry => {
-                console.log(`${chalk.green('  -')} ${chalk.white(entry.item.name)}`);
-                if (entry.size) console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.gray(entry.size.name)}`);
-            });
+            if (choice.length === 0) {
+                console.log(chalk.gray('  (None)'));
+                continue;
+            }
+
+            if (key === 'hardships') {
+                if (choice[0].type.name === 'No Hardship') {
+                    console.log(chalk.gray('  (None)'));
+                } else {
+                    choice.forEach((hardship, index) => {
+                        console.log(`${chalk.green(`  - Hardship #${index + 1}:`)} ${chalk.white(hardship.type.name)}`);
+                        hardship.outcomes.forEach(o => {
+                            console.log(`    ${chalk.magenta('↳')} For ${chalk.cyan(formatKeyName(o.attribute))}, they suffered ${chalk.white(o.outcome.name)}`);
+                        });
+                    });
+                }
+            } else if (key === 'worshipPlaces') {
+                choice.forEach((place, index) => {
+                    console.log(`${chalk.green(`  - Place of Worship #${index + 1}:`)}`);
+                    console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.white(place.size.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Fervency:')} ${chalk.white(place.fervency.name)}`);
+                });
+            } else { 
+                choice.forEach(entry => {
+                    console.log(`${chalk.green('  -')} ${chalk.white(entry.item.name)}`);
+                    if (entry.size) console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.gray(entry.size.name)}`);
+                });
+            }
         } else if (choice && choice.name) {
             console.log(`${chalk.bold.cyan(keyName + ':')} ${chalk.white(choice.name)}`);
         }
@@ -287,13 +480,37 @@ async function handleExport(choices, settlementName) {
             const choice = choices[key];
             const keyName = formatKeyName(key);
             if (Array.isArray(choice)) {
-                content += `--- ${keyName.toUpperCase()} ---\n`;
-                if (choice.length === 0) content += `(None)\n`;
-                else choice.forEach(entry => {
-                    content += `- ${entry.item.name}\n`;
-                    if (entry.item.description) content += `  ${entry.item.description}\n`;
-                    if (entry.size) content += `  Size: ${entry.size.name}\n  ${entry.size.description}\n`;
-                });
+                 content += `--- ${keyName.toUpperCase()} ---\n`;
+                 if (choice.length === 0) {
+                     content += `(None)\n`;
+                 } else if (key === 'hardships') {
+                    if (choice[0].type.name === 'No Hardship') {
+                        content += `(None)\n`;
+                    } else {
+                         choice.forEach((hardship, index) => {
+                            content += `- Hardship #${index + 1}: ${hardship.type.name}\n`;
+                            content += `  ${hardship.type.description}\n`;
+                            hardship.outcomes.forEach(o => {
+                                content += `  - Outcome for ${formatKeyName(o.attribute)}: ${o.outcome.name} (${o.outcome.modifier})\n`;
+                                content += `    ${o.outcome.description}\n`;
+                            });
+                        });
+                    }
+                } else if (key === 'worshipPlaces') {
+                     choice.forEach((place, index) => {
+                        content += `- Place of Worship #${index + 1}:\n`;
+                        content += `  - Size: ${place.size.name}\n`;
+                        content += `    ${place.size.description}\n`;
+                        content += `  - Fervency: ${place.fervency.name}\n`;
+                        content += `    ${place.fervency.description}\n`;
+                    });
+                } else {
+                    choice.forEach(entry => {
+                        content += `- ${entry.item.name}\n`;
+                        if (entry.item.description) content += `  ${entry.item.description}\n`;
+                        if (entry.size) content += `  Size: ${entry.size.name}\n  ${entry.size.description}\n`;
+                    });
+                }
                 content += `\n`;
             } else if (choice && choice.name) {
                 content += `${keyName}: ${choice.name}\n`;
@@ -310,11 +527,14 @@ async function handleExport(choices, settlementName) {
     }
 }
 
-// --- MAIN ADVENTURE FUNCTION ---
 async function startAdventure(autoRollEnabled = false) {
     const choices = {};
     const rollDetails = {};
-    const modifiers = { visitorTraffic: 0, populationWealth: 0, size: 0, crime: 0, quality: 0, urbanEncounter: 0 };
+    const modifiers = { 
+        visitorTraffic: 0, quality: 0, urbanEncounter: 0, // Trading Post
+        populationDensity: 0, hardshipLikelihood: 0, size: 0, condition: 0, disposition: 0, lawEnforcement: 0, populationWealth: 0, crime: 0, // Village
+        // Hardship penalties are added dynamically as e.g. 'sizePenalty'
+    };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
     if (modeState.current === 'autoRollAll') console.log(chalk.bold.magenta('--- Auto-Roll Mode Enabled ---'));
