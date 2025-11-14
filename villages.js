@@ -169,7 +169,6 @@ const otherLocationsCountData = {
     'Very Large': { dieCount: 1, dieSize: 4, bonus: 2 },
 };
 
-// --- MODIFIED: Replaced with the new d100 table ---
 const otherLocationsTable = [
     { min: 1, max: 4, name: 'Baker (B)', description: 'Bakes and sells fresh bread and, possibly, pastries.' },
     { min: 5, max: 7, name: 'Butcher (B)', description: 'Processes and sells fresh and/or dried meat.' },
@@ -209,6 +208,60 @@ const otherLocationsTable = [
     { min: 100, max: 100, name: 'Burned down or abandoned business', description: 'This used to be a place of business, but isn\'t anymore.' },
 ];
 
+const villageEventsTable = [
+    { dice: 1, name: 'Birth or Birthday', description: 'Blessings are sought for individuals on the day of their birth.' },
+    { dice: 2, name: 'Party', description: 'These are fun events that bring the community together for fellowship and camaraderie, and could be happening for a number of reasons.' },
+    { dice: 3, name: 'Funeral', description: 'A gathering to remember those from the community who passed away, either in mourning or in celebration of their life, with a party reflecting the things that meant most to the deceased.' },
+    { dice: 4, name: 'Harvest and Productivity', description: 'Villagers seek blessings for upcoming work, such as a harvest, or thanks are given for bountiful yields.' },
+    { dice: 5, name: 'Love', description: 'Festivities to encourage pairing, celebrating couples and family.' },
+    { dice: 6, name: 'Political', description: 'A celebration honoring events of national significance, such as remembering a great victory, or gaining independence.' },
+    { dice: 7, name: 'Religious', description: 'Events relating to and honoring a venerated deity are often regular and steeped in tradition.' },
+    { dice: 8, name: 'Wedding', description: 'Celebrating the formal joining of two families.' },
+    { dice: 9, name: 'Local', description: 'Celebration revolving around a major local event or the deeds of a local hero.' },
+    { dice: 10, name: 'Travel & Welcome', description: 'Festivities welcome someone new to the community, or someone well on a journey.' },
+];
+
+const politicalRumorsTable = [
+    { dice: 1, name: 'Mighty Misfortune', description: 'Misfortune has fallen upon a prominent figure residing near to, but outside the bounds of, the settlement (stripped of title, robbed, murdered, lost at cards, etc).' },
+    { dice: 2, name: 'Fealty', description: 'A new power is claiming rights of fealty over the village, at the culmination of a long conflict.' },
+    { dice: 3, name: 'Drums of War', description: 'Neighboring cities are preparing to go to war with one another.' },
+    { dice: 4, name: 'Noble Wedding', description: 'A local noble has just married the son or daughter of a well-loved (or greatly-loathed) family.' },
+    { dice: 5, name: 'More Taxes', description: 'An increase in taxes is about to implemented, to pay for an expensive and ambitious project.' },
+    { dice: 6, name: 'Missing Taxman', description: 'Taxes have not been collected in quite some time, and no one has seen the collector for weeks.' },
+];
+
+const villageOpportunitiesTable = [
+    { dice: 1, name: 'Worker\'s Compensation', description: 'A worker has been injured on the job, and folks are rushing to help them.' },
+    { dice: 2, name: 'Road Merchant', description: 'A travelling merchant just arrived in town, and has all kinds of unique things to show and sell.' },
+    { dice: 3, name: 'Children Missing', description: 'Some of the younger villagers have gone missing. How long have they been gone? What were they last seen doing?' },
+    { dice: 4, name: 'Fallen Rider', description: 'A severely injured man in armor has ridden into the village, late at night, and fallen, unconscious, from his horse. He is wearing a tabard displaying an unfamiliar coat of arms.' },
+    { dice: 5, name: 'They\'re Mine', description: 'Two villagers are competing for the hand of a local heartthrob.' },
+    { dice: 6, name: 'Echoes in the Deep', description: 'A villager swears they can hear sounds like voices coming from underground.' },
+    { dice: 7, name: 'Thief', description: 'Someone has been absconding with large amounts of the village\'s major crop, or resource.' },
+    { dice: 8, name: 'Wildlife', description: 'Local wildlife has been harassing the villagers, or animals.' },
+    { dice: 9, name: 'Monster(s)', description: 'Something worse than simple wildlife is terrorizing the village.' },
+    { dice: 10, name: 'Haunting', description: 'A spirit haunts some place within the village. Something was done to this person while they were alive that has tied the spirit to this place.' },
+    { dice: 11, name: 'Party Time', description: 'A festival is coming up soon, and a shipment carrying something important for the event has not arrived.' },
+    { dice: 12, name: 'Shady Doings', description: 'Strange symbols are discovered written on the walls of certain homes, or other buildings. Bits of bones, or piles of stones, placed just-so have been found. Something, or someone, is trying to send a message, or accomplish a less-than-savory task. What is it and why is it happening?' },
+];
+
+const villageDangerLevelTable = [
+    { min: 1, max: 2, name: 'No Danger or Hazards', description: 'The village is a perfectly safe place to be (skip danger type table).' },
+    { min: 3, max: 6, name: 'Low', description: 'Danger or hazards are a rarity.' },
+    { min: 7, max: 14, name: 'Medium', description: 'Danger or hazards are not unheard of, but not everyone has experienced them.' },
+    { min: 15, max: 18, name: 'High', description: 'Danger or hazards are common.' },
+    { min: 19, max: 20, name: 'Extreme', description: 'Danger or hazards abound. It is never safe to go anywhere alone.' },
+];
+
+const villageDangerTypeTable = [
+    { dice: 1, name: 'Wildlife Attack', description: 'Wildlife lives in close proximity to the village, which may be open, or have little in the way of defenses. Wildlife may be free to roam the village, especially in low-traffic hours.' },
+    { dice: 2, name: 'Misunderstanding', description: 'For new arrivals in the village, especially those not from the region, communication can be hard. Miscommunication can lead to dangerous situations.' },
+    { dice: 3, name: 'Workplace Accidents', description: 'Depending on the kind of work being done, there may be some omnipresent danger, from mishaps with animals, to issues with equipment, especially if it is in poor condition.' },
+    { dice: 4, name: 'Disease', description: 'Villages can lack rigorous standards of cleanliness or, due to their rural placement, can sometimes be prone to issues with disease-carrying vermin.' },
+    { dice: 5, name: 'Unwanted Attention', description: 'Being a tight-knit community has the benefit of everyone being very familiar with everyone else. This makes visitors stick out like a sore thumb. This could draw attention from the villagers, or anyone who might be watching.' },
+    { dice: 6, name: 'Monster Prey', description: 'Large monsters, who might view a town or city as too threatening a target, might view a village as a much easier source of food.' },
+];
+
 
 export {
   villageAges,
@@ -231,4 +284,9 @@ export {
   gatheringPlacesTable,
   otherLocationsCountData,
   otherLocationsTable,
+  villageEventsTable,
+  politicalRumorsTable,
+  villageOpportunitiesTable,
+  villageDangerLevelTable,
+  villageDangerTypeTable,
 };

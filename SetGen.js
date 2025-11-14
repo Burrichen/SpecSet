@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
 import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable } from './commonTables.js';
-import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable } from './villages.js';
+import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -141,6 +141,14 @@ const settlementPaths = {
         { key: 'worshipPlaces', title: 'its places of worship', type: 'WORSHIP_PLACES', countSource: placesOfWorshipCountData },
         { key: 'gatheringPlaces', title: 'its places of gathering', type: 'GATHERING_PLACES', countSource: gatheringPlacesCountData },
         { key: 'villageLocations', title: 'its other locations', type: 'VILLAGE_LOCATIONS', countSource: otherLocationsCountData },
+        { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Points of Interest" },
+        
+        // --- STEP 4: Extra Intrigue ---
+        { key: 'event', title: "a current event", prompt: "Select a current event:", table: villageEventsTable, type: 'CHOICE' },
+        { key: 'politicalRumor', title: "a political rumor", prompt: "Select a political rumor:", table: politicalRumorsTable, type: 'CHOICE' },
+        { key: 'opportunity', title: 'a local opportunity', prompt: 'Select a local opportunity:', table: villageOpportunitiesTable, type: 'CHOICE' },
+        { key: 'dangerLevel', title: 'the local danger level', table: villageDangerLevelTable, type: 'DERIVED', modifierKey: 'dangerLevel' },
+        { key: 'dangerType', title: 'the type of danger', prompt: 'Select the type of danger:', table: villageDangerTypeTable, type: 'CHOICE', condition: (choices) => choices.dangerLevel?.name !== 'No Danger or Hazards' },
     ],
 };
 
@@ -662,7 +670,7 @@ async function startAdventure(autoRollEnabled = false) {
     const rollDetails = {};
     const modifiers = { 
         visitorTraffic: 0, quality: 0, urbanEncounter: 0, // Trading Post
-        populationDensity: 0, hardshipLikelihood: 0, size: 0, condition: 0, disposition: 0, lawEnforcement: 0, populationWealth: 0, crime: 0, // Village
+        populationDensity: 0, hardshipLikelihood: 0, size: 0, condition: 0, disposition: 0, lawEnforcement: 0, populationWealth: 0, crime: 0, dangerLevel: 0, // Village
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
