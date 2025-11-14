@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
 import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable } from './commonTables.js';
-import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable } from './villages.js';
+import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable } from './villages.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -84,7 +84,6 @@ const settlementTypes = [
 // --- THE "RECIPE BOOK" ---
 const settlementPaths = {
     'Trading Post': [
-        // ... (Trading Post path remains unchanged)
         { key: 'origin', title: "its origin", prompt: "Select an origin:", table: tradingPostOrigins, type: 'CHOICE' },
         { key: 'specialty', title: "its specialty", prompt: "Select a specialty:", table: tradingPostSpecialties, type: 'CHOICE' },
         { key: 'subSpecialty', title: "its specific food or drink", prompt: "Select a food or drink:", table: foodAndDrink, type: 'CHOICE', condition: (choices) => choices.specialty?.name === 'Food & Drink' },
@@ -140,6 +139,8 @@ const settlementPaths = {
 
         // --- STEP 3: Points of Interest ---
         { key: 'worshipPlaces', title: 'its places of worship', type: 'WORSHIP_PLACES', countSource: placesOfWorshipCountData },
+        { key: 'gatheringPlaces', title: 'its places of gathering', type: 'GATHERING_PLACES', countSource: gatheringPlacesCountData },
+        { key: 'villageLocations', title: 'its other locations', type: 'VILLAGE_LOCATIONS', countSource: otherLocationsCountData },
     ],
 };
 
@@ -292,7 +293,7 @@ const stepProcessors = {
             if (!isAutoRolling) console.log(chalk.gray('Auto-rolling the selection...'));
             for (let i = 0; i < numberOfItems; i++) {
                 const roll = rollDice(1, 100);
-                const item = step.table.find(s => roll >= s.min && s.max);
+                const item = step.table.find(s => roll >= s.min && roll <= s.max);
                 if (item) chosenItems.push({ item, size: item.name.includes('Hired Help') ? rollHiredHelpSize() : null });
             }
             if (chosenItems.length === 0) console.log(chalk.gray('  -> None were generated.'));
@@ -345,17 +346,29 @@ const stepProcessors = {
     
     WORSHIP_PLACES: async (step, { choices, isAutoRolling }) => {
         let numberOfWorshipPlaces = 0;
-        const sizeName = choices.size.name;
-        const countData = step.countSource;
+        
+        if (isAutoRolling) {
+            const sizeName = choices.size.name;
+            let countDataKey;
+            if (sizeName === 'Very Small') { countDataKey = 'Very Small'; }
+            else if (sizeName === 'Small' || sizeName === 'Medium') { countDataKey = 'Small / Medium'; }
+            else if (sizeName === 'Large' || sizeName === 'Very Large') { countDataKey = 'Large / Very Large'; }
+            const countData = step.countSource[countDataKey];
 
-        if (sizeName === 'Very Small') {
-            numberOfWorshipPlaces = countData['Very Small'];
-        } else if (sizeName === 'Small' || sizeName === 'Medium') {
-            const rollData = countData['Small / Medium'];
-            numberOfWorshipPlaces = rollDice(rollData.dieCount, rollData.dieSize) + rollData.bonus;
-        } else if (sizeName === 'Large' || sizeName === 'Very Large') {
-            const rollData = countData['Large / Very Large'];
-            numberOfWorshipPlaces = rollDice(rollData.dieCount, rollData.dieSize) + rollData.bonus;
+            if (typeof countData === 'number') { numberOfWorshipPlaces = countData; }
+            else if (typeof countData === 'object') { numberOfWorshipPlaces = rollDice(countData.dieCount, countData.dieSize) + countData.bonus; }
+        } else {
+             const answer = await inquirer.prompt([{
+                type: 'list', name: 'count', message: 'Select the number of places of worship:',
+                choices: [
+                    { name: '1 (Typical for Very Small villages)', value: 1 },
+                    { name: '1-2 (Typical for Small/Medium villages)', value: 2 },
+                    { name: '2-3 (Typical for Large/Very Large villages)', value: 3 },
+                ]
+            }]);
+            if (answer.count === 1) numberOfWorshipPlaces = 1;
+            else if (answer.count === 2) numberOfWorshipPlaces = rollDice(1, 2);
+            else if (answer.count === 3) numberOfWorshipPlaces = rollDice(1, 2) + 1;
         }
 
         console.log(`  ${chalk.magenta('Result:')} This village has ${chalk.white(numberOfWorshipPlaces)} place(s) of worship.`);
@@ -367,37 +380,145 @@ const stepProcessors = {
         const generatedPlaces = [];
         for (let i = 0; i < numberOfWorshipPlaces; i++) {
             console.log(chalk.cyan(`\n    -> Generating Place of Worship #${i + 1}...`));
-
-            let worshipSize;
-            if (isAutoRolling) {
-                worshipSize = rollOnTable(villagePlaceOfWorshipSizeTable);
-            } else {
-                const answer = await inquirer.prompt([{
-                    type: 'list', name: 'choice', message: 'Select its size:',
-                    choices: villagePlaceOfWorshipSizeTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
-                    loop: false,
-                }]);
-                worshipSize = answer.choice;
-            }
+            
+            const worshipSize = isAutoRolling ? rollOnTable(villagePlaceOfWorshipSizeTable) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select its size:',
+                choices: villagePlaceOfWorshipSizeTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                loop: false,
+            }])).choice;
             console.log(`      ${chalk.magenta('Size:')} ${chalk.white(worshipSize.name)}`);
             
-            let fervency;
-            if (isAutoRolling) {
-                fervency = rollOnTable(fervencyTable);
-            } else {
-                const answer = await inquirer.prompt([{
-                    type: 'list', name: 'choice', message: 'Select its fervency:',
-                    choices: fervencyTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
-                    loop: false,
-                }]);
-                fervency = answer.choice;
-            }
+            const fervency = isAutoRolling ? rollOnTable(fervencyTable) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select its fervency:',
+                choices: fervencyTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                loop: false,
+            }])).choice;
             console.log(`      ${chalk.magenta('Fervency:')} ${chalk.white(fervency.name)}`);
             
             generatedPlaces.push({ size: worshipSize, fervency: fervency });
         }
 
         return { key: step.key, value: generatedPlaces };
+    },
+    
+    GATHERING_PLACES: async (step, { choices, isAutoRolling }) => {
+        let numberOfPlaces = 0;
+
+        if (isAutoRolling) {
+            const sizeName = choices.size.name;
+            const countData = step.countSource[sizeName];
+            if (typeof countData === 'number') {
+                numberOfPlaces = countData;
+            } else if (typeof countData === 'object') {
+                const roll = rollDice(countData.dieCount, countData.dieSize) + countData.bonus;
+                numberOfPlaces = Math.max(0, roll);
+            }
+        } else {
+            const answer = await inquirer.prompt([{
+                type: 'list',
+                name: 'count',
+                message: 'Select the number of gathering places:',
+                choices: [
+                    { name: '0-1 (Typical for Very Small villages)', value: 1 },
+                    { name: '1 (Typical for Small villages)', value: 2 },
+                    { name: '1-2 (Typical for Medium/Large villages)', value: 3 },
+                    { name: '2-3 (Typical for Very Large villages)', value: 4 },
+                ]
+            }]);
+            
+            if (answer.count === 1) numberOfPlaces = rollDice(1, 2) - 1;
+            else if (answer.count === 2) numberOfPlaces = 1;
+            else if (answer.count === 3) numberOfPlaces = rollDice(1, 2);
+            else if (answer.count === 4) numberOfPlaces = rollDice(1, 2) + 1;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This village has ${chalk.white(numberOfPlaces)} place(s) of gathering.`);
+        
+        if (numberOfPlaces === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const generatedPlaces = [];
+        for (let i = 0; i < numberOfPlaces; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Place of Gathering #${i + 1}...`));
+
+            const place = isAutoRolling ? rollOnTable(gatheringPlacesTable) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: `Select the type for Gathering Place #${i + 1}:`,
+                choices: gatheringPlacesTable.map(item => ({ name: `[${item.dice}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                loop: false,
+            }])).choice;
+            console.log(`      ${chalk.magenta('Type:')} ${chalk.white(place.name)}`);
+            generatedPlaces.push(place);
+        }
+
+        return { key: step.key, value: generatedPlaces };
+    },
+
+    VILLAGE_LOCATIONS: async (step, { choices, isAutoRolling }) => {
+        let numberOfLocations = 0;
+
+        if (isAutoRolling) {
+            const sizeName = choices.size.name;
+            const countData = step.countSource[sizeName];
+            if (countData) {
+                const roll = rollDice(countData.dieCount, countData.dieSize) + countData.bonus;
+                numberOfLocations = Math.max(0, roll);
+            }
+        } else {
+            const answer = await inquirer.prompt([{
+                type: 'list',
+                name: 'count',
+                message: 'Select the number of other locations:',
+                choices: [
+                    { name: '1 (Typical for Very Small/Small villages)', value: 1 },
+                    { name: '2 (Common for Medium villages)', value: 2 },
+                    { name: '3 (Common for Large villages)', value: 3 },
+                    { name: '4 (Common for Very Large villages)', value: 4 },
+                    { name: '5 (Possible for Very Large villages)', value: 5 },
+                ]
+            }]);
+             numberOfLocations = answer.count;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This village has ${chalk.white(numberOfLocations)} other location(s).`);
+
+        if (numberOfLocations === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const generatedLocations = [];
+        for (let i = 0; i < numberOfLocations; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Other Location #${i + 1}...`));
+
+            const location = isAutoRolling ? rollOnTable(otherLocationsTable) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: `Select the type for Other Location #${i + 1}:`,
+                choices: otherLocationsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })),
+                loop: false, pageSize: 15
+            }])).choice;
+            
+            if (location.name === 'Burned down or abandoned business') {
+                console.log(chalk.yellow('      -> A ruined business found! Determining what it used to be...'));
+                const filteredTable = otherLocationsTable.filter(l => l.name !== 'Burned down or abandoned business');
+                const formerLocation = isAutoRolling ? rollOnTable(filteredTable) : (await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `What was this business before it was abandoned?`,
+                    choices: filteredTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })),
+                    loop: false, pageSize: 15
+                }])).choice;
+
+                const finalLocation = {
+                    name: `${location.name} (Formerly a ${formerLocation.name})`,
+                    description: `${location.description} It used to be a ${formerLocation.name.toLowerCase()}.`
+                };
+                generatedLocations.push(finalLocation);
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.white(finalLocation.name)}`);
+
+            } else {
+                generatedLocations.push(location);
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.white(location.name)}`);
+            }
+        }
+
+        return { key: step.key, value: generatedLocations };
     }
 };
 
@@ -438,6 +559,10 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers) 
                     console.log(`${chalk.green(`  - Place of Worship #${index + 1}:`)}`);
                     console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.white(place.size.name)}`);
                     console.log(`    ${chalk.magenta('↳ Fervency:')} ${chalk.white(place.fervency.name)}`);
+                });
+            } else if (key === 'gatheringPlaces' || key === 'villageLocations') {
+                 choice.forEach((place, index) => {
+                    console.log(`${chalk.green(`  - Location #${index + 1}:`)} ${chalk.white(place.name)}`);
                 });
             } else { 
                 choice.forEach(entry => {
@@ -504,6 +629,11 @@ async function handleExport(choices, settlementName) {
                         content += `  - Fervency: ${place.fervency.name}\n`;
                         content += `    ${place.fervency.description}\n`;
                     });
+                } else if (key === 'gatheringPlaces' || key === 'villageLocations') {
+                    choice.forEach((place, index) => {
+                        content += `- Location #${index + 1}: ${place.name}\n`;
+                        content += `  ${place.description}\n`;
+                    });
                 } else {
                     choice.forEach(entry => {
                         content += `- ${entry.item.name}\n`;
@@ -533,7 +663,6 @@ async function startAdventure(autoRollEnabled = false) {
     const modifiers = { 
         visitorTraffic: 0, quality: 0, urbanEncounter: 0, // Trading Post
         populationDensity: 0, hardshipLikelihood: 0, size: 0, condition: 0, disposition: 0, lawEnforcement: 0, populationWealth: 0, crime: 0, // Village
-        // Hardship penalties are added dynamically as e.g. 'sizePenalty'
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 

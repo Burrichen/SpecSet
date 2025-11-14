@@ -22,11 +22,11 @@ const hardshipTypeTable = [
     { dice: 1, name: 'Plague', description: 'The community fell victim to disease.', modifiedAttributes: ['populationDensity'] },
     { dice: 2, name: 'Bandits on the Road', description: 'On the way to or from market, the village\'s caravan was set upon by bandits.', modifiedAttributes: ['populationWealth'] },
     { dice: 3, name: 'Raid', description: 'The village was raided by marauders.', modifiedAttributes: ['size', 'populationWealth', 'populationDensity'] },
-    { dice: 4, name: 'Famine / Food Shortage', description: 'If the village normally produces some kind of food, it did not produce. If they typically get their food from the market, they had difficulties doing.', modifiedAttributes: ['populationDensity'] },
+    { dice: 4, name: 'Famine / Food Shortage', description: 'If the village normally produces some kind of food, it did not produce. If they typically get their food from the market, they had difficulties doing so for a time.', modifiedAttributes: ['populationDensity'] },
     { dice: 5, name: 'Harsh Weather', description: 'The region was beset by nature\'s wrath.', modifiedAttributes: ['condition', 'size'] },
     { dice: 6, name: 'Inter-Community Conflict/Violence', description: 'A conflict between members of the community broke out and split the village, with dire consequences.', modifiedAttributes: ['populationDensity', 'disposition'] },
     { dice: 7, name: 'Loss of Community Leader', description: 'A key member of the community died or went missing.', modifiedAttributes: ['disposition'] },
-    { dice: 8, name: 'Victim of War', description: 'The village was struck by the ravages of war (passing armies, collateral battle damage, disease from war-related issues).', modifiedAttributes: ['condition', 'size', 'populationDensity'] },
+    { dice: 8, name: 'Victim of War', description: 'The village was struck by the ravages of war (passing or foraging armies, collateral battle damage, disease from war-related issues such as camp hygiene or illness from dead bodies).', modifiedAttributes: ['condition', 'size', 'populationDensity'] },
 ];
 
 const hardshipOutcomeTable = [
@@ -34,7 +34,7 @@ const hardshipOutcomeTable = [
     { min: 3, max: 4, name: 'Terrible Losses', description: 'The village\'s losses were crushing, and incredibly difficult to recover from.', modifier: -4 },
     { min: 5, max: 6, name: 'Heavy Losses', description: 'The village\'s losses were awful, and recovery is proving difficult.', modifier: -3 },
     { min: 7, max: 8, name: 'Moderate Losses', description: 'The village\'s losses were rough but recovery is likely, though may be tough.', modifier: -2 },
-    { min: 9, max: 10, name: 'Minimal Losses', description: 'The village\'s losses were as little as could have been hoped for, and recovery should be very possible, even inevitable.', modifier: -1 },
+    { min: 9, max: 10, name: 'Minimal Losses', description: 'The village\'s losses were as little as could have been hoped for, and recovery should be very possible, or even inevitable.', modifier: -1 },
 ];
 
 const villageSizeTable = [
@@ -46,20 +46,20 @@ const villageSizeTable = [
 ];
 
 const villageConditionTable = [
-    { min: 1, max: 2, name: 'Ruined', description: 'The village is little but rubble and debris with, perhaps, a few exceptions.', modifiers: { populationWealth: -6 } },
+    { min: 1, max: 2, name: 'Ruined', description: 'The village is little but rubble and debris with, perhaps, a few exceptions. This could have been the result of a war, raid, earthquake, or storm.', modifiers: { populationWealth: -6 } },
     { min: 3, max: 6, name: 'Dilapidated', description: 'The village is in a state of disrepair. Some buildings may be coming down, or may have been built in a shoddy fashion. Cleanliness is not a priority.', modifiers: { populationWealth: -3 } },
-    { min: 7, max: 14, name: 'Simple', description: 'Most buildings are organized and seem sturdy enough, though there is nothing remarkable. The streets are clear enough to move through, but may be uneven.', modifiers: { populationWealth: 0 } },
-    { min: 15, max: 18, name: 'Hearty', description: 'Everything here appears to be well-built and robust. The village seems mindful of cleanliness and upkeep. Roads and paths are well-groomed and flattened.', modifiers: { populationWealth: 3 } },
-    { min: 19, max: 20, name: 'Immaculate', description: 'The village is very well organized, and there is clearly a concerted effort to keep it in the best shape possible. Cleanliness is a priority, as is maintenance. Roads and paths are plainly surfaced and clean.', modifiers: { populationWealth: 6 } },
+    { min: 7, max: 14, name: 'Simple', description: 'Most buildings are organized and seem sturdy enough, though there is nothing remarkable. The streets are clear enough to move through, but may be uneven and rutted.', modifiers: { populationWealth: 0 } },
+    { min: 15, max: 18, name: 'Hearty', description: 'Everything here appears to be well-built and robust. The village seems mindful of cleanliness and the settlement\'s upkeep. Roads and paths are well-groomed and flattened.', modifiers: { populationWealth: 3 } },
+    { min: 19, max: 20, name: 'Immaculate', description: 'The village is very well organized, and there is clearly a concerted effort to keep the village in the best shape possible. Cleanliness is a priority, as is maintenance. Roads and paths are plainly surfaced and clean.', modifiers: { populationWealth: 6 } },
 ];
 
 const villageSpecialtyTable = [
     { dice: 1, name: 'None', description: 'The village is unremarkable, or not widely known for any particular thing.' },
-    { dice: 2, name: 'Food or Drink', description: 'Someone in the village makes a particular food or drink that has gained some notoriety. They may own an establishment, but could easily just sell it out of their home.' },
+    { dice: 2, name: 'Food or Drink', description: 'Someone in the village makes a particular food or drink (such as bread, stew, produce, ale, wine, etc.) that has gained some notoriety. They may own an establishment, but could easily just sell it out of their home.' },
     { dice: 3, name: 'Location Proximity', description: 'The village itself may not be very special, but it is near somewhere that is, such as a stunning vista, or a site of historical significance.' },
     { dice: 4, name: 'Livestock', description: 'The village is known for breeding strong and healthy (perhaps, even pedigree) animals, such as horses, cattle, sheep, etc.' },
     { dice: 5, name: 'Crop', description: 'The village is known for a particularly notable crop. This could mean rare, high-quality, plentiful, or a mix of the three.' },
-    { dice: 6, name: 'Crafted Goods', description: 'The village is known for the craft of a certain item, or type of goods, widely liked and highly valued.' },
+    { dice: 6, name: 'Crafted Goods', description: 'The village is known for the craft of a certain item, or type of goods, widely liked and highly valued, such as hand-crafted furniture, a category of clothing item, etc.' },
 ];
 
 const villageResourceTable = [
@@ -80,7 +80,7 @@ const villageHistoryTable = [
     { dice: 2, name: 'Attacks', description: 'Members of the community have been attacked, either by brigands or, perhaps, monsters.' },
     { dice: 3, name: 'Bumper Production', description: 'A staple resource of the village has yielded very well, recently.' },
     { dice: 4, name: 'Out of Favor', description: 'The village has been subject to the ire of a nearby ruler, or entity.' },
-    { dice: 5, name: 'Entertainment', description: 'A certain form of entertainment is proving popular, whether a game or pastime, the arrival of a storyteller or musician, etc.' },
+    { dice: 5, name: 'Entertainment', description: 'A certain form of entertainment is proving popular, whether a game or pastime, the arrival of a storyteller or musician, or something else.' },
     { dice: 6, name: 'Fear', description: 'Something unnerving, or frightening, has happened recently.' },
     { dice: 7, name: 'Good Fortune', description: 'The village has received favorable notice from a nearby ruler, or entity of note.' },
     { dice: 8, name: 'Infestation', description: 'Some form of vermin, or pest, has recently beset the village, and has become an ongoing issue.' },
@@ -95,7 +95,7 @@ const villagePopulationDensityTable = [
     { min: 3, max: 6, name: 'Sparse', description: 'People are living here, but not many. They are able to handle all tasks that need doing but, perhaps, with some difficulty.', modifiers: { crime: 1 } },
     { min: 7, max: 14, name: 'Populous', description: 'There are enough people here for the village to manage all tasks without difficulty.', modifiers: { crime: 0 } },
     { min: 15, max: 18, name: 'Dense', description: 'The village seems to have a large amount of people for its size. There are many hands available to help with any work that needs doing.', modifiers: { crime: -1 } },
-    { min: 19, max: 20, name: 'Congested', description: 'The village has as many people in it as it can hold, and camps may be cropping up on the outskirts. There are plenty of hands available to help with work, with many unemployed.', modifiers: { crime: -2 } },
+    { min: 19, max: 20, name: 'Congested', description: 'The village has as many people in it as it can hold, and camps may be cropping up on the outskirts. There are plenty of hands available to help with work but, unless the work is very large-scale (such as quarrying), there may be at least some idle people.', modifiers: { crime: -2 } },
 ];
 
 const villageLawEnforcementTable = [
@@ -131,8 +131,6 @@ const villageCrimeTable = [
     { min: 11, max: 20, name: 'Little-to-None', description: 'Most, or all, of the villagers believe the village is totally safe, and certainly haven\'t experienced any crime personally.', modifiers: { urbanEncounter: 0 } },
 ];
 
-// --- NEW TABLES ---
-
 const placesOfWorshipCountData = {
     'Very Small': 1,
     'Small / Medium': { dieCount: 1, dieSize: 2, bonus: 0 },
@@ -147,6 +145,70 @@ const villagePlaceOfWorshipSizeTable = [
     { min: 18, max: 19, name: 'Temple', description: 'A grand building, replete with elements like high ceilings, plush furnishings, and other impressive ornamental and/or architectural features. It can hold nearly a thousand attendees.' },
     { min: 20, max: 20, name: 'Great Temple', description: 'An awe-inspiring structure, devoted to that which it venerates. No expense was spared in its construction. It might display such elements as stunning frescos, elaborate stained-glass scenes, and towering, gilded statues. Walking into a great temple is a rare and striking experience for those who do not live near one.' },
 ];
+
+const gatheringPlacesCountData = {
+    'Very Small': { dieCount: 1, dieSize: 2, bonus: -1 },
+    'Small': 1,
+    'Medium': { dieCount: 1, dieSize: 2, bonus: 0 },
+    'Large': { dieCount: 1, dieSize: 2, bonus: 0 },
+    'Very Large': { dieCount: 1, dieSize: 2, bonus: 1 },
+};
+
+const gatheringPlacesTable = [
+    { dice: 1, name: 'Amphitheater', description: 'Outdoor space with a stage and tiered seating.' },
+    { dice: 2, name: 'Dance Hall', description: 'Location for dances and festive events.' },
+    { dice: 3, name: 'Gathering Hall', description: 'General building used for community-organised activities.' },
+    { dice: 4, name: 'Outdoor Recreational Area', description: 'A tended space where locals might eat, take leisure time, or duel to the death...' },
+];
+
+const otherLocationsCountData = {
+    'Very Small': { dieCount: 1, dieSize: 4, bonus: -2 },
+    'Small': { dieCount: 1, dieSize: 4, bonus: -1 },
+    'Medium': { dieCount: 1, dieSize: 4, bonus: 0 },
+    'Large': { dieCount: 1, dieSize: 4, bonus: 1 },
+    'Very Large': { dieCount: 1, dieSize: 4, bonus: 2 },
+};
+
+// --- MODIFIED: Replaced with the new d100 table ---
+const otherLocationsTable = [
+    { min: 1, max: 4, name: 'Baker (B)', description: 'Bakes and sells fresh bread and, possibly, pastries.' },
+    { min: 5, max: 7, name: 'Butcher (B)', description: 'Processes and sells fresh and/or dried meat.' },
+    { min: 8, max: 11, name: 'Cooper (B)', description: 'Crafts wooden vessels held together with metal hoops, including barrels, buckets, etc.' },
+    { min: 12, max: 15, name: 'Carpenter (B)', description: 'Builds with or carves wood, as well as carrying out repairs.' },
+    { min: 16, max: 19, name: 'General Store (B)', description: 'Sells basic supplies, groceries, and various odds and ends.' },
+    { min: 20, max: 23, name: 'Herbalist (B)', description: 'Sells common herbs and natural, non-magical remedies.' },
+    { min: 24, max: 27, name: 'Smithy (B)', description: 'Sells and crafts metal tools and equipment, including very basic weapons and armor.' },
+    { min: 28, max: 31, name: 'Tailor (B)', description: 'Makes and sells of clothing, including hats and cloaks. Also sells general items made from cloth, such as blankets, and carries out repairs and alterations of cloth goods.' },
+    { min: 32, max: 35, name: 'Tanner/Taxidermist (B)', description: 'Processes animal hides for practical or ornamental purposes.' },
+    { min: 36, max: 39, name: 'Thatcher (B)', description: 'Builds roofs using layers of dried straw, reeds, rushes, etc.' },
+    { min: 40, max: 43, name: 'Wainwright (B)', description: 'Builds carts and wagons.' },
+    { min: 44, max: 47, name: 'Weaver (B)', description: 'Weaves raw fabric and baskets.' },
+    { min: 48, max: 50, name: 'Alchemist (S)', description: 'Brews and sells potions, as well as mundane herbs and alchemical ingredients.' },
+    { min: 51, max: 52, name: 'Artist (S)', description: 'Encompasses painter, sculptor or other visual art as appropriate.' },
+    { min: 53, max: 55, name: 'Cobbler (S)', description: 'Makes and mends boots and shoes.' },
+    { min: 56, max: 58, name: 'Mill (S)', description: 'Facilities for milling grain.' },
+    { min: 59, max: 61, name: 'Shipwright (S)', description: 'Builds and launches boats and/or ships. [Reroll if settlement is not bordering a significant source of water]' },
+    { min: 62, max: 62, name: 'Rare Botanicals (E)', description: 'Cultivates and sells herbs rare to the region.' },
+    { min: 63, max: 63, name: 'Luxury Furnishings (E)', description: 'Procures and sells all manner of home items for fine living, including furniture, art, and other high-quality goods.' },
+    { min: 64, max: 64, name: 'Rare Libations & Fare (E)', description: 'Sells (and, perhaps, makes or brews) drinks and/or food of surpassing quality or rarity to the region.' },
+    { min: 65, max: 65, name: 'Rare Trade Goods (E)', description: 'Procures and sells items and materials, such as ores or textiles, that are rare to the region.' },
+    { min: 66, max: 66, name: 'Magic Shop - Armor (E)', description: 'Sells magical items with a focus on armor and protective equipment.' },
+    { min: 67, max: 67, name: 'Magic Shop - Books (E)', description: 'Sells magical items with a focus on literature, arcane tomes and lore. They may also carry books and documents (such as maps and records) of a rare and significant nature, though non-magical.' },
+    { min: 68, max: 68, name: 'Magic Shop - Clothing (E)', description: 'Sells magical items with a focus on clothing of all types which bear magical properties.' },
+    { min: 69, max: 69, name: 'Magic Shop - Jewelry (E)', description: 'Sells magical items with a focus on enchanted, or otherwise magically imbued, jewelry.' },
+    { min: 70, max: 70, name: 'Magic Shop - Weapons (E)', description: 'Sells magical items with a focus on weapons with mystic properties and, perhaps, shields.' },
+    { min: 71, max: 71, name: 'Magic Shop - Miscellaneous & Curiosities (E)', description: 'Procures and sells strange and rare artifacts of a wondrous or intriguing nature.' },
+    { min: 72, max: 73, name: 'Barber', description: 'Provides grooming services, such as haircuts or shaves.' },
+    { min: 74, max: 75, name: 'Bathhouse', description: 'Provides spaces for bathing.' },
+    { min: 76, max: 77, name: 'Doctor/Apothecary', description: 'Provides medical care.' },
+    { min: 78, max: 79, name: 'House of Leisure', description: 'Provides entertainment and/or relaxation (GM may decide what kind).' },
+    { min: 80, max: 84, name: 'Inn', description: 'Provides accommodation, as well as a place to have a bath and a decent meal.' },
+    { min: 85, max: 89, name: 'Soothsayer', description: 'Provides magical prediction and prophecy - sayers of sooth!' },
+    { min: 90, max: 94, name: 'Stable', description: 'Provides boarding accommodation for mounts, as well as selling carts, animals, and their tack.' },
+    { min: 95, max: 99, name: 'Tavern', description: 'Provides food and drink.' },
+    { min: 100, max: 100, name: 'Burned down or abandoned business', description: 'This used to be a place of business, but isn\'t anymore.' },
+];
+
 
 export {
   villageAges,
@@ -165,4 +227,8 @@ export {
   villageCrimeTable,
   placesOfWorshipCountData,
   villagePlaceOfWorshipSizeTable,
+  gatheringPlacesCountData,
+  gatheringPlacesTable,
+  otherLocationsCountData,
+  otherLocationsTable,
 };
