@@ -74,8 +74,24 @@ const fervencyTable = [
     { min: 20, max: 20, name: 'Zealous', description: 'Adherents are utterly and unthinkingly devout, forcing their doctrine upon their surroundings and peers, or taking actions that further their cause regardless of personal cost. Though typically seen as negative, this could also be a positive, such as a church of light rising up in an evil kingdom, helping those in need, even if it puts themselves in peril.' },
 ];
 
+const officialsTable = [
+    { dice: 1, name: 'Catchpole', description: 'Catches and brings in debtors.' },
+    { dice: 2, name: 'Clerk', description: 'Recordkeeper for the town.' },
+    { dice: 3, name: 'Exchequer', description: 'Responsible for taxes.' },
+    { dice: 4, name: 'Jailer', description: 'In charge of confining prisoners.' },
+    { dice: 5, name: 'Judge', description: 'Decision-maker in legal matters.' },
+    { dice: 6, name: 'Liner', description: 'Determines property boundaries.' },
+    { dice: 7, name: 'Master of Revels', description: 'Lead organizer of festivals and special events.' },
+    { dice: 8, name: 'Master of Stores', description: 'Oversees the town\'s stores of supplies such as grain or building materials.' },
+];
 
-// We export all shared tables.
+const officialCompetenceTable = [
+    { dice: 1, name: 'Corrupt', description: 'Taking advantage of the position for personal gain.' },
+    { min: 2, max: 3, name: 'Incompetent', description: 'Doesn\'t truly understand how to execute the position.' },
+    { min: 4, max: 5, name: 'Committed', description: 'Utterly committed to the job, truly feeling it is of vital importance.' },
+    { dice: 6, name: 'Overqualified', description: 'Based on skills and experience, ought to be in a higher or more challenging position.' },
+];
+
 export {
   hiredHands,
   environmentTable,
@@ -84,4 +100,6 @@ export {
   servicesTable,
   hiredHelpSizeTable,
   fervencyTable,
+  officialsTable,
+  officialCompetenceTable,
 };
