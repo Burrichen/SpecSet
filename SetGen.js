@@ -7,6 +7,7 @@ import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAg
 import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 import { townOriginsTable, townPriorityTable, magicShopSubTable, industrySubTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
+import { cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable } from './city.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -122,6 +123,34 @@ const settlementPaths = {
         { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: townRecentHistoryTable, type: 'CHOICE' },
         { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL' },
         { key: 'marketDayEvent', title: 'a market day event', prompt: 'Select a market day event:', table: marketDayEventsTable, type: 'CHOICE' },
+    ],
+    'City': [
+        { key: 'origin', title: "its origin", prompt: "Select the city's origin:", table: cityOriginsTable, type: 'CHOICE' },
+        { key: 'priority', title: "its priority", prompt: "Select the city's priority:", table: cityPriorityTable, type: 'CHOICE' },
+        { key: 'age', title: "its age", prompt: "Select the city's age:", table: cityAgeTable, type: 'CHOICE' },
+        { key: 'size', title: "its size", prompt: "Select the city's size:", table: citySizeTable, type: 'CHOICE' },
+        { key: 'outsideTheCity', title: 'features outside the city', type: 'OUTSIDE_THE_CITY', countSource: outsideTheCityCountData, table: outsideTheCityTable },
+        { key: 'stewardship', title: "its stewardship", prompt: "Select the city's stewardship:", table: stewardshipTable, type: 'CHOICE' },
+        { key: 'generalCondition', title: "its general condition", table: generalConditionTable, type: 'DERIVED', modifierKey: 'condition' },
+        { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE', condition: (choices) => !choices.environment },
+        { key: 'fortification', title: 'its fortifications', table: cityFortificationTable, type: 'DERIVED', modifierKey: 'fortification' },
+        { key: 'marketSquare', title: 'its market square', table: cityMarketSquareTable, type: 'DERIVED', modifierKey: 'marketSquare' },
+        { key: 'vendorStallAcquisition', title: 'how vendor stalls are acquired', prompt: 'Select the vendor stall acquisition method:', table: cityVendorStallAcquisitionTable, type: 'CHOICE' },
+        { key: 'merchantOverflow', title: 'how excess vendors are handled', prompt: 'Select the merchant overflow rule:', table: cityMerchantOverflowTable, type: 'CHOICE' },
+        { key: 'undergroundPassages', title: 'its underground passages', prompt: 'Select the nature of its underground passages:', table: undergroundPassagesTable, type: 'CHOICE' },
+        { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details" },
+        { key: 'populationDensity', title: 'its population density', table: cityPopulationDensityTable, type: 'DERIVED', modifierKey: 'populationDensity' },
+        { key: 'populationWealth', title: 'its population wealth', table: cityPopulationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
+        { key: 'visitorTraffic', title: 'its visitor traffic', table: cityVisitorTrafficTable, type: 'DERIVED', modifierKey: 'visitorTraffic' },
+        { key: 'disposition', title: 'the disposition of the locals', table: dispositionTable, type: 'DERIVED', modifierKey: 'disposition' },
+        { key: 'nightActivity', title: 'its night activity', table: cityNightActivityTable, type: 'DERIVED', modifierKey: 'nightActivity' },
+        { key: 'leadership', title: 'its leadership', prompt: "Select the city's leadership:", table: cityLeadershipTable, type: 'CHOICE' },
+        { key: 'lawEnforcement', title: 'its law enforcement', table: cityLawEnforcementTable, type: 'DERIVED', modifierKey: 'lawEnforcement' },
+        { key: 'generalCrime', title: 'its general crime level', table: cityGeneralCrimeTable, type: 'DERIVED', modifierKey: 'crime' },
+        { key: 'organizedCrime', title: 'its organized crime presence', prompt: 'Select the nature of organized crime:', table: cityOrganizedCrimeTable, type: 'CHOICE', condition: (choices) => choices.leadership?.rules?.crime?.forceOrganizedCrime || choices.generalCrime?.rules?.crime?.hasOrganizedCrime },
+        { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Community" },
+        { key: 'districts', title: 'its districts', type: 'DISTRICTS' },
+        { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Districts" },
     ],
 };
 
@@ -853,6 +882,216 @@ const stepProcessors = {
         return { key: step.key, value: { shops: generatedShops, services: generatedServices } };
     },
 
+    OUTSIDE_THE_CITY: async (step, { choices, isAutoRolling }) => {
+        let numberOfRolls = 0;
+        const sizeName = choices.size.name;
+
+        if (isAutoRolling) {
+            numberOfRolls = step.countSource[sizeName] || 0;
+        } else {
+            const { count } = await inquirer.prompt([{
+                type: 'list',
+                name: 'count',
+                message: 'Select the number of rolls for features outside the city:',
+                choices: [
+                    { name: `5 rolls (Typical for ${chalk.bold('Very Small')} cities)`, value: 5 },
+                    { name: `4 rolls (Typical for ${chalk.bold('Small')} cities)`, value: 4 },
+                    { name: `3 rolls (Typical for ${chalk.bold('Medium')} cities)`, value: 3 },
+                    { name: `2 rolls (Typical for ${chalk.bold('Large')} cities)`, value: 2 },
+                    { name: `1 roll (Typical for ${chalk.bold('Very Large')} cities)`, value: 1 },
+                ],
+                loop: false,
+            }]);
+            numberOfRolls = count;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This city has ${chalk.white(numberOfRolls)} feature(s) outside its walls.`);
+
+        if (numberOfRolls === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const specialRules = choices.priority?.rules?.outsideTheCity;
+        const generatedFeatures = [];
+
+        for (let i = 0; i < numberOfRolls; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Outside Feature #${i + 1}...`));
+
+            let feature;
+            // Apply special rules ONLY for the first roll (i === 0)
+            if (i === 0 && specialRules) {
+                 if (isAutoRolling) {
+                    console.log(chalk.yellow(`      -> Applying 'Production' Priority rule to first roll...`));
+                    let roll;
+                    do {
+                        roll = rollDice(1, specialRules.diceOverride);
+                    } while (roll >= specialRules.rerollRange[0] && roll <= specialRules.rerollRange[1]);
+                    
+                    feature = step.table.find(item => roll >= item.min && roll <= item.max);
+                    if (feature) console.log(chalk.gray(`      (Rolled a ${roll} on a d${specialRules.diceOverride}, resulting in "${feature.name}")`));
+
+                 } else {
+                    console.log(chalk.yellow(`      -> NOTE: The 'Production' Priority suggests rolling a d10 and rerolling 1-4 for this first feature.`));
+                 }
+            }
+            
+            // If feature wasn't determined by a special rule, determine it now
+            if (!feature) {
+                 feature = isAutoRolling ? rollOnTable(step.table) : (await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select the feature for Outside Location #${i + 1}:`,
+                    choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                    loop: false, pageSize: 15,
+                }])).choice;
+            }
+            
+            if (feature && feature.name !== 'None') {
+                generatedFeatures.push(feature);
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.white(feature.name)}`);
+            } else {
+                 console.log(`      ${chalk.magenta('Type:')} ${chalk.gray(feature ? feature.name : 'Invalid Roll')} (No new feature added for this roll)`);
+            }
+        }
+
+        return { key: step.key, value: generatedFeatures };
+    },
+
+    DISTRICTS: async (step, { choices, modifiers, isAutoRolling }) => {
+        // 1. Determine number of districts
+        const numMod = modifiers.numberOfDistricts || 0;
+        let numResult;
+        if (isAutoRolling) {
+            const baseRoll = rollDice(1, 20);
+            const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
+            numResult = numberOfDistrictsTable.find(item => finalScore >= item.min && finalScore <= item.max);
+        } else {
+            console.log(chalk.gray(`  (Current modifier for this roll is ${numMod >= 0 ? '+' : ''}${numMod})`));
+            const answer = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the number of districts:',
+                choices: numberOfDistrictsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })),
+                loop: false,
+            }]);
+            numResult = answer.choice;
+        }
+        const totalDistricts = numResult.value;
+        console.log(`  ${chalk.magenta('Result:')} The city has ${chalk.white(totalDistricts)} districts.`);
+
+        // 2. Handle free/pre-determined districts
+        const generatedDistricts = [];
+        const freeDistrictName = choices.priority?.rules?.districts?.free || choices.leadership?.rules?.districts?.free;
+        if (freeDistrictName) {
+            const freeDistrictType = districtTypeTable.find(d => d.name === freeDistrictName);
+            if (freeDistrictType) {
+                generatedDistricts.push({ type: freeDistrictType });
+                console.log(chalk.yellow(`      -> Gained a free '${freeDistrictType.name}' district.`));
+            }
+        }
+        
+        // 3. Generate remaining districts
+        const remainingDistricts = totalDistricts - generatedDistricts.length;
+        const isWaterAdjacent = choices.environment?.name === 'Coastal' || choices.environment?.name === 'River';
+
+        for (let i = 0; i < remainingDistricts; i++) {
+             console.log(chalk.cyan(`\n    -> Generating District #${generatedDistricts.length + 1}...`));
+             let districtType;
+             do {
+                districtType = isAutoRolling ? rollOnTable(districtTypeTable) : (await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select the type for District #${generatedDistricts.length + 1}:`,
+                    choices: districtTypeTable.map(item => ({ 
+                        name: `[${item.dice}] ${chalk.bold(item.name)}`, 
+                        value: item,
+                        disabled: (item.name === 'Docks' && !isWaterAdjacent) ? 'City is not adjacent to water' : false
+                    })),
+                    loop: false,
+                }])).choice;
+
+                if (districtType.name === 'Docks' && !isWaterAdjacent && isAutoRolling) {
+                    console.log(chalk.yellow('      -> Rolled "Docks" but city is not near water. Rerolling...'));
+                    continue;
+                }
+                break;
+             } while (true);
+             generatedDistricts.push({ type: districtType });
+             console.log(`      ${chalk.magenta('Type:')} ${chalk.white(districtType.name)}`);
+        }
+
+        // 4. Determine details for each district
+        const conditionOrder = ['Squalid', 'Dilapidated', 'Decent', 'Impressive', 'Magnificent'];
+        const generalConditionIndex = conditionOrder.indexOf(choices.generalCondition.name);
+        const crimeOrder = ['Dangerous', 'Frequent', 'Common', 'Uncommon', 'Infrequent'];
+        const generalCrimeIndex = crimeOrder.indexOf(choices.generalCrime.name);
+
+        for (const district of generatedDistricts) {
+            console.log(chalk.cyan(`\n    -> Determining details for the ${chalk.bold(district.type.name)} district...`));
+            
+            // --- CONDITION ---
+            const baseCondMod = modifiers.districtCondition || 0;
+            const districtCondMod = district.type.modifiers?.districtCondition || 0;
+            const totalCondMod = baseCondMod + districtCondMod;
+
+            let conditionResult;
+            if (district.type.rules?.condition?.diceOverride && isAutoRolling) {
+                 console.log(chalk.yellow(`      -> Applying '${district.type.name}' special rule to condition roll...`));
+                 const specialRoll = rollDice(1, district.type.rules.condition.diceOverride);
+                 conditionResult = districtConditionTable.find(item => specialRoll >= item.min && specialRoll <= item.max);
+                 console.log(chalk.gray(`      (Rolled a ${specialRoll} on a d${district.type.rules.condition.diceOverride})`));
+            } else {
+                 const promptMessage = `Select condition for the ${district.type.name} district (Mod: ${totalCondMod >= 0 ? '+' : ''}${totalCondMod}):`;
+                 conditionResult = isAutoRolling 
+                    ? districtConditionTable.find(item => applyModifierAndClamp(rollDice(1, 20), totalCondMod, 1, 20) >= item.min && item.max)
+                    : (await inquirer.prompt([{ type: 'list', name: 'choice', message: promptMessage,
+                        choices: districtConditionTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })), loop: false }])).choice;
+            }
+            const finalCondIndex = applyModifierAndClamp(generalConditionIndex, conditionResult.step, 0, conditionOrder.length - 1);
+            district.condition = { name: conditionOrder[finalCondIndex], description: `(${conditionResult.name} relative to city)` };
+            console.log(`      ${chalk.magenta('Condition:')} ${chalk.white(district.condition.name)} ${chalk.gray(district.condition.description)}`);
+
+            // --- HOUSING ---
+            const isResidentialDistrict = district.type.name === 'Slums' || district.type.name === 'Upper Class';
+            let housingResult;
+            if(isAutoRolling) {
+                do {
+                    housingResult = rollOnTable(housingTable, 12);
+                } while (isResidentialDistrict && housingResult.name === 'None');
+            } else {
+                const answer = await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select housing level for the ${district.type.name} district:`,
+                    choices: housingTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item, disabled: isResidentialDistrict && item.name === 'None' ? 'This district must have housing' : false })), loop: false}]);
+                housingResult = answer.choice;
+            }
+            district.housing = housingResult;
+            console.log(`      ${chalk.magenta('Housing:')} ${chalk.white(district.housing.name)}`);
+
+            // --- ENTRY ---
+            const entryResult = isAutoRolling ? rollOnTable(districtEntryTable, 12) : (await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select entry for the ${district.type.name} district:`,
+                choices: districtEntryTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
+            district.entry = entryResult;
+            console.log(`      ${chalk.magenta('Entry:')} ${chalk.white(district.entry.name)}`);
+            
+            // --- CRIME ---
+            const condCrimeMod = districtConditionCrimeModifiers[district.condition.name] || 0;
+            const entryCrimeMod = district.entry.modifiers?.districtCrime || 0;
+            const totalCrimeMod = condCrimeMod + entryCrimeMod;
+
+            const crimePrompt = `Select crime level for the ${district.type.name} district (Mod: ${totalCrimeMod >= 0 ? '+' : ''}${totalCrimeMod}):`;
+            const crimeResult = isAutoRolling
+                ? districtCrimeTable.find(item => applyModifierAndClamp(rollDice(1, 20), totalCrimeMod, 1, 20) >= item.min && item.max)
+                : (await inquirer.prompt([{ type: 'list', name: 'choice', message: crimePrompt,
+                    choices: districtCrimeTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
+            
+            const finalCrimeIndex = applyModifierAndClamp(generalCrimeIndex, crimeResult.step, 0, crimeOrder.length - 1);
+            district.crime = { name: crimeOrder[finalCrimeIndex], description: `(${crimeResult.name} relative to city)` };
+            district.urbanEncounterModifier = crimeDegreesData[district.crime.name]?.urbanEncounter || 0;
+            console.log(`      ${chalk.magenta('Crime:')} ${chalk.white(district.crime.name)} ${chalk.gray(district.crime.description)}`);
+        
+            // --- NOTABLE LOCATIONS ---
+            const notableLocationsResult = isAutoRolling ? rollOnTable(districtNotableLocationsTable, 10) : (await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select number of notable locations for the ${district.type.name} district:`,
+                choices: districtNotableLocationsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
+            district.notableLocations = notableLocationsResult;
+            console.log(`      ${chalk.magenta('Notable Locations:')} ${chalk.white(district.notableLocations.name)}`);
+        }
+        
+        return { key: 'districts', value: generatedDistricts };
+    },
+
     NOTEWORTHY_OFFICIAL: async (step, { isAutoRolling }) => {
         console.log(chalk.cyan(`\n    -> Generating a Noteworthy Official...`));
 
@@ -912,9 +1151,18 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
                     console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.white(place.size.name)}`);
                     console.log(`    ${chalk.magenta('↳ Fervency:')} ${chalk.white(place.fervency.name)}`);
                 });
-            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources') {
+            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity') {
                  choice.forEach((place, index) => {
-                    console.log(`${chalk.green(`  - Location #${index + 1}:`)} ${chalk.white(place.name)}`);
+                    console.log(`${chalk.green(`  - Feature #${index + 1}:`)} ${chalk.white(place.name)}`);
+                });
+            } else if (key === 'districts') {
+                choice.forEach((district, index) => {
+                    console.log(`${chalk.green(`\n  - District #${index + 1}:`)} ${chalk.white(district.type.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Housing:')} ${chalk.white(district.housing.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Entry:')} ${chalk.white(district.entry.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Condition:')} ${chalk.white(district.condition.name)} ${chalk.gray(district.condition.description)}`);
+                    console.log(`    ${chalk.magenta('↳ Crime:')} ${chalk.white(district.crime.name)} ${chalk.gray(district.crime.description)}`);
+                    console.log(`    ${chalk.magenta('↳ Notable Locations:')} ${chalk.white(district.notableLocations.name)}`);
                 });
             } else if (key === 'nonCommercialLocations') {
                 choice.forEach((loc, index) => {
@@ -1024,10 +1272,19 @@ async function handleExport(choices, settlementName, freeLocations) {
                         content += `  - Fervency: ${place.fervency.name}\n`;
                         content += `    ${place.fervency.description}\n`;
                     });
-                } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources') {
+                } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity') {
                     choice.forEach((place, index) => {
-                        content += `- Location #${index + 1}: ${place.name}\n`;
+                        content += `- Feature #${index + 1}: ${place.name}\n`;
                         content += `  ${place.description}\n`;
+                    });
+                } else if (key === 'districts') {
+                     choice.forEach((district, index) => {
+                        content += `\n- District #${index + 1}: ${district.type.name}\n`;
+                        content += `  - Housing: ${district.housing.name}\n`;
+                        content += `  - Entry: ${district.entry.name}\n`;
+                        content += `  - Condition: ${district.condition.name} ${district.condition.description}\n`;
+                        content += `  - Crime: ${district.crime.name} ${district.crime.description}\n`;
+                        content += `  - Notable Locations: ${district.notableLocations.name}\n`;
                     });
                 } else if (key === 'nonCommercialLocations') {
                     choice.forEach((loc, index) => {
@@ -1111,8 +1368,9 @@ async function startAdventure(autoRollEnabled = false) {
     const freeLocations = [];
     const modifiers = { 
         visitorTraffic: 0, quality: 0, urbanEncounter: 0, prosperity: 0, // Shared
-        populationDensity: 0, hardshipLikelihood: 0, condition: 0, disposition: 0, crime: 0, dangerLevel: 0, // Village
-        fortification: 0, lawEnforcement: 0, marketSquare: 0, placeOfWorshipSize: 0, farmsAndResources: 0, defaultInnQuality: 0, populationOverflow: 0, nightActivity: 0, size: 0, populationWealth: 0, // Town
+        populationDensity: 0, hardshipLikelihood: 0, condition: 0, disposition: 0, crime: 0, dangerLevel: 0, // Village/Shared
+        fortification: 0, lawEnforcement: 0, marketSquare: 0, placeOfWorshipSize: 0, farmsAndResources: 0, defaultInnQuality: 0, populationOverflow: 0, nightActivity: 0, size: 0, populationWealth: 0, // Town/Shared
+        numberOfDistricts: 0, districtCondition: 0, districtCrime: 0, // City
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
