@@ -1,0 +1,23 @@
+Naming conventions:
+
+Ordon
+	Prefixes: Rust, Ash, Dun, Fen, Brume, Stow, Rote, Iron, Tarn, Verid, Sepul, Cind, Bal, Syd, Vir, Avis
+	Suffixes: wick, which, ton, ham, stead, bury, worth, ford, den, mere, hall, gate, ken, dale, locke, stoke, ing, wynn, lyn, os, an, rin, moor
+Frejord
+	Prefixes: Frost, Rime, Nagl, Helg, Val, Hjall, Hroth, Jarl, Bane, Gyrm, Stor, Kael, Varg, Skald, Grim, Arc, Seer, Must, Glac, Ald, Axe, Crag, Fjall, Sven, Brae
+	Suffixes: heim, gard, hald, hold, kairn, stead, moor, skir, fell, hall, skold, rune, glad, waker, sight, caller, star, wind, fjord, glen, drang, rift, garth, kyn, gar, bane, thane, heim, maul
+German
+	Prefixes: Ost, Graf, Helm, Mahl, Traun, Stern, Alp, Hegel, Von, Stad, Erl, Mark, Burg, Regi, Prag, Shah, Firuzeh, Khur, Pars, Khor, Anzar, Darya, Nargol, Sohr, Jinn, Rhein, Ard, Alta, Mihr, Frey, Ver, Zaar, Lau, Est
+	Suffixes: mann, furt, stein, stadt, hald, burg, zahn, zahn, krum, bruck, sach, shahr, istan, kash, amir, diza, zaal, berg, dorf, hof, au, kirch, thal, eck, velt, mar, haus, gilde, prinz, graf, rath, konig, fruh
+Isles
+	Prefixes: Areo, Vitra, Spiir, Naiad, Zola, Riza, Kal, Sha, Urith, Jesh, Szeth, Vargo, Vele, Te, Deva, Vyoma, Bhakti, Rani, Ashu, Gani, Reya, Vedia, Aet, Cael, Vis, Sol, Enya, Rhea, Nirva, Murdra
+	Suffixes: zhar, a'kai, tira, vyre, nath, syl, ae, laas, zeth, din, ah, luth, is, ri'im, ar, khel, vire, nami, shala, ananda, patam, avati, puri, desh, anar, uun, ara, ela, o, ya, lys ,lis, mar, shai
+Evil
+	Prefixes: Varr, Grave, Crypt, Eich, Visc, Sepul, Cor, Zell, Lich, Schwa, Grau, Hoch, Kruge, Falk, Strum, Kranz, Drach, Drampf, Mortis, Noctis, Strahd, Vlad, Lug, Ere, Vita, Karp, Crag, Mold, Tarn, Mist, Fen, Dread, Cob, Wold, harrow
+	Suffices: einwalde, thal, hof, bach, scu, grad, au, aich, gardge, ian, escu, wood, wold, kirk, shround, field, dale, bane, heart, vein, rot, stiff, fang
+Halingo
+	Prefixes: Dust, Spur, Slab, Grit, Cala, Sierra, Rio, Mes, Vero, Mesa, Vide, Lana, Ciel, Gunn, West, Hard, Wyatt, Galt, Holl, Caine, Hush, Bad, Sage, Ridge, Laram, Cros, Ford, Dead, Rani, Arida, Dune, Bleach, Sun, Cairn, Cros, Osiri, Sekk, Thau, Pharo
+	Suffixes:  gosa, ado, toro, vaca, luna, hand, pass, line, ino, cott, ley, low, sville, ford, ton, side, vale, stan, bar, rim, wahi, dune, shack, maw
+Japan
+	Prefixes: Ruri, Hino, Miya, Sato, Taki, Iwa, Iaw, Qin, Wei, Zhi, Sui, Ch'i, Sun, Xia, Xing, Gwang, Dae, Kyong, Sook, Hyang, Seul. Jeon, Ryu, Sin, Gan,  Moon, Lotus
+	Suffixes: shima, kawa, zaki, jo, hara, kuni, ya, long, shang, feng, dao, cheng, san, shian, tang, ri ,cheon, san , do, sa, ju, je, blade

@@ -1,15 +1,74 @@
 Hello, and thank you for using my program.
+This project started as a love for Spectacular Settlements but as I developed my project I realised there were balance issues I had with the suppliment.
+My changes are designed to create more oppertunities, fix anomalies without much feature bloat.
+
+For every removal or fix - I have explained my reasoning. You don't need to agree with all of my changes, but the idea is for you to
+understand WHY the changes are being implmented. A hyphon (-) indicates the gap between balance and my thoughts.
 
 
 Patch Notes:
 
 
 General:
+Changes:
 
-
-
-Regions:
-Ordon: Naming conventions: 
+Additions
 
 Trading Posts:
-- Politics are removed. 1/6th chance for being at peace isn't right.
+Changes:
+- Politics are removed - 1/6th chance for being at peace isn't right. The fact OTHER locations don't have this feature, but trading posts do too is illogical.
+
+
+Districts:
+Changes:
+- Swamp Environment now counts as adjacent to water (To impliment), allows for Docks District to be rolled - This is a case of fun > hard mechanics. You can justify a watery swamp having a dock. Removing the option entirely seems overkill.
+- Refined the quality table, rolls are now Poor, Fine, Good and Excellent - More range allows for more interesting results.
+
+Additions:
+
+
+
+Kurovia DLC:
+Kurovia DLC can be disabled in the settings menu. It adds specific functionality for Kurovia, my fantasy world.
+This program is designed to work with or without this. However, it does add quite a bit of content!
+If you are used to, and happy using this program as is, I recommend leaving this ON. 
+If you are having issues with the program content-wise, I recommend reading this document and then deciding if you prefer off or on.
+
+Changes:
+
+Additions:
+Rather than tying some districts to areas, and then some locations to areas but also districts, i've simplified the process by having region specific districts contain the region specific REGIONS as well. 
+Im aware this is an issue, and the workaround is simply too much effort. It essentially sextouples the codebase. 
+Ix-Tal is the exception to the rule BECAUSE they are so different from just the first choice. 
+
+- Added the Containment district (Unique to evil place and neighbouring country)
+- Added the Culture district
+- Added the Evericed district (Unique to Fjelford)
+- Added the Foreign Quarter district
+- Added the Sandport district (Unique to Halingo)
+- Added the Sepculchre district (Unique to Halingo and evil place)
+- Added the Steampunk district (Unique to Ordon)
+- Added the Transportation district 
+- Added the Undercity district
+
+- Added the 'Arena' Location (Found in the Undercity and Culture district.)
+- Added the 'Cult hideout' Location (Found in to Undercity and Sepculchre districts.)
+- Added the 'Ichor Refinery' Location (Unique to Sandport ditrict.)
+- Added the 'Labatory' Location (Found in the steampunk, undercity and containment districts.)
+- Added the 'Prosthetics Dealer' Location (Found in the steampunk, magical, undercity and education districts.)
+- Added the 'Rail Station' Location (Found in Steampunk, Sandport and Transportation districts.)
+- Added the 'Sky Station' Location (Found in Steampunk, Sandport and Transportation districts.)
+- Added the 'Prison' Location (Found in Containment, Administration and Sepculchre districts.)
+- Added 'Teleportation Hall' Location (Found in Transportation districts.)
+- Added the 'Ritual Site' Location (Found in Temple and Sepulchre districts.)
+
+Culture District:
+Structure follows normal 'District' style.
+- Cannot roll no living space
+- Added the Fairground Location
+- Added the Carnival Location
+- Added the Arena Location 
+- Added the Artist Location 
+- Added the Library/Archive Location 
+- Added the Bathhouse Service 
+- Added the 
