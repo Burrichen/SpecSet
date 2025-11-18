@@ -24,10 +24,6 @@ const magicShopSubTable = [
     { dice: 6, name: 'Magic Shop - Misc. & Curiosities' },
 ];
 
-// --- FIXED ---
-// The 'additionalLocationRollsCount' variable was used in SetGen.js but never defined.
-// It is now defined here as a map of city size to the number of rolls.
-// The unused 'additionalLocationRollsTable' has been removed for clarity.
 const additionalLocationRollsCount = {
     'Very Small': 1,
     'Small': 2,

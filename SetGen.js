@@ -4,11 +4,13 @@ import fs from 'fs/promises';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
-import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
+import { environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 import { townOriginsTable, townPriorityTable, magicShopSubTable, industrySubTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
-import { cityRecentHistoryTable, cityOfficialsTable, cityOfficialCompetenceTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable } from './city.js';
+// --- MODIFIED --- Cleaned up the import from city.js to remove the moved tables.
+import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable } from './city.js';
+import { capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable } from './capital.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -202,8 +204,16 @@ const settlementPaths = {
         { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Intrigue & Events" },
         { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: cityRecentHistoryTable, type: 'CHOICE' },
-        { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: cityOfficialsTable, subTable: cityOfficialCompetenceTable },
+        // --- MODIFIED --- Corrected the table references to the shared tables.
+        { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: officialsTable, subTable: officialCompetenceTable },
         { key: 'beneathTheSurface', title: 'something beneath the surface', type: 'BENEATH_THE_SURFACE', table: beneathTheSurfaceTable, subTable: beneathTheSurfaceAwarenessTable },
+    ],
+    'Capital': [
+        { key: 'origin', title: "its origin", prompt: "Select the capital's origin:", table: capitalOriginsTable, type: 'CHOICE' },
+        { key: 'age', title: "its age", prompt: "Select the capital's age:", table: capitalAgeTable, type: 'CHOICE' },
+        { key: 'size', title: "its size", prompt: "Select the capital's size:", table: capitalSizeTable, type: 'CHOICE' },
+        { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
+        { key: 'outsideTheCapital', title: 'features outside the capital', type: 'SUB_ROLL_MULTIPLE', countSource: outsideTheCapitalCountData, table: outsideTheCapitalTable },
     ],
 };
 // --- STEP PROCESSORS ---
@@ -1308,6 +1318,65 @@ const stepProcessors = {
         console.log(`      ${chalk.magenta('Awareness:')} ${chalk.white(awareness.name)}`);
 
         return { key: step.key, value: { intrigue, awareness } };
+    },
+
+    SUB_ROLL_MULTIPLE: async (step, { choices, isAutoRolling }) => {
+        let numberOfRolls = 0;
+        const sizeName = choices.size.name;
+
+        if (isAutoRolling) {
+            numberOfRolls = step.countSource[sizeName] || 0;
+        } else {
+            const sizeChoices = Object.keys(step.countSource).map(key => ({
+                name: `${step.countSource[key]} roll(s) (Typical for ${chalk.bold(key)} capitals)`,
+                value: step.countSource[key]
+            }));
+            const { count } = await inquirer.prompt([{
+                type: 'list',
+                name: 'count',
+                message: 'Select the number of rolls for features outside the capital:',
+                choices: sizeChoices,
+                loop: false,
+            }]);
+            numberOfRolls = count;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This capital has ${chalk.white(numberOfRolls)} feature(s) outside its walls.`);
+
+        if (numberOfRolls === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const generatedFeatures = [];
+        for (let i = 0; i < numberOfRolls; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Outside Feature #${i + 1}...`));
+
+            let feature = isAutoRolling ? rollOnTable(step.table) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: `Select the feature for Outside Location #${i + 1}:`,
+                choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                loop: false, pageSize: 15,
+            }])).choice;
+            
+            if (feature && feature.subTable) {
+                console.log(chalk.cyan(`      -> Sub-roll required for "${feature.name}"...`));
+                const subRoll = isAutoRolling ? rollOnTable(feature.subTable, feature.subTableDice) : (await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the sub-option:',
+                    choices: feature.subTable.map(item => ({ name: `[${item.min}-${item.max}] ${item.text}`, value: item })),
+                    loop: false
+                }])).choice;
+
+                feature = { ...feature, name: `${feature.name} (${subRoll.text})` };
+            }
+
+            if (feature && feature.name !== 'None') {
+                generatedFeatures.push(feature);
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.white(feature.name)}`);
+            } else {
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.gray(feature ? feature.name : 'Invalid Roll')} (No new feature added for this roll)`);
+            }
+        }
+
+        return { key: step.key, value: generatedFeatures };
     }
 };
 
@@ -1349,7 +1418,7 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
                     console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.white(place.size.name)}`);
                     console.log(`    ${chalk.magenta('↳ Fervency:')} ${chalk.white(place.fervency.name)}`);
                 });
-            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity') {
+            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity' || key === 'outsideTheCapital') {
                  choice.forEach((place, index) => {
                     console.log(`${chalk.green(`  - Feature #${index + 1}:`)} ${chalk.white(place.name)}`);
                 });
@@ -1452,27 +1521,23 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
     console.log(chalk.bold.yellow('\n================================'));
 }
 
-// --- NEW --- This helper function removes chalk's ANSI escape codes for clean text output.
 function stripChalk(str) {
     if (typeof str !== 'string') return str;
     return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 }
 
-// --- NEW --- This function formats the entire 'choices' object into a readable string for a .txt file.
 function formatForTxt(choices, settlementName) {
     let output = '';
     const nl = '\n';
     const dbl_nl = '\n\n';
 
-    // Header
     output += '================================' + nl;
     output += `   ${settlementName}   ` + nl;
     output += '================================' + dbl_nl;
     output += `Type: ${choices.type.name}` + dbl_nl;
 
-    // Main content loop
     for (const key in choices) {
-        if (key === 'type' || key === 'nonCommercialTypes') continue; // Skip handled/internal keys
+        if (key === 'type' || key === 'nonCommercialTypes') continue;
         const choice = choices[key];
         if (!choice) continue;
 
@@ -1545,7 +1610,6 @@ function formatForTxt(choices, settlementName) {
     return stripChalk(output);
 }
 
-// --- MODIFIED --- This function now saves a formatted .txt file instead of a .json file.
 async function handleExport(choices, settlementName) {
     const { shouldExport } = await inquirer.prompt([{
         type: 'confirm',
@@ -1607,7 +1671,9 @@ async function startAdventure(autoRollEnabled = false) {
                 choices[result.key] = result.value;
                 if (result.value && result.value.modifiers) {
                     for (const key in result.value.modifiers) {
-                        if (modifiers.hasOwnProperty(key)) modifiers[key] += result.value.modifiers[key];
+                        if (modifiers.hasOwnProperty(key)) {
+                            modifiers[key] += result.value.modifiers[key];
+                        }
                     }
                 }
                 if (result.rollDetail) rollDetails[result.key] = result.rollDetail;
@@ -1619,7 +1685,6 @@ async function startAdventure(autoRollEnabled = false) {
 
     const settlementName = generateSettlementName();
     displaySummary(choices, settlementName, rollDetails, modifiers, freeLocations);
-    // --- MODIFIED --- The call to handleExport no longer needs the 'freeLocations' parameter.
     await handleExport(choices, settlementName);
 }
 
