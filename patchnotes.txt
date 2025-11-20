@@ -24,6 +24,13 @@ Changes:
 - Swamp Environment now counts as adjacent to water (To impliment), allows for Docks District to be rolled - This is a case of fun > hard mechanics. You can justify a watery swamp having a dock. Removing the option entirely seems overkill.
 - Refined the quality table, rolls are now Poor, Fine, Good and Excellent - More range allows for more interesting results.
 
+
+
+Capital:
+- Removed connections. - It's too thin to give content and it's directionless. You learn nothing other than it has some friends or some enemies.
+
+
+
 Additions:
 
 

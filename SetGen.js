@@ -8,9 +8,20 @@ import { environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, 
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 import { townOriginsTable, townPriorityTable, magicShopSubTable, industrySubTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
-// --- MODIFIED --- Cleaned up the import from city.js to remove the moved tables.
 import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable } from './city.js';
-import { capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable } from './capital.js';
+import { 
+    capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable, 
+    capitalStewardshipTable, capitalGeneralConditionTable, capitalFortificationTable, capitalMarketSquareTable, 
+    capitalVendorStallAcquisitionTable, capitalMerchantOverflowTable, capitalUndergroundPassagesTable, 
+    capitalLeadershipTable, capitalUnityTable, capitalPriorityTable, capitalPriorityApproachTable, 
+    capitalPrioritySuccessTable, capitalLifestyleTable, capitalResidenceTable, capitalIntentTable,
+    capitalSpyNetworkTable, capitalInfiltrationDepthTable, capitalCounterintelligenceTable, 
+    capitalCounterintelligenceWatchfulnessTable, capitalNotableVisitorCountTable, capitalVisitorRoleTable, 
+    capitalVisitorReasonTable,
+    capitalMilitaryForceTable, capitalMilitaryStandingTable, capitalMilitaryRecruitmentTable,
+    capitalMilitarySizeTable, capitalMilitarySpecializationTable, capitalMilitaryFacilitiesTable,
+    capitalNobilityTypeTable, capitalNobilityRelationTable, capitalNobleCountTable
+} from './capital.js';
 
 // --- HELPER FUNCTIONS ---
 
@@ -204,7 +215,6 @@ const settlementPaths = {
         { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Intrigue & Events" },
         { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: cityRecentHistoryTable, type: 'CHOICE' },
-        // --- MODIFIED --- Corrected the table references to the shared tables.
         { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: officialsTable, subTable: officialCompetenceTable },
         { key: 'beneathTheSurface', title: 'something beneath the surface', type: 'BENEATH_THE_SURFACE', table: beneathTheSurfaceTable, subTable: beneathTheSurfaceAwarenessTable },
     ],
@@ -214,6 +224,38 @@ const settlementPaths = {
         { key: 'size', title: "its size", prompt: "Select the capital's size:", table: capitalSizeTable, type: 'CHOICE' },
         { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
         { key: 'outsideTheCapital', title: 'features outside the capital', type: 'SUB_ROLL_MULTIPLE', countSource: outsideTheCapitalCountData, table: outsideTheCapitalTable },
+        { key: 'stewardship', title: "its stewardship", prompt: "Select the capital's stewardship:", table: capitalStewardshipTable, type: 'CHOICE' },
+        { key: 'generalCondition', title: "its general condition", table: capitalGeneralConditionTable, type: 'DERIVED', modifierKey: 'condition' },
+        { key: 'fortification', title: 'its fortifications', table: capitalFortificationTable, type: 'DERIVED', modifierKey: 'fortification' },
+        { key: 'marketSquare', title: 'its market square', table: capitalMarketSquareTable, type: 'DERIVED', modifierKey: 'marketSquare' },
+        { key: 'vendorStallAcquisition', title: 'how vendor stalls are acquired', prompt: 'Select the vendor stall acquisition method:', table: capitalVendorStallAcquisitionTable, type: 'CHOICE' },
+        { key: 'merchantOverflow', title: 'how excess vendors are handled', prompt: 'Select the merchant overflow rule:', table: capitalMerchantOverflowTable, type: 'CHOICE' },
+        { key: 'undergroundPassages', title: 'its underground passages', prompt: 'Select the nature of its underground passages:', table: capitalUndergroundPassagesTable, type: 'CHOICE' },
+        { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details" },
+        { key: 'leadership', title: "its leadership", prompt: "Select the capital's leadership:", table: capitalLeadershipTable, type: 'CHOICE' },
+        { key: 'leadershipUnity', title: "the unity of the leadership", prompt: "Select the leadership's unity:", table: capitalUnityTable, type: 'CHOICE' },
+        { key: 'governingPriority', title: "its governing priority", prompt: "Select the governing priority:", table: capitalPriorityTable, type: 'CHOICE' },
+        { key: 'priorityApproach', title: "its priority approach", prompt: "Select the priority approach:", table: capitalPriorityApproachTable, type: 'CHOICE' },
+        { key: 'prioritySuccess', title: "its priority success", prompt: "Select the priority success:", table: capitalPrioritySuccessTable, type: 'CHOICE' },
+        { key: 'numberOfLeaders', title: "the number of leaders", type: 'NUMBER_OF_LEADERS' },
+        { key: 'leaderDetails', title: "details for each leader", type: 'LEADER_DETAILS' },
+        { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Government & Society" },
+        { key: 'spyNetwork', title: "its spy network size", prompt: "Select the spy network size:", table: capitalSpyNetworkTable, type: 'CHOICE' },
+        { key: 'infiltrationDepth', title: "its infiltration depth", prompt: "Select the infiltration depth:", table: capitalInfiltrationDepthTable, type: 'CHOICE', condition: (choices) => choices.spyNetwork?.name !== 'None' },
+        { key: 'counterintelligence', title: "its counterintelligence", prompt: "Select the counterintelligence level:", table: capitalCounterintelligenceTable, type: 'CHOICE' },
+        { key: 'counterintelligenceWatchfulness', title: "its counterintelligence watchfulness", prompt: "Select the counterintelligence watchfulness:", table: capitalCounterintelligenceWatchfulnessTable, type: 'CHOICE', condition: (choices) => choices.counterintelligence?.name !== 'None' },
+        { key: 'notableVisitors', title: "its notable visitors", type: 'NOTABLE_VISITORS', countTable: capitalNotableVisitorCountTable, roleTable: capitalVisitorRoleTable, reasonTable: capitalVisitorReasonTable },
+        { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Military" },
+        { key: 'militaryForce', title: "military presence", table: capitalMilitaryForceTable, type: 'DERIVED', modifierKey: 'militaryForce' },
+        { key: 'militaryStanding', title: "military standing", table: capitalMilitaryStandingTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militaryRecruitment', title: "military recruitment", prompt: "Select the recruitment type:", table: capitalMilitaryRecruitmentTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militarySize', title: "size of the force", table: capitalMilitarySizeTable, type: 'DERIVED', modifierKey: 'militaryForce' /* Reusing modifier key if needed, or add new logic */, condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militarySpecialization', title: "military specialization", prompt: "Select the military specialization:", table: capitalMilitarySpecializationTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militaryFacilities', title: "military facilities", prompt: "Select the military facilities:", table: capitalMilitaryFacilitiesTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Nobility" },
+        { key: 'nobilityType', title: "type of nobility", prompt: "Select the type of nobility:", table: capitalNobilityTypeTable, type: 'CHOICE' },
+        { key: 'nobilityRelation', title: "nobility's relationship to leadership", table: capitalNobilityRelationTable, type: 'DERIVED', modifierKey: 'nobilityRelation' },
+        { key: 'nobilityCounts', title: "nobility counts", type: 'NOBILITY_COUNTS', table: capitalNobleCountTable },
     ],
 };
 // --- STEP PROCESSORS ---
@@ -239,12 +281,26 @@ const stepProcessors = {
                     loop: false, pageSize: 15,
                 }])).choice;
             
+            if (!choice) {
+                if (isAutoRolling) continue; 
+            }
+
             if (step.key === 'recentHistory' && choice.name === 'Reroll') {
                 if (isAutoRolling) {
                     console.log(chalk.yellow(`      -> Rolled "Reroll". Rerolling recent history...`));
                     continue;
                 } else {
                     console.log(chalk.yellow(`      -> Please select another event.`));
+                    continue;
+                }
+            }
+
+            if (step.key === 'counterintelligence' && choices.governingPriority?.name === 'Cloak & Dagger' && choice.name === 'None') {
+                 if (isAutoRolling) {
+                    console.log(chalk.yellow(`      -> Rolled "None" but "Cloak & Dagger" priority is active. Rerolling...`));
+                    continue;
+                } else {
+                    console.log(chalk.yellow(`      -> "Cloak & Dagger" priority prevents selecting "None". Please choose another option.`));
                     continue;
                 }
             }
@@ -268,7 +324,7 @@ const stepProcessors = {
         
         console.log(`  ${chalk.magenta('Result:')} ${chalk.white(choice.name)}`);
         
-        if (choice.rules?.farmsAndResources && !isAutoRolling) {
+        if (choice && choice.rules?.farmsAndResources && !isAutoRolling) {
              console.log(chalk.yellow(`      -> NOTE: This specialty requires a reroll on the Farms & Resources table if the result is 1-8.`));
         }
 
@@ -1377,6 +1433,214 @@ const stepProcessors = {
         }
 
         return { key: step.key, value: generatedFeatures };
+    },
+
+    NUMBER_OF_LEADERS: async (step, { isAutoRolling }) => {
+        let numberOfLeaders;
+
+        const weightedRoll = () => {
+            const roll = Math.random() * 100;
+            if (roll < 5) return 1;        
+            if (roll < 15) return 2;       
+            if (roll < 35) return 3;       
+            if (roll < 55) return 4;       
+            if (roll < 75) return 5;       
+            if (roll < 85) return 6;       
+            if (roll < 90) return 7;       
+            if (roll < 95) return 8;       
+            return 9;                      
+        };
+
+        if (isAutoRolling) {
+            numberOfLeaders = weightedRoll();
+        } else {
+            const { choiceMethod } = await inquirer.prompt([{
+                type: 'list', name: 'choiceMethod', message: 'How would you like to determine the number of leaders?',
+                choices: ['Auto-Roll (Weighted)', 'Manual Selection'], loop: false
+            }]);
+
+            if (choiceMethod === 'Auto-Roll (Weighted)') {
+                numberOfLeaders = weightedRoll();
+            } else {
+                const { count } = await inquirer.prompt([{
+                    type: 'list', name: 'count', message: 'Select the number of leaders:',
+                    choices: Array.from({ length: 9 }, (_, i) => i + 1), loop: false
+                }]);
+                numberOfLeaders = count;
+            }
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} The capital has ${chalk.white(numberOfLeaders)} leader(s).`);
+        return { key: step.key, value: numberOfLeaders };
+    },
+
+    LEADER_DETAILS: async (step, { choices, isAutoRolling }) => {
+        const count = choices.numberOfLeaders;
+        const leaders = [];
+
+        console.log(chalk.bold.cyan(`\n--- Generating Details for ${count} Leader(s) ---`));
+
+        for (let i = 1; i <= count; i++) {
+            console.log(chalk.cyan(`\n  -> Leader #${i}...`));
+
+            let lifestyle;
+            if (isAutoRolling) {
+                lifestyle = rollOnTable(capitalLifestyleTable);
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select lifestyle for Leader #${i}:`,
+                    choices: capitalLifestyleTable.map(item => ({
+                        name: `[${item.min}-${item.max || item.min}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                lifestyle = choice;
+            }
+            console.log(`      ${chalk.magenta('Lifestyle:')} ${chalk.white(lifestyle.name)}`);
+
+            let residence;
+            const resMod = lifestyle.modifiers?.residence || 0;
+            if (isAutoRolling) {
+                const baseRoll = rollDice(1, 10);
+                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, 10);
+                residence = capitalResidenceTable.find(item => item.dice === finalScore);
+                console.log(`      ${chalk.magenta('Residence:')} ${chalk.white(residence.name)} ${chalk.gray(`(Rolled ${baseRoll}, Mod ${resMod >= 0 ? '+' : ''}${resMod})`)}`);
+            } else {
+                console.log(chalk.gray(`      (Residence modifier from lifestyle: ${resMod >= 0 ? '+' : ''}${resMod})`));
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select residence for Leader #${i}:`,
+                    choices: capitalResidenceTable.map(item => ({
+                        name: `[${item.dice}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                residence = choice;
+            }
+
+            let intent;
+            if (isAutoRolling) {
+                intent = rollOnTable(capitalIntentTable);
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select intent for Leader #${i}:`,
+                    choices: capitalIntentTable.map(item => ({
+                        name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                intent = choice;
+            }
+            console.log(`      ${chalk.magenta('Intent:')} ${chalk.white(intent.name)}`);
+
+            leaders.push({
+                id: i,
+                lifestyle: lifestyle,
+                residence: residence,
+                intent: intent
+            });
+        }
+
+        return { key: step.key, value: leaders };
+    },
+
+    NOTABLE_VISITORS: async (step, { isAutoRolling }) => {
+        console.log(chalk.cyan(`\n    -> Determining Notable Visitors...`));
+
+        // 1. Count
+        let count;
+        if (isAutoRolling) {
+            count = rollOnTable(step.countTable, 4).value;
+        } else {
+            const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the number of notable visitors:',
+                choices: step.countTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item.value })),
+                loop: false
+            }]);
+            count = choice;
+        }
+        console.log(`      ${chalk.magenta('Number of Visitors:')} ${chalk.white(count)}`);
+
+        if (count === 0) return { key: step.key, value: [] };
+
+        // 2. Details for each visitor
+        const visitors = [];
+        for (let i = 1; i <= count; i++) {
+            console.log(chalk.cyan(`      -> Generating Visitor #${i}...`));
+            
+            let role, reason;
+            if (isAutoRolling) {
+                role = rollOnTable(step.roleTable, 20);
+                reason = rollOnTable(step.reasonTable, 20);
+            } else {
+                const roleChoice = await inquirer.prompt([{
+                    type: 'list', name: 'role', message: `Select role for Visitor #${i}:`,
+                    choices: step.roleTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item })),
+                    loop: false, pageSize: 10
+                }]);
+                role = roleChoice.role;
+
+                const reasonChoice = await inquirer.prompt([{
+                    type: 'list', name: 'reason', message: `Select reason for Visitor #${i}:`,
+                    choices: step.reasonTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item })),
+                    loop: false, pageSize: 10
+                }]);
+                reason = reasonChoice.reason;
+            }
+
+            console.log(`        ${chalk.magenta('Role:')} ${chalk.white(role.name)}`);
+            console.log(`        ${chalk.magenta('Reason:')} ${chalk.white(reason.name)}`);
+
+            visitors.push({ id: i, role, reason });
+        }
+
+        return { key: step.key, value: visitors };
+    },
+
+    NOBILITY_COUNTS: async (step, { isAutoRolling }) => {
+        console.log(chalk.bold.cyan(`\n    -> Determining Nobility Counts...`));
+        
+        // 1. Primary Nobles
+        let primaryCount;
+        if (isAutoRolling) {
+            primaryCount = rollOnTable(step.table, 20).value;
+        } else {
+            const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the number of Primary Nobles:',
+                choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}`, value: item.value })),
+                loop: false
+            }]);
+            primaryCount = choice;
+        }
+        console.log(`      ${chalk.magenta('Primary Nobles:')} ${chalk.white(primaryCount)}`);
+
+        // 2. Lesser Nobles
+        let lesserCount = 0;
+        let generateLesser = isAutoRolling; 
+
+        if (!isAutoRolling) {
+             const { confirm } = await inquirer.prompt([{
+                type: 'confirm', name: 'confirm', message: 'Do you want to generate Lesser Nobles as well?', default: true
+            }]);
+            generateLesser = confirm;
+        }
+
+        if (generateLesser) {
+            if (isAutoRolling) {
+                lesserCount = rollOnTable(step.table, 20).value;
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the number of Lesser Nobles:',
+                    choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}`, value: item.value })),
+                    loop: false
+                }]);
+                lesserCount = choice;
+            }
+            console.log(`      ${chalk.magenta('Lesser Nobles:')} ${chalk.white(lesserCount)}`);
+        } else {
+            console.log(chalk.gray(`      (Skipping Lesser Nobles generation)`));
+        }
+
+        return { key: step.key, value: { primary: primaryCount, lesser: lesserCount } };
     }
 };
 
@@ -1391,10 +1655,30 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
     console.log(`${chalk.bold.cyan('Type:')} ${chalk.white(choices.type.name)}`);
 
     for (const key in choices) {
-        if (key === 'type' || key === 'nonCommercialTypes') continue;
+        if (key === 'type' || key === 'nonCommercialTypes' || key === 'numberOfLeaders') continue;
         const choice = choices[key];
         const keyName = formatKeyName(key);
         if (Array.isArray(choice)) {
+            if (key === 'leaderDetails') {
+                console.log(chalk.bold.cyan(`\n--- Government Officials (${choice.length}) ---`));
+                choice.forEach(leader => {
+                    console.log(chalk.green(`  - Leader #${leader.id}:`));
+                    console.log(`    ${chalk.magenta('↳ Lifestyle:')} ${chalk.white(leader.lifestyle.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Residence:')} ${chalk.white(leader.residence.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Intent:')} ${chalk.white(leader.intent.name)}`);
+                });
+                continue;
+            }
+            if (key === 'notableVisitors') {
+                console.log(chalk.bold.cyan(`\n--- Notable Visitors (${choice.length}) ---`));
+                choice.forEach(visitor => {
+                    console.log(chalk.green(`  - Visitor #${visitor.id}:`));
+                    console.log(`    ${chalk.magenta('↳ Role:')} ${chalk.white(visitor.role.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Reason:')} ${chalk.white(visitor.reason.name)}`);
+                });
+                continue;
+            }
+
             console.log(chalk.bold.cyan(`\n--- ${keyName} ---`));
             if (choice.length === 0) {
                 console.log(chalk.gray('  (None)'));
@@ -1489,6 +1773,14 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
             console.log(chalk.bold.cyan(`\n--- Beneath The Surface ---`));
             console.log(`  ${chalk.cyan('Intrigue:')} ${chalk.white(choice.intrigue.name)}`);
             console.log(`  ${chalk.cyan('Public Awareness:')} ${chalk.white(choice.awareness.name)}`);
+        } else if (key === 'nobilityCounts') {
+            console.log(chalk.bold.cyan(`\n--- Nobility Counts ---`));
+            console.log(`  ${chalk.cyan('Primary Nobles:')} ${chalk.white(choice.primary)}`);
+            if (choice.lesser > 0) {
+                console.log(`  ${chalk.cyan('Lesser Nobles:')} ${chalk.white(choice.lesser)}`);
+            } else {
+                console.log(chalk.gray(`  (No Lesser Nobles generated)`));
+            }
         } else if (choice && choice.name) {
             console.log(`${chalk.bold.cyan(keyName + ':')} ${chalk.white(choice.name)}`);
             if(choice.subChoice) {
@@ -1537,7 +1829,7 @@ function formatForTxt(choices, settlementName) {
     output += `Type: ${choices.type.name}` + dbl_nl;
 
     for (const key in choices) {
-        if (key === 'type' || key === 'nonCommercialTypes') continue;
+        if (key === 'type' || key === 'nonCommercialTypes' || key === 'numberOfLeaders') continue;
         const choice = choices[key];
         if (!choice) continue;
 
@@ -1570,6 +1862,23 @@ function formatForTxt(choices, settlementName) {
                         output += nl;
                     });
                     break;
+                case 'leaderDetails':
+                    choice.forEach(leader => {
+                        output += `Leader #${leader.id}:` + nl;
+                        output += `  Lifestyle: ${leader.lifestyle.name} - ${leader.lifestyle.description}` + nl;
+                        output += `  Residence: ${leader.residence.name} - ${leader.residence.description}` + nl;
+                        output += `  Intent: ${leader.intent.name} - ${leader.intent.description}` + nl;
+                        output += nl;
+                    });
+                    break;
+                case 'notableVisitors':
+                    choice.forEach(visitor => {
+                        output += `Visitor #${visitor.id}:` + nl;
+                        output += `  Role: ${visitor.role.name}` + nl;
+                        output += `  Reason: ${visitor.reason.name} - ${visitor.reason.description}` + nl;
+                        output += nl;
+                    });
+                    break;
                 default:
                     choice.forEach(item => {
                         const mainItem = item.item || item;
@@ -1588,6 +1897,11 @@ function formatForTxt(choices, settlementName) {
                 case 'beneathTheSurface':
                     output += `Intrigue: ${choice.intrigue.name}` + nl + `  ${choice.intrigue.description}` + nl;
                     output += `Awareness: ${choice.awareness.name}` + nl + `  ${choice.awareness.description}` + dbl_nl;
+                    break;
+                case 'nobilityCounts':
+                    output += `Primary Nobles: ${choice.primary}` + nl;
+                    if (choice.lesser > 0) output += `Lesser Nobles: ${choice.lesser}` + nl;
+                    output += dbl_nl;
                     break;
                 case 'commercialLocations':
                     output += 'Shops:' + nl;
@@ -1640,6 +1954,8 @@ async function startAdventure(autoRollEnabled = false) {
         populationDensity: 0, hardshipLikelihood: 0, condition: 0, disposition: 0, crime: 0, dangerLevel: 0, // Village/Shared
         fortification: 0, lawEnforcement: 0, marketSquare: 0, placeOfWorshipSize: 0, farmsAndResources: 0, defaultInnQuality: 0, populationOverflow: 0, nightActivity: 0, size: 0, populationWealth: 0, // Town/Shared
         numberOfDistricts: 0, districtCondition: 0, districtCrime: 0, // City
+        militaryForce: 0, // Capital
+        nobilityRelation: 0, // Capital Nobility
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
