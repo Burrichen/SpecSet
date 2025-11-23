@@ -285,7 +285,6 @@ const capitalVisitorReasonTable = [
     { dice: 20, name: 'On the Hunt', description: 'They are in pursuit of someone or something.' }
 ];
 
-// --- MILITARY TABLES (Keep these from previous step) ---
 const capitalMilitaryForceTable = [
     { min: 1, max: 2, name: 'No', description: 'The capital does not employ its own military force.', hasMilitary: false },
     { min: 3, max: 6, name: 'Yes', description: 'The capital has some kind of military force.', hasMilitary: true }
@@ -337,8 +336,6 @@ const capitalMilitaryFacilitiesTable = [
     { dice: 6, name: 'Robust Structures Inside the Capital', description: 'Extremely well-equipped and outfitted barracks facilities. Training grounds are expansive.' }
 ];
 
-// --- NOBILITY TABLES ---
-
 const capitalNobilityTypeTable = [
     { dice: 1, name: 'Egalitarian', description: 'The nobility is comprised of self-made people. Theoretically, anyone could attain this degree of nobility.' },
     { dice: 2, name: 'Blood', description: 'Title and status are hereditary, passed down by birth or through marriage.' },
@@ -368,8 +365,155 @@ const capitalNobleCountTable = [
     { min: 20, max: 20, name: '9 Nobles', value: 9 }
 ];
 
+const capitalNobilityPeopleRelationTable = [
+    { min: 1, max: 1, name: 'Awful', description: 'Hatred is almost universally shared. Relations are so poor that lethal brawls can break out.', isPositive: false },
+    { min: 2, max: 3, name: 'Very Bad', description: 'Tension is high, and bad feelings run deep. Dealings usually result in harsh words.', isPositive: false },
+    { min: 4, max: 8, name: 'Bad', description: 'Dislike is pervasive. Dealings usually result in mutterings and barely-concealed curses.', isPositive: false },
+    { min: 9, max: 13, name: 'Tepid', description: 'Both classes feel ambivalent towards one another. Nobles and commoners generally keep out of each other\'s way.', isPositive: true },
+    { min: 14, max: 17, name: 'Good', description: 'Relations are generally friendly. When a noble and commoner pass in the street, a nod or tip of the hat is typical.', isPositive: true },
+    { min: 18, max: 19, name: 'Very Good', description: 'The relationship between the two classes is very positive. The two classes greet each other warmly.', isPositive: true },
+    { min: 20, max: 20, name: 'Incredible', description: 'The two classes don\'t view each other as fundamentally different, but as parts of a single whole.', isPositive: true }
+];
+
+const capitalNobilityRootTable = [
+    { 
+        min: 1, max: 2, name: 'Hardship', 
+        positive: '...are sharing in the hardship, or are actively working to ease the burden on the common folk.',
+        negative: '...are not enduring the same hardship as the common folk, and/or are looking after their own interests.'
+    },
+    { 
+        min: 3, max: 4, name: 'Resources', 
+        positive: '...take an appropriate share of resources, and give charitably when able. (+2 to population wealth)',
+        negative: '...do not distribute resources fairly, prioritizing plenty for themselves. (-2 to population wealth)',
+        modifiers: { positive: { populationWealth: 2 }, negative: { populationWealth: -2 } }
+    },
+    { 
+        min: 5, max: 6, name: 'Manipulation', 
+        positive: '...the capital\'s interests.',
+        negative: '...their own interests.',
+        description: 'An individual or group has orchestrated the sentiment between the two classes. The manipulator is looking out for...' 
+    },
+    { 
+        min: 7, max: 8, name: 'Opinion of Leadership', 
+        positive: '...agree.',
+        negative: '...disagree.',
+        description: 'When it comes to their opinion of the leadership, both sides...' 
+    },
+    { 
+        min: 9, max: 10, name: 'Leadership Treatment', 
+        positive: '...equally.',
+        negative: '...differently.',
+        description: 'The leadership treats the people and the nobility...' 
+    },
+];
+
+const capitalPopulationDensityTable = [
+    { min: 1, max: 2, name: 'Skeleton', description: 'The capital only has enough people to function at its most basic level.', modifiers: { nightActivity: -2 } },
+    { min: 3, max: 6, name: 'Sparse', description: 'Folk live in the capital, but it would never be called bustling.', modifiers: { nightActivity: -1 } },
+    { min: 7, max: 14, name: 'Populous', description: 'A moderate amount of people live in the capital. Walking through the streets, you will see plenty of people.', modifiers: { nightActivity: 0 } },
+    { min: 15, max: 18, name: 'Dense', description: 'There is a large amount of people living in the capital. There are few, if any, vacant buildings.', modifiers: { nightActivity: 1 } },
+    { min: 19, max: 20, name: 'Crowded', description: 'The capital is filled with jostling throngs. Practically all structures are occupied.', modifiers: { nightActivity: 2 } },
+];
+
+const capitalPopulationWealthTable = [
+    { min: 1, max: 2, name: 'Destitute', description: 'Nearly everyone in the capital consistently lacks the barest essentials of what they need to survive.', modifiers: { crime: -2 } },
+    { min: 3, max: 6, name: 'Impoverished', description: 'Around half of the capital struggles to carve out even a meager existence.', modifiers: { crime: -1 } },
+    { min: 7, max: 14, name: 'Average', description: 'Most of the capital’s population have enough to live a modest life.', modifiers: { crime: 0 } },
+    { min: 15, max: 17, name: 'Prosperous', description: 'The majority have enough to live a good life and, of them, a fair amount can even live comfortably.', modifiers: { crime: -1 } },
+    { min: 18, max: 19, name: 'Wealthy', description: 'Nearly everyone has what they need to live comfortably, many are able to live well, and some are very prosperous.', modifiers: { crime: -2 } },
+    { min: 20, max: 20, name: 'Affluent', description: 'The entire capital is able to live comfortably, with a significant portion living in luxury.', modifiers: { crime: -3 } },
+];
+
+const capitalVisitorTrafficTable = [
+    { min: 1, max: 1, name: 'Mostly Locals', description: 'On any given day, there are typically a few from outside the capital, though not enough to impact congestion.', modifiers: { nightActivity: 0 } },
+    { min: 2, max: 3, name: 'Groups', description: 'There are generally a fair amount of visitors to the capital. May slightly increase congestion.', modifiers: { nightActivity: 1 } },
+    { min: 4, max: 10, name: 'Crowds', description: 'A noticeable amount of people come through the capital on a regular basis. Congestion is increased.', modifiers: { nightActivity: 2 } },
+    { min: 11, max: 17, name: 'Droves', description: 'Large groups of people regularly frequent the capital. Congestion is significantly increased.', modifiers: { nightActivity: 3 } },
+    { min: 18, max: 19, name: 'Masses', description: 'Huge groups of people always seem to be visiting. Congestion could cause difficulties if the capital is unable to cope.', modifiers: { nightActivity: 4 } },
+    { min: 20, max: 20, name: 'Multitudes', description: 'Massive groups of people throng the streets, likely spilling out onto the roads outside the capital.', modifiers: { nightActivity: 5 } },
+];
+
+const capitalDispositionTable = [
+    { min: 1, max: 2, name: 'Hostile', description: 'Locals seem very unfriendly toward visitors, and would likely make out-of-towners feel unwelcome.' },
+    { min: 3, max: 6, name: 'Unfriendly', description: 'Locals don’t care much for visitors, looking upon them with contempt, fear, or suspicion.' },
+    { min: 7, max: 14, name: 'Neutral', description: 'Locals are standoffish, or perhaps hard on the outside, but can be friendly if you get to know them.' },
+    { min: 15, max: 18, name: 'Friendly', description: 'Locals are generally friendly, welcoming, and slow to take offense.' },
+    { min: 19, max: 20, name: 'Open', description: 'The locals actively enjoy visitors, and their culture incorporates this. Just about anyone is welcome.' },
+];
+
+const capitalNightActivityTable = [
+    { min: 1, max: 1, name: 'Dark', description: 'By the time the sun goes down, the streets are nearly empty and the city closes up.' },
+    { min: 2, max: 3, name: 'Quiet', description: 'Everything is closed except for inns and taverns which remain open until around midnight.' },
+    { min: 4, max: 9, name: 'Slow', description: 'Almost everything is closed except for taverns which may be open until early morning, and inns, which stay open perpetually.' },
+    { min: 10, max: 14, name: 'Active', description: 'Inns and taverns remain open perpetually. Some shops and services may be open, catering to late travelers or night owls.' },
+    { min: 15, max: 18, name: 'Lively', description: 'There is little difference between day and night traffic. There are always people on the streets and it may seem like no one ever sleeps.' },
+    { min: 19, max: 20, name: 'Raucous', description: 'When the day ends, the capital truly comes to life. Inns and taverns have customers coming and going at all hours.' },
+];
+
+const capitalLawEnforcementTable = [
+    { min: 1, max: 1, name: 'None', description: 'If not openly opposed by the collective population, crime can easily run amok.', modifiers: { crime: -5 } },
+    { min: 2, max: 8, name: 'City Watch', description: 'Run by a single captain, the watch has sufficient strength to cover key points, as well as establish a patrol once or twice a day.', modifiers: { crime: -3 } },
+    { min: 9, max: 13, name: 'Robust City Watch', description: 'Run by a captain and two sergeants, the watch are able to place extra support at key points, as well as establish three or four patrols a day.', modifiers: { crime: -1 } },
+    { min: 14, max: 20, name: 'Extensive City Watch', description: 'Run by a captain and several sergeants, all key points are thoroughly guarded. The city perimeter is patrolled constantly.', modifiers: { crime: 0 } },
+];
+
+const capitalCrimeTable = [
+    { min: 1, max: 2, name: 'Dangerous', description: 'The streets are crawling with crime. Having things stolen is the least of folks’ worries.', modifiers: { urbanEncounter: 5 }, rules: { hasOrganizedCrime: true } },
+    { min: 3, max: 6, name: 'Frequent', description: 'The streets are unsafe, and a purse in plain sight is almost sure to be stolen.', modifiers: { urbanEncounter: 4 }, rules: { hasOrganizedCrime: true } },
+    { min: 7, max: 14, name: 'Common', description: 'Most are used to hearing about some sort of trouble every day or two.', modifiers: { urbanEncounter: 3 }, rules: { hasOrganizedCrime: true } },
+    { min: 15, max: 18, name: 'Uncommon', description: 'Theft or mild violence happens from time to time. Best to keep an eye out, just in case.', modifiers: { urbanEncounter: 2 } },
+    { min: 19, max: 20, name: 'Infrequent', description: 'Most don’t believe there is any crime, and certainly haven’t experienced any.', modifiers: { urbanEncounter: 1 } },
+];
+
+const capitalOrganizedCrimeTable = [
+    { min: 1, max: 2, name: 'Completely Secret', description: 'The organization has operated incognito, beneath any form of public notice.' },
+    { min: 3, max: 6, name: 'Whispers', description: 'There are hushed rumors of criminal organization, but most folks keep these suspicions to themselves.' },
+    { min: 7, max: 14, name: 'Talk', description: 'Enough incidents have occurred that most folk don’t have trouble believing there is an organized criminal element in the capital.' },
+    { min: 15, max: 18, name: 'Barely Hidden', description: 'The organization is a looming shadow within the capital. None are entirely sure where it is based, but it’s clear that the organization is real.' },
+    { min: 19, max: 20, name: 'Open', description: 'Though key members may be unknown, the presence of the organization is common knowledge and, though it may not have been fully proved, it’s clear they have a direct hand in running the capital.' },
+];
+
+// --- NEW: Capital Recent History Table (20 items) ---
+const capitalRecentHistoryTable = [
+    { min: 1, max: 1, name: 'Construction Collapse', description: 'Some element of city-sponsored construction collapsed, and several people have been killed.' },
+    { min: 2, max: 2, name: 'Market Hooligans', description: 'A gang of hooligans have started making trouble around the market.' },
+    { min: 3, max: 3, name: 'Tavern Fire', description: 'Adventurers visiting the city started a bar brawl, and the tavern they were in was burned down.' },
+    { min: 4, max: 4, name: 'Incredible Invention', description: 'An inventor in the city came up with an incredible contraption that has dramatically impacted the lives of the city\'s residents.' },
+    { min: 5, max: 5, name: 'Severe Weather', description: 'Ongoing heavy thunderstorms or blizzards are wracking the city.' },
+    { min: 6, max: 6, name: 'New Craze', description: 'A visitor to the city brought something with them that has started a new craze or fashion.' },
+    { min: 7, max: 7, name: 'Impending Visit', description: 'The city received word recently that a representative from a neighboring kingdom will be visiting. They should be arriving any day.' },
+    { min: 8, max: 8, name: 'Mysterious Illness', description: 'Some form of illness has been sweeping through the city, and none are sure what it is, or how it started.' },
+    { min: 9, max: 9, name: 'Broken Gate', description: 'The city\'s main gate has broken and needs extensive repairs. In the meantime, the gate is open and additional guards are needed to staff it at all times. If guards are not available, citizens may have been called.' },
+    { min: 10, max: 10, name: 'Call for New Leadership', description: 'A group of citizens are calling for a new form of leadership. How do others in the city respond?' },
+    { min: 11, max: 11, name: 'Inedible Cuisine', description: 'An item of local cuisine has suddenly been rendered inedible. Whatever is causing the problem seems to be persisting.' },
+    { min: 12, max: 12, name: 'Unusual Contest', description: 'An unusual, and intriguing, contest is being held by a major figure in the community. Tryouts began a week ago, but none that have participated have mentioned what it is, whether or not they succeeded, or what\'s next.' },
+    { min: 13, max: 13, name: 'Quality Tavern Brawl', description: 'The highest quality tavern in the city experienced a particularly nasty bar brawl, and everyone is talking about it. What happened? How did it end?' },
+    { min: 14, max: 14, name: 'Private Security', description: 'The district with the most housing recently assembled its own private security force, acting independently from the watch. Why did they deem it necessary? How has local law enforcement and leadership responded?' },
+    { min: 15, max: 15, name: 'Public Building Collapse', description: 'A public building, in a key location, has collapsed, and an investigation is underway to determine the cause.' },
+    { min: 16, max: 16, name: 'Smashy Hour', description: 'A local tavernkeep is starting something called ‘Smashy Hour’, a controlled and sanctioned weekly bar-brawl. The event is in partnership with a local furniture maker, who supplies old stock to be used as make-shift weapons. Guards are, so far, not getting involved, so long as the chaos stays contained. The only rule: don’t destroy the tavern.' },
+    { min: 17, max: 17, name: 'Chicken Overlord', description: 'Someone within the city has been breeding chickens, and numbers are getting out of control. The streets are filled with poultry, and no one knows where they’re coming from, or who started breeding them.' },
+    { min: 18, max: 18, name: 'Missing Delegates', description: 'Leadership delegates were invited to an extremely important-sounding summit, hosted by a foreign power. This was months ago, and the delegates have not been heard from since they left the capital.' },
+    { min: 19, max: 19, name: 'Urban Farming', description: 'Someone in the capital has developed new urban farming practises, which have been slowly catching on.' },
+    { min: 20, max: 20, name: 'Deity Appearance', description: 'A deity has made a physical appearance in the city.' },
+];
+
+// --- DISTRICT TABLES ---
+const capitalNumberOfDistrictsTable = [
+    { min: 1, max: 2, value: 2 },
+    { min: 3, max: 10, value: 3 },
+    { min: 11, max: 15, value: 4 },
+    { min: 16, max: 19, value: 5 },
+    { min: 20, max: 20, value: 6 },
+];
+
+const capitalDistrictNotableLocationsTable = [
+    { min: 1, max: 1, name: 'None', value: 0 },
+    { min: 2, max: 5, name: 'One', value: 1 },
+    { min: 6, max: 9, name: 'Two', value: 2 },
+    { min: 10, max: 10, name: 'Three', value: 3 },
+];
+
 export {
-    // ... [Previous exports] ...
     capitalOriginsTable,
     capitalAgeTable,
     capitalSizeTable,
@@ -403,8 +547,20 @@ export {
     capitalMilitarySizeTable,
     capitalMilitarySpecializationTable,
     capitalMilitaryFacilitiesTable,
-    // --- NEW EXPORTS ---
     capitalNobilityTypeTable,
     capitalNobilityRelationTable,
-    capitalNobleCountTable
+    capitalNobleCountTable,
+    capitalNobilityPeopleRelationTable,
+    capitalNobilityRootTable,
+    capitalPopulationDensityTable,
+    capitalPopulationWealthTable,
+    capitalVisitorTrafficTable,
+    capitalDispositionTable,
+    capitalNightActivityTable,
+    capitalLawEnforcementTable,
+    capitalCrimeTable,
+    capitalOrganizedCrimeTable,
+    capitalRecentHistoryTable,
+    capitalNumberOfDistrictsTable,
+    capitalDistrictNotableLocationsTable
 };

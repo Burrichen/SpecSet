@@ -26,8 +26,10 @@ Changes:
 
 
 
-Capital:
+Capitals:
 - Removed connections. - It's too thin to give content and it's directionless. You learn nothing other than it has some friends or some enemies.
+- Remove Culutre - The table is here way too shallow and way to weird to describe in terms of gameplay. A 75% chance of having a whole capital city obsessed with some vague term is weird.
+- Removed Pursit of Culture - If Culture is removed, so must Pursuit of culture. 
 
 
 

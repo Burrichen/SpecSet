@@ -24,6 +24,7 @@ const magicShopSubTable = [
     { dice: 6, name: 'Magic Shop - Misc. & Curiosities' },
 ];
 
+// --- FIXED: This object matches the variable name used in SetGen.js ---
 const additionalLocationRollsCount = {
     'Very Small': 1,
     'Small': 2,
@@ -31,7 +32,6 @@ const additionalLocationRollsCount = {
     'Large': 4,
     'Very Large': 5,
 };
-
 
 // Master list of all possible locations
 const allCityLocations = {
