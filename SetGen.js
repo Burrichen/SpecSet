@@ -1,18 +1,42 @@
-// SetGen.js
-
 import fs from 'fs/promises';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
-import { hiredHands, environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
+
+// --- IMPORTS ---
+// Corrected: Removed servicesTable from here
+import { tradingPostOrigins, tradingPostSpecialties, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
+
+// Corrected: Added servicesTable here
+import { environmentTable, dispositionTable, oligarchyTypeTable, hiredHelpSizeTable, servicesTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
+
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
-import { townOriginsTable, townPriorityTable, magicShopSubTable, industrySubTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
-import { cityRecentHistoryTable, cityOfficialsTable, cityOfficialCompetenceTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable } from './city.js';
+import { townOriginsTable, townPriorityTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
+import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable } from './city.js';
+import { 
+    capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable, 
+    capitalStewardshipTable, capitalGeneralConditionTable, capitalFortificationTable, capitalMarketSquareTable, 
+    capitalVendorStallAcquisitionTable, capitalMerchantOverflowTable, capitalUndergroundPassagesTable, 
+    capitalLeadershipTable, capitalUnityTable, capitalPriorityTable, capitalPriorityApproachTable, 
+    capitalPrioritySuccessTable, capitalLifestyleTable, capitalResidenceTable, capitalIntentTable,
+    capitalSpyNetworkTable, capitalInfiltrationDepthTable, capitalCounterintelligenceTable, 
+    capitalCounterintelligenceWatchfulnessTable, capitalNotableVisitorCountTable, capitalVisitorRoleTable, 
+    capitalVisitorReasonTable,
+    capitalMilitaryForceTable, capitalMilitaryStandingTable, capitalMilitaryRecruitmentTable,
+    capitalMilitarySizeTable, capitalMilitarySpecializationTable, capitalMilitaryFacilitiesTable,
+    capitalNobilityTypeTable, capitalNobilityRelationTable, capitalNobleCountTable,
+    capitalNobilityPeopleRelationTable, capitalNobilityRootTable,
+    capitalPopulationDensityTable, capitalPopulationWealthTable, capitalVisitorTrafficTable, 
+    capitalDispositionTable, capitalNightActivityTable, capitalLawEnforcementTable, 
+    capitalCrimeTable, capitalOrganizedCrimeTable,
+    capitalRecentHistoryTable,
+    capitalNumberOfDistrictsTable, capitalDistrictNotableLocationsTable, capitalLocationNotabilityTable
+} from './capital.js';
 
-// --- HELPER FUNCTIONS ---
+// --- UTILITY FUNCTIONS ---
 
 function rollDice(count, size) {
+    if (!size || size < 1) return 0; // Safety check
     let total = 0;
     for (let i = 0; i < count; i++) {
         total += Math.floor(Math.random() * size) + 1;
@@ -20,14 +44,24 @@ function rollDice(count, size) {
     return total;
 }
 
+function getTableDieSize(table) {
+    if (!table || table.length === 0) return 20; // Default fallback
+    // If table has min/max
+    if (table[0].min !== undefined) {
+        return table[table.length - 1].max;
+    }
+    // If table uses 'dice' keys
+    return table.length;
+}
+
 function rollOnTable(table, diceSize) {
-    const dSize = diceSize || (table[0].min !== undefined ? table[table.length - 1].max : table.length);
+    const dSize = diceSize || getTableDieSize(table);
     const roll = rollDice(1, dSize);
 
     if (table[0].min !== undefined) {
-        return table.find(item => roll >= item.min && roll <= item.max);
+        return table.find(item => roll >= item.min && roll <= item.max) || table[0];
     } else {
-        return table.find(item => roll === item.dice);
+        return table.find(item => roll === item.dice) || table[0];
     }
 }
 
@@ -74,18 +108,15 @@ function generateSettlementName() {
     return prefix + suffix;
 }
 
-// --- DATA ---
+// --- DATA CONFIGURATION ---
 const settlementTypes = [
   { name: 'Trading Post', value: 'Trading Post' },
   { name: 'Village', value: 'Village' },
   { name: 'Town', value: 'Town' },
   { name: 'City', value: 'City' },
   { name: 'Capital', value: 'Capital' },
-  { name: 'Fortress', value: 'Fortress' },
 ];
 
-
-// --- THE "RECIPE BOOK" ---
 const settlementPaths = {
     'Trading Post': [
         { key: 'origin', title: "its origin", prompt: "Select the Trading Post's origin:", table: tradingPostOrigins, type: 'CHOICE' },
@@ -202,7 +233,63 @@ const settlementPaths = {
         { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Intrigue & Events" },
         { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: cityRecentHistoryTable, type: 'CHOICE' },
-        { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: cityOfficialsTable, subTable: cityOfficialCompetenceTable },
+        { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: officialsTable, subTable: officialCompetenceTable },
+        { key: 'beneathTheSurface', title: 'something beneath the surface', type: 'BENEATH_THE_SURFACE', table: beneathTheSurfaceTable, subTable: beneathTheSurfaceAwarenessTable },
+    ],
+    'Capital': [
+        { key: 'origin', title: "its origin", prompt: "Select the capital's origin:", table: capitalOriginsTable, type: 'CHOICE' },
+        { key: 'age', title: "its age", prompt: "Select the capital's age:", table: capitalAgeTable, type: 'CHOICE' },
+        { key: 'size', title: "its size", prompt: "Select the capital's size:", table: capitalSizeTable, type: 'CHOICE' },
+        { key: 'environment', title: "its surrounding environment", prompt: "Select an environment:", table: environmentTable, type: 'CHOICE' },
+        { key: 'outsideTheCapital', title: 'features outside the capital', type: 'SUB_ROLL_MULTIPLE', countSource: outsideTheCapitalCountData, table: outsideTheCapitalTable },
+        { key: 'stewardship', title: "its stewardship", prompt: "Select the capital's stewardship:", table: capitalStewardshipTable, type: 'CHOICE' },
+        { key: 'generalCondition', title: "its general condition", table: capitalGeneralConditionTable, type: 'DERIVED', modifierKey: 'condition' },
+        { key: 'fortification', title: 'its fortifications', table: capitalFortificationTable, type: 'DERIVED', modifierKey: 'fortification' },
+        { key: 'marketSquare', title: 'its market square', table: capitalMarketSquareTable, type: 'DERIVED', modifierKey: 'marketSquare' },
+        { key: 'vendorStallAcquisition', title: 'how vendor stalls are acquired', prompt: 'Select the vendor stall acquisition method:', table: capitalVendorStallAcquisitionTable, type: 'CHOICE' },
+        { key: 'merchantOverflow', title: 'how excess vendors are handled', prompt: 'Select the merchant overflow rule:', table: capitalMerchantOverflowTable, type: 'CHOICE' },
+        { key: 'undergroundPassages', title: 'its underground passages', prompt: 'Select the nature of its underground passages:', table: capitalUndergroundPassagesTable, type: 'CHOICE' },
+        { key: 'break1', type: 'BREAKPOINT', stepName: "Step 1: Core Details" },
+        { key: 'leadership', title: "its leadership", prompt: "Select the capital's leadership:", table: capitalLeadershipTable, type: 'CHOICE' },
+        { key: 'leadershipUnity', title: "the unity of the leadership", prompt: "Select the leadership's unity:", table: capitalUnityTable, type: 'CHOICE' },
+        { key: 'governingPriority', title: "its governing priority", prompt: "Select the governing priority:", table: capitalPriorityTable, type: 'CHOICE' },
+        { key: 'priorityApproach', title: "its priority approach", prompt: "Select the priority approach:", table: capitalPriorityApproachTable, type: 'CHOICE' },
+        { key: 'prioritySuccess', title: "its priority success", prompt: "Select the priority success:", table: capitalPrioritySuccessTable, type: 'CHOICE' },
+        { key: 'numberOfLeaders', title: "the number of leaders", type: 'NUMBER_OF_LEADERS' },
+        { key: 'leaderDetails', title: "details for each leader", type: 'LEADER_DETAILS' },
+        { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Government & Society" },
+        { key: 'spyNetwork', title: "its spy network size", prompt: "Select the spy network size:", table: capitalSpyNetworkTable, type: 'CHOICE' },
+        { key: 'infiltrationDepth', title: "its infiltration depth", prompt: "Select the infiltration depth:", table: capitalInfiltrationDepthTable, type: 'CHOICE', condition: (choices) => choices.spyNetwork?.name !== 'None' },
+        { key: 'counterintelligence', title: "its counterintelligence", prompt: "Select the counterintelligence level:", table: capitalCounterintelligenceTable, type: 'CHOICE' },
+        { key: 'counterintelligenceWatchfulness', title: "its counterintelligence watchfulness", prompt: "Select the counterintelligence watchfulness:", table: capitalCounterintelligenceWatchfulnessTable, type: 'CHOICE', condition: (choices) => choices.counterintelligence?.name !== 'None' },
+        { key: 'notableVisitors', title: "its notable visitors", type: 'NOTABLE_VISITORS', countTable: capitalNotableVisitorCountTable, roleTable: capitalVisitorRoleTable, reasonTable: capitalVisitorReasonTable },
+        { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Military" },
+        { key: 'militaryForce', title: "military presence", table: capitalMilitaryForceTable, type: 'DERIVED', modifierKey: 'militaryForce' },
+        { key: 'militaryStanding', title: "military standing", table: capitalMilitaryStandingTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militaryRecruitment', title: "military recruitment", prompt: "Select the recruitment type:", table: capitalMilitaryRecruitmentTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militarySize', title: "size of the force", table: capitalMilitarySizeTable, type: 'DERIVED', modifierKey: 'militaryForce', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militarySpecialization', title: "military specialization", prompt: "Select the military specialization:", table: capitalMilitarySpecializationTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militaryFacilities', title: "military facilities", prompt: "Select the military facilities:", table: capitalMilitaryFacilitiesTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Nobility" },
+        { key: 'nobilityType', title: "type of nobility", prompt: "Select the type of nobility:", table: capitalNobilityTypeTable, type: 'CHOICE' },
+        { key: 'nobilityRelation', title: "nobility's relationship to leadership", table: capitalNobilityRelationTable, type: 'DERIVED', modifierKey: 'nobilityRelation' },
+        { key: 'nobilityPeopleRelation', title: "nobility's relationship with the people", type: 'NOBILITY_RELATION_PEOPLE' },
+        { key: 'nobilityCounts', title: "nobility counts", type: 'NOBILITY_COUNTS', table: capitalNobleCountTable },
+        { key: 'break5', type: 'BREAKPOINT', stepName: "Step 5: Community" },
+        { key: 'populationDensity', title: "its population density", table: capitalPopulationDensityTable, type: 'DERIVED', modifierKey: 'populationDensity' },
+        { key: 'populationWealth', title: 'its population wealth', table: capitalPopulationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
+        { key: 'visitorTraffic', title: "its visitor traffic", table: capitalVisitorTrafficTable, type: 'DERIVED', modifierKey: 'visitorTraffic' },
+        { key: 'disposition', title: 'the disposition of the locals', table: capitalDispositionTable, type: 'DERIVED', modifierKey: 'disposition' },
+        { key: 'nightActivity', title: 'its night activity', table: capitalNightActivityTable, type: 'DERIVED', modifierKey: 'nightActivity' },
+        { key: 'lawEnforcement', title: 'its law enforcement', table: capitalLawEnforcementTable, type: 'DERIVED', modifierKey: 'lawEnforcement' },
+        { key: 'crime', title: 'its crime level', table: capitalCrimeTable, type: 'DERIVED', modifierKey: 'crime' },
+        { key: 'organizedCrime', title: 'its organized crime presence', prompt: 'Select the nature of organized crime:', table: capitalOrganizedCrimeTable, type: 'CHOICE', condition: (choices) => choices.leadership?.rules?.crime?.forceOrganizedCrime || choices.crime?.rules?.hasOrganizedCrime },
+        { key: 'break6', type: 'BREAKPOINT', stepName: "Step 6: Districts & Locations" },
+        { key: 'districts', title: 'its districts and their locations', type: 'DISTRICTS', tables: { number: capitalNumberOfDistrictsTable, notable: capitalDistrictNotableLocationsTable, notability: capitalLocationNotabilityTable } },
+        { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
+        { key: 'break7', type: 'BREAKPOINT', stepName: "Step 7: Extra Intrigue" },
+        { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: capitalRecentHistoryTable, type: 'CHOICE' },
+        { key: 'noteworthyOfficial', title: 'a noteworthy official', type: 'NOTEWORTHY_OFFICIAL', table: officialsTable, subTable: officialCompetenceTable },
         { key: 'beneathTheSurface', title: 'something beneath the surface', type: 'BENEATH_THE_SURFACE', table: beneathTheSurfaceTable, subTable: beneathTheSurfaceAwarenessTable },
     ],
 };
@@ -213,6 +300,7 @@ const stepProcessors = {
         const diceSize = rules?.diceOverride;
 
         let choice;
+        let retries = 0;
         do {
             choice = isAutoRolling
                 ? rollOnTable(step.table, diceSize)
@@ -229,27 +317,18 @@ const stepProcessors = {
                     loop: false, pageSize: 15,
                 }])).choice;
             
+            if (!choice) {
+                if (isAutoRolling) continue; 
+            }
+
             if (step.key === 'recentHistory' && choice.name === 'Reroll') {
                 if (isAutoRolling) {
                     console.log(chalk.yellow(`      -> Rolled "Reroll". Rerolling recent history...`));
+                    retries++;
+                    if(retries > 10) break;
                     continue;
                 } else {
                     console.log(chalk.yellow(`      -> Please select another event.`));
-                    continue;
-                }
-            }
-
-            if (choice.rules?.farmsAndResources && isAutoRolling) {
-                const subRoll = rollDice(1, 10);
-                if (subRoll >= choice.rules.farmsAndResources.rerollRange[0] && subRoll <= choice.rules.farmsAndResources.rerollRange[1]) {
-                    console.log(chalk.yellow(`      -> Rolled "${choice.name}" but got a ${subRoll} on the sub-roll. Rerolling specialty...`));
-                    continue; 
-                }
-            }
-            if (rules?.rerollRange && isAutoRolling) {
-                const rollValue = choice.min || choice.dice;
-                if(rollValue >= rules.rerollRange[0] && rollValue <= rules.rerollRange[1]) {
-                    console.log(chalk.yellow(`      -> Rolled "${choice.name}" which is in the reroll range. Rerolling...`));
                     continue;
                 }
             }
@@ -258,7 +337,7 @@ const stepProcessors = {
         
         console.log(`  ${chalk.magenta('Result:')} ${chalk.white(choice.name)}`);
         
-        if (choice.rules?.farmsAndResources && !isAutoRolling) {
+        if (choice && choice.rules?.farmsAndResources && !isAutoRolling) {
              console.log(chalk.yellow(`      -> NOTE: This specialty requires a reroll on the Farms & Resources table if the result is 1-8.`));
         }
 
@@ -314,13 +393,16 @@ const stepProcessors = {
             let baseRoll;
             let finalScore;
             const rules = choices.priority?.rules?.[step.key];
+            const maxDie = getTableDieSize(step.table);
             
             do {
-                baseRoll = rollDice(1, step.table[step.table.length - 1].max);
-                finalScore = applyModifierAndClamp(baseRoll, modifier, 1, step.table[step.table.length - 1].max);
+                baseRoll = rollDice(1, maxDie);
+                finalScore = applyModifierAndClamp(baseRoll, modifier, 1, maxDie);
             } while (rules?.rerollRange && (finalScore >= rules.rerollRange[0] && finalScore <= rules.rerollRange[1]));
             
-            const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
+            const result = (step.table[0].min !== undefined)
+                ? step.table.find(item => finalScore >= item.min && finalScore <= item.max)
+                : step.table.find(item => finalScore === item.dice);
 
             if (result) {
                 console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
@@ -337,7 +419,7 @@ const stepProcessors = {
             const answer = await inquirer.prompt([{
                 type: 'list', name: 'choice', message: `Select ${step.title}:`,
                 choices: step.table.map(item => ({
-                    name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`,
+                    name: `[${item.dice || `${item.min}-${item.max}`}] ${chalk.bold(item.name)}: ${item.description}`,
                     value: item,
                 })),
                 loop: false,
@@ -1011,21 +1093,37 @@ const stepProcessors = {
     DISTRICTS: async (step, { choices, modifiers, isAutoRolling }) => {
         const numMod = modifiers.numberOfDistricts || 0;
         let numResult;
-        if (isAutoRolling) {
-            const baseRoll = rollDice(1, 20);
-            const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
-            numResult = numberOfDistrictsTable.find(item => finalScore >= item.min && finalScore <= item.max);
+        if (step.tables && step.tables.number) {
+            if (isAutoRolling) {
+                const baseRoll = rollDice(1, 20);
+                const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
+                numResult = step.tables.number.find(item => finalScore >= item.min && finalScore <= item.max);
+            } else {
+                const answer = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the number of districts:',
+                    choices: step.tables.number.map(item => ({ name: `[${item.min}-${item.max}] ${item.value}`, value: item })),
+                    loop: false
+                }]);
+                numResult = answer.choice;
+            }
         } else {
-            console.log(chalk.gray(`  (Current modifier for this roll is ${numMod >= 0 ? '+' : ''}${numMod})`));
-            const answer = await inquirer.prompt([{
-                type: 'list', name: 'choice', message: 'Select the number of districts:',
-                choices: numberOfDistrictsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })),
-                loop: false,
-            }]);
-            numResult = answer.choice;
+            if (isAutoRolling) {
+                const baseRoll = rollDice(1, 20);
+                const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
+                numResult = numberOfDistrictsTable.find(item => finalScore >= item.min && finalScore <= item.max);
+            } else {
+                console.log(chalk.gray(`  (Current modifier for this roll is ${numMod >= 0 ? '+' : ''}${numMod})`));
+                const answer = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the number of districts:',
+                    choices: numberOfDistrictsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })),
+                    loop: false,
+                }]);
+                numResult = answer.choice;
+            }
         }
+
         const totalDistricts = numResult.value;
-        console.log(`  ${chalk.magenta('Result:')} The city has ${chalk.white(totalDistricts)} districts.`);
+        console.log(`  ${chalk.magenta('Result:')} The settlement has ${chalk.white(totalDistricts)} districts.`);
 
         const generatedDistricts = [];
         const freeDistrictName = choices.priority?.rules?.districts?.free || choices.leadership?.rules?.districts?.free;
@@ -1066,8 +1164,9 @@ const stepProcessors = {
 
         const conditionOrder = ['Squalid', 'Dilapidated', 'Decent', 'Impressive', 'Magnificent'];
         const generalConditionIndex = conditionOrder.indexOf(choices.generalCondition.name);
+        const generalCrimeName = choices.generalCrime ? choices.generalCrime.name : choices.crime.name;
         const crimeOrder = ['Dangerous', 'Frequent', 'Common', 'Uncommon', 'Infrequent'];
-        const generalCrimeIndex = crimeOrder.indexOf(choices.generalCrime.name);
+        const generalCrimeIndex = crimeOrder.indexOf(generalCrimeName);
 
         for (const district of generatedDistricts) {
             console.log(chalk.bold.cyan(`\n--- Populating the ${district.type.name} District ---`));
@@ -1129,10 +1228,18 @@ const stepProcessors = {
             district.urbanEncounterModifier = crimeDegreesData[district.crime.name]?.urbanEncounter || 0;
             console.log(`      ${chalk.magenta('Crime:')} ${chalk.white(district.crime.name)} ${chalk.gray(district.crime.description)}`);
         
-            const notableLocationsResult = isAutoRolling ? rollOnTable(districtNotableLocationsTable, 10) : (await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select number of notable locations for the ${district.type.name} district:`,
-                choices: districtNotableLocationsTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
+            const notableTable = (step.tables && step.tables.notable) ? step.tables.notable : districtNotableLocationsTable;
+            const notabilityReasonTable = (step.tables && step.tables.notability) ? step.tables.notability : null;
+
+            const notableLocationsResult = isAutoRolling ? rollOnTable(notableTable, 10) : (await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select number of notable locations for the ${district.type.name} district:`,
+                choices: notableTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
             district.notableLocationsCount = notableLocationsResult;
             console.log(`      ${chalk.magenta('Notable Locations:')} ${chalk.white(district.notableLocationsCount.name)}`);
+
+            // Initialize location arrays
+            district.locations.included = [];
+            district.locations.notable = [];
+            district.locations.additional = [];
 
             const includedData = districtData[district.type.name]?.includedLocations;
             if (includedData && Array.isArray(includedData)) {
@@ -1157,7 +1264,10 @@ const stepProcessors = {
             if (totalNewLocations > 0) {
                  for (let i = 0; i < totalNewLocations; i++) {
                     const isNotable = i < notableCount;
-                    console.log(chalk.cyan(`    -> Generating ${isNotable ? chalk.yellow('Notable') : 'Additional'} Location #${isNotable ? i + 1 : i - notableCount + 1}...`));
+                    const typeLabel = isNotable ? 'Notable' : 'Additional';
+                    const colorLabel = isNotable ? chalk.yellow : chalk.magenta;
+
+                    console.log(chalk.cyan(`    -> Generating ${colorLabel(typeLabel)} Location #${isNotable ? i + 1 : i - notableCount + 1}...`));
                     
                     let qualityMod = 0;
                     let reroll;
@@ -1183,10 +1293,49 @@ const stepProcessors = {
                             }
                             
                             const locationData = allCityLocations[finalLocationName] || { name: finalLocationName, category: 'unknown' };
-                            const locationResult = { ...locationData, isNotable, qualityMod };
+                            
+                            // -- NOTABILITY REASON ROLL ---
+                            let notableReason = null;
+                            let qualityOverride = null;
+
+                            if (isNotable && notabilityReasonTable) {
+                                console.log(chalk.gray(`      -> Determining why ${finalLocationName} is notable...`));
+                                let reasonResult = isAutoRolling 
+                                    ? rollOnTable(notabilityReasonTable, 100)
+                                    : (await inquirer.prompt([{
+                                        type: 'list', 
+                                        name: 'choice', 
+                                        message: `Why is ${finalLocationName} notable?`,
+                                        choices: notabilityReasonTable.map(r => ({
+                                            name: `[${String(r.min).padStart(2,'0')}-${String(r.max).padStart(3,'0')}] ${r.name}`,
+                                            value: r
+                                        })),
+                                        pageSize: 10,
+                                        loop: false
+                                    }])).choice;
+                                
+                                notableReason = reasonResult;
+                                if (reasonResult.qualityOverride) {
+                                    qualityOverride = reasonResult.qualityOverride;
+                                    console.log(chalk.yellow(`        (Quality set to '${qualityOverride.name}' due to ${reasonResult.name})`));
+                                }
+                            }
+
+                            const locationResult = { 
+                                ...locationData, 
+                                isNotable, 
+                                qualityMod,
+                                notableReason,
+                                qualityOverride
+                            };
+
                             const targetArray = isNotable ? district.locations.notable : district.locations.additional;
                             targetArray.push(locationResult);
+
                             console.log(`      ${chalk.magenta('Location:')} ${chalk.white(locationResult.name)} ${qualityMod !== 0 ? chalk.gray(`(Quality ${qualityMod > 0 ? '+' : ''}${qualityMod})`) : ''}`);
+                            if(notableReason) {
+                                console.log(`        ${chalk.yellow('↳ Notable because:')} ${chalk.white(notableReason.name)}`);
+                            }
                         }
                     } while(reroll);
                 }
@@ -1264,7 +1413,10 @@ const stepProcessors = {
                 if (location.name.includes('[')) continue;
 
                 let quality;
-                if (isAutoRolling) {
+                // Check for override first (e.g. from Capital Notable Tables)
+                if (location.qualityOverride) {
+                    quality = location.qualityOverride;
+                } else if (isAutoRolling) {
                     quality = rollOnTable(locationQualityTable, 12);
                 } else {
                     const { choice } = await inquirer.prompt([{
@@ -1308,6 +1460,364 @@ const stepProcessors = {
         console.log(`      ${chalk.magenta('Awareness:')} ${chalk.white(awareness.name)}`);
 
         return { key: step.key, value: { intrigue, awareness } };
+    },
+
+    SUB_ROLL_MULTIPLE: async (step, { choices, isAutoRolling }) => {
+        let numberOfRolls = 0;
+        const sizeName = choices.size.name;
+
+        if (isAutoRolling) {
+            numberOfRolls = step.countSource[sizeName] || 0;
+        } else {
+            const sizeChoices = Object.keys(step.countSource).map(key => ({
+                name: `${step.countSource[key]} roll(s) (Typical for ${chalk.bold(key)} capitals)`,
+                value: step.countSource[key]
+            }));
+            const { count } = await inquirer.prompt([{
+                type: 'list',
+                name: 'count',
+                message: 'Select the number of rolls for features outside the capital:',
+                choices: sizeChoices,
+                loop: false,
+            }]);
+            numberOfRolls = count;
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} This capital has ${chalk.white(numberOfRolls)} feature(s) outside its walls.`);
+
+        if (numberOfRolls === 0) {
+            return { key: step.key, value: [] };
+        }
+
+        const generatedFeatures = [];
+        for (let i = 0; i < numberOfRolls; i++) {
+            console.log(chalk.cyan(`\n    -> Generating Outside Feature #${i + 1}...`));
+
+            let feature = isAutoRolling ? rollOnTable(step.table) : (await inquirer.prompt([{
+                type: 'list', name: 'choice', message: `Select the feature for Outside Location #${i + 1}:`,
+                choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`, value: item })),
+                loop: false, pageSize: 15,
+            }])).choice;
+            
+            if (feature && feature.subTable) {
+                console.log(chalk.cyan(`      -> Sub-roll required for "${feature.name}"...`));
+                const subRoll = isAutoRolling ? rollOnTable(feature.subTable, feature.subTableDice) : (await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the sub-option:',
+                    choices: feature.subTable.map(item => ({ name: `[${item.min}-${item.max}] ${item.text}`, value: item })),
+                    loop: false
+                }])).choice;
+
+                feature = { ...feature, name: `${feature.name} (${subRoll.text})` };
+            }
+
+            if (feature && feature.name !== 'None') {
+                generatedFeatures.push(feature);
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.white(feature.name)}`);
+            } else {
+                console.log(`      ${chalk.magenta('Type:')} ${chalk.gray(feature ? feature.name : 'Invalid Roll')} (No new feature added for this roll)`);
+            }
+        }
+
+        return { key: step.key, value: generatedFeatures };
+    },
+
+    NUMBER_OF_LEADERS: async (step, { isAutoRolling }) => {
+        let numberOfLeaders;
+
+        const weightedRoll = () => {
+            const roll = Math.random() * 100;
+            if (roll < 5) return 1;        
+            if (roll < 15) return 2;       
+            if (roll < 35) return 3;       
+            if (roll < 55) return 4;       
+            if (roll < 75) return 5;       
+            if (roll < 85) return 6;       
+            if (roll < 90) return 7;       
+            if (roll < 95) return 8;       
+            return 9;                      
+        };
+
+        if (isAutoRolling) {
+            numberOfLeaders = weightedRoll();
+        } else {
+            const { choiceMethod } = await inquirer.prompt([{
+                type: 'list', name: 'choiceMethod', message: 'How would you like to determine the number of leaders?',
+                choices: ['Auto-Roll (Weighted)', 'Manual Selection'], loop: false
+            }]);
+
+            if (choiceMethod === 'Auto-Roll (Weighted)') {
+                numberOfLeaders = weightedRoll();
+            } else {
+                const { count } = await inquirer.prompt([{
+                    type: 'list', name: 'count', message: 'Select the number of leaders:',
+                    choices: Array.from({ length: 9 }, (_, i) => i + 1), loop: false
+                }]);
+                numberOfLeaders = count;
+            }
+        }
+
+        console.log(`  ${chalk.magenta('Result:')} The capital has ${chalk.white(numberOfLeaders)} leader(s).`);
+        return { key: step.key, value: numberOfLeaders };
+    },
+
+    LEADER_DETAILS: async (step, { choices, isAutoRolling }) => {
+        const count = choices.numberOfLeaders;
+        const leaders = [];
+
+        console.log(chalk.bold.cyan(`\n--- Generating Details for ${count} Leader(s) ---`));
+
+        for (let i = 1; i <= count; i++) {
+            console.log(chalk.cyan(`\n  -> Leader #${i}...`));
+
+            let lifestyle;
+            if (isAutoRolling) {
+                lifestyle = rollOnTable(capitalLifestyleTable);
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select lifestyle for Leader #${i}:`,
+                    choices: capitalLifestyleTable.map(item => ({
+                        name: `[${item.min}-${item.max || item.min}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                lifestyle = choice;
+            }
+            console.log(`      ${chalk.magenta('Lifestyle:')} ${chalk.white(lifestyle.name)}`);
+
+            let residence;
+            const resMod = lifestyle.modifiers?.residence || 0;
+            const maxDie = getTableDieSize(capitalResidenceTable);
+
+            if (isAutoRolling) {
+                const baseRoll = rollDice(1, maxDie);
+                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
+                residence = capitalResidenceTable.find(item => item.dice === finalScore);
+                console.log(`      ${chalk.magenta('Residence:')} ${chalk.white(residence.name)} ${chalk.gray(`(Rolled ${baseRoll}, Mod ${resMod >= 0 ? '+' : ''}${resMod})`)}`);
+            } else {
+                console.log(chalk.gray(`      (Residence modifier from lifestyle: ${resMod >= 0 ? '+' : ''}${resMod})`));
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select residence for Leader #${i}:`,
+                    choices: capitalResidenceTable.map(item => ({
+                        name: `[${item.dice}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                residence = choice;
+            }
+
+            let intent;
+            if (isAutoRolling) {
+                intent = rollOnTable(capitalIntentTable);
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: `Select intent for Leader #${i}:`,
+                    choices: capitalIntentTable.map(item => ({
+                        name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`,
+                        value: item
+                    })), loop: false
+                }]);
+                intent = choice;
+            }
+            console.log(`      ${chalk.magenta('Intent:')} ${chalk.white(intent.name)}`);
+
+            leaders.push({
+                id: i,
+                lifestyle: lifestyle,
+                residence: residence,
+                intent: intent
+            });
+        }
+
+        return { key: step.key, value: leaders };
+    },
+
+    NOTABLE_VISITORS: async (step, { isAutoRolling }) => {
+        console.log(chalk.cyan(`\n    -> Determining Notable Visitors...`));
+
+        // 1. Count
+        let count;
+        if (isAutoRolling) {
+            count = rollOnTable(step.countTable, 4).value;
+        } else {
+            const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the number of notable visitors:',
+                choices: step.countTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item.value })),
+                loop: false
+            }]);
+            count = choice;
+        }
+        console.log(`      ${chalk.magenta('Number of Visitors:')} ${chalk.white(count)}`);
+
+        if (count === 0) return { key: step.key, value: [] };
+
+        // 2. Details for each visitor
+        const visitors = [];
+        for (let i = 1; i <= count; i++) {
+            console.log(chalk.cyan(`      -> Generating Visitor #${i}...`));
+            
+            let role, reason;
+            if (isAutoRolling) {
+                role = rollOnTable(step.roleTable, 20);
+                reason = rollOnTable(step.reasonTable, 20);
+            } else {
+                const roleChoice = await inquirer.prompt([{
+                    type: 'list', name: 'role', message: `Select role for Visitor #${i}:`,
+                    choices: step.roleTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item })),
+                    loop: false, pageSize: 10
+                }]);
+                role = roleChoice.role;
+
+                const reasonChoice = await inquirer.prompt([{
+                    type: 'list', name: 'reason', message: `Select reason for Visitor #${i}:`,
+                    choices: step.reasonTable.map(item => ({ name: `[${item.dice}] ${item.name}`, value: item })),
+                    loop: false, pageSize: 10
+                }]);
+                reason = reasonChoice.reason;
+            }
+
+            console.log(`        ${chalk.magenta('Role:')} ${chalk.white(role.name)}`);
+            console.log(`        ${chalk.magenta('Reason:')} ${chalk.white(reason.name)}`);
+
+            visitors.push({ id: i, role, reason });
+        }
+
+        return { key: step.key, value: visitors };
+    },
+
+    NOBILITY_RELATION_PEOPLE: async (step, { isAutoRolling, modifiers }) => {
+        console.log(chalk.cyan(`\n    -> Determining relationship with the people...`));
+        
+        // 1. Determine Relationship
+        let relationship;
+        if (isAutoRolling) {
+            relationship = rollOnTable(capitalNobilityPeopleRelationTable, 20);
+        } else {
+            const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the relationship with the people:',
+                choices: capitalNobilityPeopleRelationTable.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}: ${item.description}`, value: item })),
+                loop: false, pageSize: 10
+            }]);
+            relationship = choice;
+        }
+        console.log(`      ${chalk.magenta('Relationship:')} ${chalk.white(relationship.name)}`);
+
+        // 2. Determine Root Cause based on Positive/Negative
+        let root;
+        if (isAutoRolling) {
+            root = rollOnTable(capitalNobilityRootTable, 10);
+        } else {
+             const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the root cause of this relationship:',
+                choices: capitalNobilityRootTable.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}`, value: item })),
+                loop: false
+            }]);
+            root = choice;
+        }
+        
+        const rootDescription = relationship.isPositive ? root.positive : root.negative;
+        const rootContext = relationship.isPositive ? 'Positive' : 'Negative';
+        
+        // Apply modifiers if any
+        if (root.modifiers) {
+            const mods = relationship.isPositive ? root.modifiers.positive : root.modifiers.negative;
+            if (mods) {
+                for (const [key, value] of Object.entries(mods)) {
+                    modifiers[key] = (modifiers[key] || 0) + value; 
+                    console.log(chalk.gray(`      (Applied modifier: ${key} ${value >= 0 ? '+' : ''}${value})`));
+                }
+            }
+        }
+
+        console.log(`      ${chalk.magenta('Root Cause:')} ${chalk.white(root.name)} (${chalk.gray(rootContext)})`);
+        console.log(`      ${chalk.gray(rootDescription)}`);
+
+        return { key: step.key, value: { relationship, root, rootDescription } };
+    },
+
+    NOBILITY_COUNTS: async (step, { isAutoRolling }) => {
+        console.log(chalk.bold.cyan(`\n    -> Determining Nobility Counts & Details...`));
+        
+        // 1. Primary Nobles Count
+        let primaryCount;
+        if (isAutoRolling) {
+            primaryCount = rollOnTable(step.table, 20).value;
+        } else {
+            const { choice } = await inquirer.prompt([{
+                type: 'list', name: 'choice', message: 'Select the number of Primary Nobles:',
+                choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}`, value: item.value })),
+                loop: false
+            }]);
+            primaryCount = choice;
+        }
+        console.log(`      ${chalk.magenta('Primary Nobles Count:')} ${chalk.white(primaryCount)}`);
+
+        // --- Generate Primary Nobles Details ---
+        const primaryNobles = [];
+        if (primaryCount > 0) {
+            console.log(chalk.cyan(`      -> Generating details for ${primaryCount} Primary Nobles...`));
+            for (let i = 1; i <= primaryCount; i++) {
+                // Lifestyle
+                const lifestyle = rollOnTable(capitalLifestyleTable);
+                // Residence (with modifier)
+                const resMod = lifestyle.modifiers?.residence || 0;
+                const maxDie = getTableDieSize(capitalResidenceTable);
+                const baseRoll = rollDice(1, maxDie);
+                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
+                const residence = capitalResidenceTable.find(item => item.dice === finalScore);
+                // Intent
+                const intent = rollOnTable(capitalIntentTable);
+
+                primaryNobles.push({ id: i, lifestyle, residence, intent });
+                console.log(`        ${chalk.gray(`Noble #${i}: ${lifestyle.name}, ${residence.name}, ${intent.name}`)}`);
+            }
+        }
+
+        // 2. Lesser Nobles
+        let lesserCount = 0;
+        let lesserNobles = [];
+        let generateLesser = isAutoRolling; 
+
+        if (!isAutoRolling) {
+             const { confirm } = await inquirer.prompt([{
+                type: 'confirm', name: 'confirm', message: 'Do you want to generate Lesser Nobles as well?', default: true
+            }]);
+            generateLesser = confirm;
+        }
+
+        if (generateLesser) {
+            if (isAutoRolling) {
+                lesserCount = rollOnTable(step.table, 20).value;
+            } else {
+                const { choice } = await inquirer.prompt([{
+                    type: 'list', name: 'choice', message: 'Select the number of Lesser Nobles:',
+                    choices: step.table.map(item => ({ name: `[${item.min}-${item.max}] ${item.name}`, value: item.value })),
+                    loop: false
+                }]);
+                lesserCount = choice;
+            }
+            console.log(`      ${chalk.magenta('Lesser Nobles Count:')} ${chalk.white(lesserCount)}`);
+
+             // --- Generate Lesser Nobles Details ---
+             if (lesserCount > 0) {
+                console.log(chalk.cyan(`      -> Generating details for ${lesserCount} Lesser Nobles...`));
+                for (let i = 1; i <= lesserCount; i++) {
+                    const lifestyle = rollOnTable(capitalLifestyleTable);
+                    const resMod = lifestyle.modifiers?.residence || 0;
+                    const maxDie = getTableDieSize(capitalResidenceTable);
+                    const baseRoll = rollDice(1, maxDie);
+                    const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
+                    const residence = capitalResidenceTable.find(item => item.dice === finalScore);
+                    const intent = rollOnTable(capitalIntentTable);
+    
+                    lesserNobles.push({ id: i, lifestyle, residence, intent });
+                    console.log(`        ${chalk.gray(`Noble #${i}: ${lifestyle.name}, ${residence.name}, ${intent.name}`)}`);
+                }
+            }
+        } else {
+            console.log(chalk.gray(`      (Skipping Lesser Nobles generation)`));
+        }
+
+        return { key: step.key, value: { primaryCount, lesserCount, primaryNobles, lesserNobles } };
     }
 };
 
@@ -1322,10 +1832,32 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
     console.log(`${chalk.bold.cyan('Type:')} ${chalk.white(choices.type.name)}`);
 
     for (const key in choices) {
-        if (key === 'type' || key === 'nonCommercialTypes') continue;
+        if (key === 'type' || key === 'nonCommercialTypes' || key === 'numberOfLeaders') continue;
         const choice = choices[key];
         const keyName = formatKeyName(key);
         if (Array.isArray(choice)) {
+            // Special handling for array of leaders
+            if (key === 'leaderDetails') {
+                console.log(chalk.bold.cyan(`\n--- Government Officials (${choice.length}) ---`));
+                choice.forEach(leader => {
+                    console.log(chalk.green(`  - Leader #${leader.id}:`));
+                    console.log(`    ${chalk.magenta('↳ Lifestyle:')} ${chalk.white(leader.lifestyle.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Residence:')} ${chalk.white(leader.residence.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Intent:')} ${chalk.white(leader.intent.name)}`);
+                });
+                continue;
+            }
+            // Special handling for notable visitors
+            if (key === 'notableVisitors') {
+                console.log(chalk.bold.cyan(`\n--- Notable Visitors (${choice.length}) ---`));
+                choice.forEach(visitor => {
+                    console.log(chalk.green(`  - Visitor #${visitor.id}:`));
+                    console.log(`    ${chalk.magenta('↳ Role:')} ${chalk.white(visitor.role.name)}`);
+                    console.log(`    ${chalk.magenta('↳ Reason:')} ${chalk.white(visitor.reason.name)}`);
+                });
+                continue;
+            }
+
             console.log(chalk.bold.cyan(`\n--- ${keyName} ---`));
             if (choice.length === 0) {
                 console.log(chalk.gray('  (None)'));
@@ -1349,7 +1881,7 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
                     console.log(`    ${chalk.magenta('↳ Size:')} ${chalk.white(place.size.name)}`);
                     console.log(`    ${chalk.magenta('↳ Fervency:')} ${chalk.white(place.fervency.name)}`);
                 });
-            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity') {
+            } else if (key === 'gatheringPlaces' || key === 'villageLocations' || key === 'farmsAndResources' || key === 'outsideTheCity' || key === 'outsideTheCapital') {
                  choice.forEach((place, index) => {
                     console.log(`${chalk.green(`  - Feature #${index + 1}:`)} ${chalk.white(place.name)}`);
                 });
@@ -1420,6 +1952,39 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
             console.log(chalk.bold.cyan(`\n--- Beneath The Surface ---`));
             console.log(`  ${chalk.cyan('Intrigue:')} ${chalk.white(choice.intrigue.name)}`);
             console.log(`  ${chalk.cyan('Public Awareness:')} ${chalk.white(choice.awareness.name)}`);
+        } else if (key === 'nobilityPeopleRelation') {
+            console.log(chalk.bold.cyan(`\n--- Relationship with the People ---`));
+            console.log(`  ${chalk.cyan('Status:')} ${chalk.white(choice.relationship.name)}`);
+            console.log(`  ${chalk.cyan('Root Cause:')} ${chalk.white(choice.root.name)}`);
+            console.log(`  ${chalk.gray(choice.rootDescription)}`);
+        } else if (key === 'nobilityCounts') {
+            console.log(chalk.bold.cyan(`\n--- Nobility Details ---`));
+            
+            // Primary Nobles Display
+            console.log(chalk.bold.white(`  [Primary Nobles: ${choice.primaryCount}]`));
+            if (choice.primaryNobles && choice.primaryNobles.length > 0) {
+                choice.primaryNobles.forEach(noble => {
+                    console.log(chalk.green(`    - Noble #${noble.id}:`));
+                    console.log(`      ${chalk.magenta('↳ Lifestyle:')} ${chalk.white(noble.lifestyle.name)}`);
+                    console.log(`      ${chalk.magenta('↳ Residence:')} ${chalk.white(noble.residence.name)}`);
+                    console.log(`      ${chalk.magenta('↳ Intent:')} ${chalk.white(noble.intent.name)}`);
+                });
+            } else {
+                console.log(chalk.gray('    (None)'));
+            }
+
+            // Lesser Nobles Display
+            if (choice.lesserCount > 0) {
+                console.log(chalk.bold.white(`\n  [Lesser Nobles: ${choice.lesserCount}]`));
+                if (choice.lesserNobles && choice.lesserNobles.length > 0) {
+                    choice.lesserNobles.forEach(noble => {
+                        console.log(chalk.green(`    - Noble #${noble.id}:`));
+                        console.log(`      ${chalk.magenta('↳ Lifestyle:')} ${chalk.white(noble.lifestyle.name)}`);
+                        console.log(`      ${chalk.magenta('↳ Residence:')} ${chalk.white(noble.residence.name)}`);
+                        console.log(`      ${chalk.magenta('↳ Intent:')} ${chalk.white(noble.intent.name)}`);
+                    });
+                }
+            }
         } else if (choice && choice.name) {
             console.log(`${chalk.bold.cyan(keyName + ':')} ${chalk.white(choice.name)}`);
             if(choice.subChoice) {
@@ -1452,27 +2017,23 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
     console.log(chalk.bold.yellow('\n================================'));
 }
 
-// --- NEW --- This helper function removes chalk's ANSI escape codes for clean text output.
 function stripChalk(str) {
     if (typeof str !== 'string') return str;
     return str.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 }
 
-// --- NEW --- This function formats the entire 'choices' object into a readable string for a .txt file.
 function formatForTxt(choices, settlementName) {
     let output = '';
     const nl = '\n';
     const dbl_nl = '\n\n';
 
-    // Header
     output += '================================' + nl;
     output += `   ${settlementName}   ` + nl;
     output += '================================' + dbl_nl;
     output += `Type: ${choices.type.name}` + dbl_nl;
 
-    // Main content loop
     for (const key in choices) {
-        if (key === 'type' || key === 'nonCommercialTypes') continue; // Skip handled/internal keys
+        if (key === 'type' || key === 'nonCommercialTypes' || key === 'numberOfLeaders') continue;
         const choice = choices[key];
         if (!choice) continue;
 
@@ -1489,9 +2050,9 @@ function formatForTxt(choices, settlementName) {
                 case 'districts':
                     choice.forEach((district, index) => {
                         output += `District #${index + 1}: ${district.type.name}` + nl;
-                        output += `  Description: ${district.type.description}` + nl;
-                        output += `  Housing: ${district.housing.name} - ${district.housing.description}` + nl;
-                        output += `  Entry: ${district.entry.name} - ${district.entry.description}` + nl;
+                        output += `  Description: ${district.type.description || 'No description'}` + nl;
+                        output += `  Housing: ${district.housing.name}` + nl;
+                        output += `  Entry: ${district.entry.name}` + nl;
                         output += `  Condition: ${district.condition.name} ${stripChalk(district.condition.description)}` + nl;
                         output += `  Crime: ${district.crime.name} ${stripChalk(district.crime.description)}` + nl;
 
@@ -1499,9 +2060,33 @@ function formatForTxt(choices, settlementName) {
                         if (allLocations.length > 0) {
                             output += '  Locations:' + nl;
                             district.locations.included.forEach(loc => output += `    • ${loc.name} (Included)` + nl);
-                            district.locations.notable.forEach(loc => output += `    • ${loc.name} (Notable)` + nl);
+                            
+                            // Format notable locations distinctly for text output
+                            district.locations.notable.forEach(loc => {
+                                let line = `    • ${loc.name} [NOTABLE]`;
+                                if (loc.notableReason) line += ` - Reason: ${loc.notableReason.name}`;
+                                output += line + nl;
+                            });
+                            
                             district.locations.additional.forEach(loc => output += `    • ${loc.name} (Additional)` + nl);
                         }
+                        output += nl;
+                    });
+                    break;
+                case 'leaderDetails':
+                    choice.forEach(leader => {
+                        output += `Leader #${leader.id}:` + nl;
+                        output += `  Lifestyle: ${leader.lifestyle.name} - ${leader.lifestyle.description}` + nl;
+                        output += `  Residence: ${leader.residence.name} - ${leader.residence.description}` + nl;
+                        output += `  Intent: ${leader.intent.name} - ${leader.intent.description}` + nl;
+                        output += nl;
+                    });
+                    break;
+                case 'notableVisitors':
+                    choice.forEach(visitor => {
+                        output += `Visitor #${visitor.id}:` + nl;
+                        output += `  Role: ${visitor.role.name}` + nl;
+                        output += `  Reason: ${visitor.reason.name} - ${visitor.reason.description}` + nl;
                         output += nl;
                     });
                     break;
@@ -1524,6 +2109,28 @@ function formatForTxt(choices, settlementName) {
                     output += `Intrigue: ${choice.intrigue.name}` + nl + `  ${choice.intrigue.description}` + nl;
                     output += `Awareness: ${choice.awareness.name}` + nl + `  ${choice.awareness.description}` + dbl_nl;
                     break;
+                case 'nobilityPeopleRelation':
+                    output += `Status: ${choice.relationship.name}` + nl + `  ${choice.relationship.description}` + nl;
+                    output += `Root Cause: ${choice.root.name}` + nl + `  ${choice.rootDescription}` + dbl_nl;
+                    break;
+                case 'nobilityCounts':
+                    output += `Primary Nobles Count: ${choice.primaryCount}` + nl;
+                    if (choice.primaryNobles) {
+                        choice.primaryNobles.forEach(n => {
+                             output += `  - Noble #${n.id}: ${n.lifestyle.name}, ${n.residence.name}, ${n.intent.name}` + nl;
+                        });
+                    }
+                    output += nl; 
+                    if (choice.lesserCount > 0) {
+                        output += `Lesser Nobles Count: ${choice.lesserCount}` + nl;
+                        if (choice.lesserNobles) {
+                            choice.lesserNobles.forEach(n => {
+                                 output += `  - Noble #${n.id}: ${n.lifestyle.name}, ${n.residence.name}, ${n.intent.name}` + nl;
+                            });
+                        }
+                    }
+                    output += dbl_nl;
+                    break;
                 case 'commercialLocations':
                     output += 'Shops:' + nl;
                     choice.shops.length > 0 ? choice.shops.forEach(s => output += `- ${s.item.name}` + nl) : output += '(None)' + nl;
@@ -1545,7 +2152,6 @@ function formatForTxt(choices, settlementName) {
     return stripChalk(output);
 }
 
-// --- MODIFIED --- This function now saves a formatted .txt file instead of a .json file.
 async function handleExport(choices, settlementName) {
     const { shouldExport } = await inquirer.prompt([{
         type: 'confirm',
@@ -1576,6 +2182,8 @@ async function startAdventure(autoRollEnabled = false) {
         populationDensity: 0, hardshipLikelihood: 0, condition: 0, disposition: 0, crime: 0, dangerLevel: 0, // Village/Shared
         fortification: 0, lawEnforcement: 0, marketSquare: 0, placeOfWorshipSize: 0, farmsAndResources: 0, defaultInnQuality: 0, populationOverflow: 0, nightActivity: 0, size: 0, populationWealth: 0, // Town/Shared
         numberOfDistricts: 0, districtCondition: 0, districtCrime: 0, // City
+        militaryForce: 0, // Capital
+        nobilityRelation: 0, // Capital Nobility
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
@@ -1607,7 +2215,9 @@ async function startAdventure(autoRollEnabled = false) {
                 choices[result.key] = result.value;
                 if (result.value && result.value.modifiers) {
                     for (const key in result.value.modifiers) {
-                        if (modifiers.hasOwnProperty(key)) modifiers[key] += result.value.modifiers[key];
+                        if (modifiers.hasOwnProperty(key)) {
+                            modifiers[key] += result.value.modifiers[key];
+                        }
                     }
                 }
                 if (result.rollDetail) rollDetails[result.key] = result.rollDetail;
@@ -1619,7 +2229,6 @@ async function startAdventure(autoRollEnabled = false) {
 
     const settlementName = generateSettlementName();
     displaySummary(choices, settlementName, rollDetails, modifiers, freeLocations);
-    // --- MODIFIED --- The call to handleExport no longer needs the 'freeLocations' parameter.
     await handleExport(choices, settlementName);
 }
 

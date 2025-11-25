@@ -2,7 +2,6 @@
 
 // This file contains data tables specific to the City settlement type.
 
-// --- NEW --- Updated the recent history table based on the new image (d20).
 const cityRecentHistoryTable = [
     { min: 1, max: 1, name: 'Construction Collapse', description: 'Some element of city-sponsored construction collapsed, and several people have been killed.' },
     { min: 2, max: 2, name: 'Market Hooligans', description: 'A gang of hooligans have started making trouble around the market.' },
@@ -16,43 +15,9 @@ const cityRecentHistoryTable = [
     { min: 10, max: 10, name: 'Call for New Leadership', description: 'A group of citizens are calling for a new form of leadership. How do others in the city respond?' },
     { min: 11, max: 11, name: 'Inedible Cuisine', description: 'An item of local cuisine has suddenly been rendered inedible. Whatever is causing the problem seems to be persisting.' },
     { min: 12, max: 12, name: 'Unusual Contest', description: 'An unusual, and intriguing, contest is being held by a major figure in the community. Tryouts began a week ago, but none that have participated have mentioned what it is, whether or not they succeeded, or what\'s next.' },
-    // NOTE: Filling remaining 13-20 to make it a d20 table, as per image header context
     { min: 13, max: 20, name: 'Reroll', description: 'Another recent event has occurred. Roll again on this table.' }
 ];
 
-// --- NEW --- Added Noteworthy Official table for cities.
-const cityOfficialsTable = [
-    { dice: 1, name: 'Adviser', description: 'Second in command of the city. Can be an official, or unofficial, position.' },
-    { dice: 2, name: 'Ambassador', description: 'Regularly acts as a representative for the city/nation when traveling abroad.' },
-    { dice: 3, name: 'Catchpole', description: 'Catches and brings in debtors.' },
-    { dice: 4, name: 'Champion', description: 'Ready to stand in for the city leadership for any martial matters, either ceremonially or officially.' },
-    { dice: 5, name: 'Clerk', description: 'Recordkeeper for the city.' },
-    { dice: 6, name: 'Exchequer', description: 'Responsible for taxes.' },
-    { dice: 7, name: 'Guildmaster', description: 'Oversees one of the official (or underground) guilds, or factions, within the city.' },
-    { dice: 8, name: 'Herald', description: 'Responsible for disseminating official edicts, and other news, to the general populace. If serving in a courtly capacity, bears responsibility for knowing the names and titles of important individuals, and announcing them, when appropriate.' },
-    { dice: 9, name: 'High Priest/Druid', description: 'The primary representative of the faithful to the city leadership.' },
-    { dice: 10, name: 'High Mage', description: 'The representative of the practitioners of arcane arts to the city leadership.' },
-    { dice: 11, name: 'Jailer', description: 'In charge of confining prisoners.' },
-    { dice: 12, name: 'Judge', description: 'Decision-maker in legal matters.' },
-    { dice: 13, name: 'Liner', description: 'Determines property boundaries.' },
-    { dice: 14, name: 'Master of Intelligence', description: 'Responsible for seeking and utilizing information vital for city/nation’s security.' },
-    { dice: 15, name: 'Master of Revels', description: 'Lead organizer of festivals and special events.' },
-    { dice: 16, name: 'Master of Stores', description: 'Oversees the city’s stores of supplies, such as grain or building materials.' },
-    { dice: 17, name: 'Master of Trade', description: 'Responsible for the management of imports and exports.' },
-    { dice: 18, name: 'Master of the Treasury', description: 'Responsible for the city’s expenditures and paying contracts and debts.' },
-    { dice: 19, name: 'Master of the Wild', description: 'Surveys the surrounding areas, mapping the wilderness, looking for monsters or other threats, and regulating hunting.' },
-    { dice: 20, name: 'Roadwarden/Dockwarden', description: 'In charge of some, or all, of the city’s transportation systems.' },
-];
-
-// --- NEW --- Added Official Competence table.
-const cityOfficialCompetenceTable = [
-    { min: 1, max: 1, name: 'Corrupt', description: 'Taking advantage of the position for personal gain.' },
-    { min: 2, max: 3, name: 'Incompetent', description: 'Doesn’t truly understand how to execute the position.' },
-    { min: 4, max: 5, name: 'Committed', description: 'Utterly committed to the job, truly feeling it is of vital importance.' },
-    { min: 6, max: 6, name: 'Overqualified', description: 'Based on skills and experience, ought to be in a higher, or more challenging, position.' },
-];
-
-// --- NEW --- Added Beneath the Surface table.
 const beneathTheSurfaceTable = [
     { dice: 1, name: 'Pack', description: 'A pack of particularly feral animals roams the city.' },
     { dice: 2, name: 'Monster', description: 'A monster lurks somewhere in the city.' },
@@ -68,7 +33,6 @@ const beneathTheSurfaceTable = [
     { dice: 12, name: 'Haunted', description: 'The city is being haunted by some kind of spirit.' },
 ];
 
-// --- NEW --- Added Beneath the Surface Awareness table.
 const beneathTheSurfaceAwarenessTable = [
     { dice: 1, name: 'Utterly Oblivious', description: 'The public has not seen, or heard, any hint of whatever is going on. It will go unchecked until something triggers a change.' },
     { dice: 2, name: 'Single, Subtle Occurrence', description: 'Someone has noticed some kind of evidence, but doesn’t quite know what to make of it. They just know it’s strange.' },
@@ -417,8 +381,6 @@ const districtNotableLocationsTable = [
 
 export {
   cityRecentHistoryTable,
-  cityOfficialsTable,
-  cityOfficialCompetenceTable,
   beneathTheSurfaceTable,
   beneathTheSurfaceAwarenessTable,
   cityOriginsTable,

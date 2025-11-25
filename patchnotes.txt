@@ -24,6 +24,15 @@ Changes:
 - Swamp Environment now counts as adjacent to water (To impliment), allows for Docks District to be rolled - This is a case of fun > hard mechanics. You can justify a watery swamp having a dock. Removing the option entirely seems overkill.
 - Refined the quality table, rolls are now Poor, Fine, Good and Excellent - More range allows for more interesting results.
 
+
+
+Capitals:
+- Removed connections. - It's too thin to give content and it's directionless. You learn nothing other than it has some friends or some enemies.
+- Remove Culutre - The table is here way too shallow and way to weird to describe in terms of gameplay. A 75% chance of having a whole capital city obsessed with some vague term is weird.
+- Removed Pursit of Culture - If Culture is removed, so must Pursuit of culture. 
+
+
+
 Additions:
 
 

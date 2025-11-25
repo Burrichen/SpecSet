@@ -1,7 +1,3 @@
-// Districts.js
-
-// This file contains the master list of all city locations and the data for each district.
-
 const hiredHelpSubTable = [
     { dice: 1, name: 'Hired Help: Brutes & Brawlers' },
     { dice: 2, name: 'Hired Help: Cloak & Dagger' },
@@ -24,10 +20,6 @@ const magicShopSubTable = [
     { dice: 6, name: 'Magic Shop - Misc. & Curiosities' },
 ];
 
-// --- FIXED ---
-// The 'additionalLocationRollsCount' variable was used in SetGen.js but never defined.
-// It is now defined here as a map of city size to the number of rolls.
-// The unused 'additionalLocationRollsTable' has been removed for clarity.
 const additionalLocationRollsCount = {
     'Very Small': 1,
     'Small': 2,
@@ -35,7 +27,6 @@ const additionalLocationRollsCount = {
     'Large': 4,
     'Very Large': 5,
 };
-
 
 // Master list of all possible locations
 const allCityLocations = {
@@ -99,7 +90,6 @@ const allCityLocations = {
     'Temple': { name: 'Temple', category: 'non-commercial' },
     'Great Temple': { name: 'Great Temple', category: 'non-commercial' },
 };
-
 
 const districtData = {
     'Administration': {
@@ -197,7 +187,7 @@ const districtData = {
             { min: 10, max: 10, name: 'Foundry/Smelting' },
             { min: 11, max: 11, name: 'Miller' },
             { min: 12, max: 12, name: 'Textile Production' },
-            { min: 13, max: 13, name: 'Shipwright' }, // Reroll if not near water
+            { min: 13, max: 13, name: 'Shipwright' },
             { min: 14, max: 14, name: 'Magic Shop', subTable: magicShopSubTable },
             { min: 15, max: 15, name: 'Luxury Furnishings' },
             { min: 16, max: 16, name: 'Rare Trade Goods' },
