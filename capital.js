@@ -1,7 +1,3 @@
-// capital.js
-
-// This file contains data tables specific to the Capital settlement type.
-
 const capitalOriginsTable = [
     { dice: 1, name: 'First Settlement', description: 'This location was the first one settled in the region, and continued to grow as a central location, outpacing all others.' },
     { dice: 2, name: 'Holy City', description: 'The site was of religious significance, and was settled with the intent of growing it into a capital.' },
@@ -473,7 +469,6 @@ const capitalOrganizedCrimeTable = [
     { min: 19, max: 20, name: 'Open', description: 'Though key members may be unknown, the presence of the organization is common knowledge and, though it may not have been fully proved, it’s clear they have a direct hand in running the capital.' },
 ];
 
-// --- NEW: Capital Recent History Table (20 items) ---
 const capitalRecentHistoryTable = [
     { min: 1, max: 1, name: 'Construction Collapse', description: 'Some element of city-sponsored construction collapsed, and several people have been killed.' },
     { min: 2, max: 2, name: 'Market Hooligans', description: 'A gang of hooligans have started making trouble around the market.' },
@@ -497,7 +492,6 @@ const capitalRecentHistoryTable = [
     { min: 20, max: 20, name: 'Deity Appearance', description: 'A deity has made a physical appearance in the city.' },
 ];
 
-// --- DISTRICT TABLES ---
 const capitalNumberOfDistrictsTable = [
     { min: 1, max: 2, value: 2 },
     { min: 3, max: 10, value: 3 },
@@ -513,54 +507,53 @@ const capitalDistrictNotableLocationsTable = [
     { min: 10, max: 10, name: 'Three', value: 3 },
 ];
 
+const capitalLocationNotabilityTable = [
+    { min: 1, max: 5, name: 'Phenomenal Quality', description: 'Whatever product or service the location offers, it is of supreme quality. (Quality set to max).', qualityOverride: { name: 'Exceptional' } },
+    { min: 6, max: 10, name: 'Top-Notch Marketing', description: 'All around the capital you can see signage, or hear people mentioning, the location.' },
+    { min: 11, max: 15, name: 'Meeting Place', description: 'The establishment is in a particular location which is a prime landmark for people to easily meet.' },
+    { min: 16, max: 20, name: 'History', description: 'This location is notable for its links to local history.' },
+    { min: 21, max: 25, name: 'Bargain Prices', description: 'Prices here are rock bottom!' },
+    { min: 26, max: 30, name: 'Credit Line', description: 'Unlike most stores, credit is available here.' },
+    { min: 31, max: 34, name: 'Generous Spirit', description: 'The location owner is known in the community for their generosity.' },
+    { min: 35, max: 38, name: 'Expansion', description: 'This place has recently grown.' },
+    { min: 39, max: 42, name: 'Message Hub', description: 'The location has a place to send and receive letters or post.' },
+    { min: 43, max: 46, name: 'Notice Board', description: 'The location has a notice board for local errands to be posted.' },
+    { min: 47, max: 49, name: 'Entertaining Service', description: 'Something about the folk that work here is very entertaining.' },
+    { min: 50, max: 52, name: 'Coercion', description: 'Customers, who might otherwise go somewhere else, are pressured into coming here instead.' },
+    { min: 53, max: 55, name: 'Rumors', description: 'Something intriguing has been heard about this place that has piqued folks’ curiosity.' },
+    { min: 56, max: 58, name: 'Important Person', description: 'Someone directly involved with this location is a major figure in the community.' },
+    { min: 59, max: 61, name: 'Organisation Affiliation', description: 'Association with certain people has generated traffic to this location.' },
+    { min: 62, max: 64, name: 'Tourist Trap', description: 'The location may be good, or bad, but it caters exclusively to tourists.' },
+    { min: 65, max: 66, name: 'Mascot', description: 'Some kind of creature, animal or even bizarre humanoid.' },
+    { min: 67, max: 68, name: 'Refuge', description: 'Hidden is a hideout or shelter for those who need it (debt/tragedy/sinister).' },
+    { min: 69, max: 70, name: 'False Front', description: 'The outward appearance of the store isn\'t its real location. (Roll again for the TRUE store.)' },
+    { min: 71, max: 72, name: 'Drama', description: 'There’s currently ongoing beef either involving the store, or its participants.' },
+    { min: 73, max: 74, name: 'Moving Store', description: 'The place always moves, maybe its a travelling cart, carriage or maybe.. magic.' },
+    { min: 75, max: 76, name: 'Gambling', description: 'The prices of this place are decided via games, betting or pure chance.' },
+    { min: 77, max: 78, name: 'Bespoke Only', description: 'Whatever service or item this place provides has to be manually crafted. (Quality set to max)', qualityOverride: { name: 'Exceptional' } },
+    { min: 79, max: 80, name: 'Night Owl', description: 'This location is only open from late evening until early morning.' },
+    { min: 81, max: 82, name: 'Secret', description: 'The location of this store is hidden, and requires some effort to find.' },
+    { min: 83, max: 84, name: 'Curated Invitation', description: 'Someone needs an invite to be able to shop at this location.' },
+    { min: 85, max: 86, name: 'Celebrity Spot', description: 'Celebrities are known to visit this location.' },
+    { min: 87, max: 89, name: 'Haunted', description: 'This place is haunted, whether they know or not.' },
+    { min: 90, max: 92, name: 'Exotic Goods', description: 'This place sells things from far, far away.' }, 
+    { min: 93, max: 95, name: 'Unique Architecture', description: 'The building itself is an impossible oddity.' }, 
+    { min: 96, max: 100, name: 'Awful', description: 'Whatever product or service the location offers, it is of atrocious quality. (Quality set to minimum)', qualityOverride: { name: 'Poor' } }
+];
+
 export {
-    capitalOriginsTable,
-    capitalAgeTable,
-    capitalSizeTable,
-    outsideTheCapitalCountData,
-    outsideTheCapitalTable,
-    capitalStewardshipTable,
-    capitalGeneralConditionTable,
-    capitalFortificationTable,
-    capitalMarketSquareTable,
-    capitalVendorStallAcquisitionTable,
-    capitalMerchantOverflowTable,
-    capitalUndergroundPassagesTable,
-    capitalLeadershipTable,
-    capitalUnityTable,
-    capitalPriorityTable,
-    capitalPriorityApproachTable,
-    capitalPrioritySuccessTable,
-    capitalLifestyleTable,
-    capitalResidenceTable,
-    capitalIntentTable,
-    capitalSpyNetworkTable,
-    capitalInfiltrationDepthTable,
-    capitalCounterintelligenceTable,
-    capitalCounterintelligenceWatchfulnessTable,
-    capitalNotableVisitorCountTable,
-    capitalVisitorRoleTable,
-    capitalVisitorReasonTable,
-    capitalMilitaryForceTable,
-    capitalMilitaryStandingTable,
-    capitalMilitaryRecruitmentTable,
-    capitalMilitarySizeTable,
-    capitalMilitarySpecializationTable,
-    capitalMilitaryFacilitiesTable,
-    capitalNobilityTypeTable,
-    capitalNobilityRelationTable,
-    capitalNobleCountTable,
-    capitalNobilityPeopleRelationTable,
-    capitalNobilityRootTable,
-    capitalPopulationDensityTable,
-    capitalPopulationWealthTable,
-    capitalVisitorTrafficTable,
-    capitalDispositionTable,
-    capitalNightActivityTable,
-    capitalLawEnforcementTable,
-    capitalCrimeTable,
-    capitalOrganizedCrimeTable,
-    capitalRecentHistoryTable,
-    capitalNumberOfDistrictsTable,
-    capitalDistrictNotableLocationsTable
+    capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable,
+    capitalStewardshipTable, capitalGeneralConditionTable, capitalFortificationTable, capitalMarketSquareTable,
+    capitalVendorStallAcquisitionTable, capitalMerchantOverflowTable, capitalUndergroundPassagesTable,
+    capitalLeadershipTable, capitalUnityTable, capitalPriorityTable, capitalPriorityApproachTable,
+    capitalPrioritySuccessTable, capitalLifestyleTable, capitalResidenceTable, capitalIntentTable,
+    capitalSpyNetworkTable, capitalInfiltrationDepthTable, capitalCounterintelligenceTable,
+    capitalCounterintelligenceWatchfulnessTable, capitalNotableVisitorCountTable, capitalVisitorRoleTable,
+    capitalVisitorReasonTable, capitalMilitaryForceTable, capitalMilitaryStandingTable, capitalMilitaryRecruitmentTable,
+    capitalMilitarySizeTable, capitalMilitarySpecializationTable, capitalMilitaryFacilitiesTable,
+    capitalNobilityTypeTable, capitalNobilityRelationTable, capitalNobleCountTable,
+    capitalNobilityPeopleRelationTable, capitalNobilityRootTable, capitalPopulationDensityTable,
+    capitalPopulationWealthTable, capitalVisitorTrafficTable, capitalDispositionTable, capitalNightActivityTable,
+    capitalLawEnforcementTable, capitalCrimeTable, capitalOrganizedCrimeTable, capitalRecentHistoryTable,
+    capitalNumberOfDistrictsTable, capitalDistrictNotableLocationsTable, capitalLocationNotabilityTable
 };

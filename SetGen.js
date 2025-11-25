@@ -1,13 +1,17 @@
-// SetGen.js
-
 import fs from 'fs/promises';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { tradingPostOrigins, tradingPostSpecialties, foodAndDrink, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
-import { environmentTable, dispositionTable, oligarchyTypeTable, servicesTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
+
+// --- IMPORTS ---
+// Corrected: Removed servicesTable from here
+import { tradingPostOrigins, tradingPostSpecialties, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
+
+// Corrected: Added servicesTable here
+import { environmentTable, dispositionTable, oligarchyTypeTable, hiredHelpSizeTable, servicesTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
+
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
-import { townOriginsTable, townPriorityTable, magicShopSubTable, industrySubTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
+import { townOriginsTable, townPriorityTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
 import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable } from './city.js';
 import { 
     capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable, 
@@ -26,12 +30,13 @@ import {
     capitalDispositionTable, capitalNightActivityTable, capitalLawEnforcementTable, 
     capitalCrimeTable, capitalOrganizedCrimeTable,
     capitalRecentHistoryTable,
-    capitalNumberOfDistrictsTable, capitalDistrictNotableLocationsTable
+    capitalNumberOfDistrictsTable, capitalDistrictNotableLocationsTable, capitalLocationNotabilityTable
 } from './capital.js';
 
-// ... [HELPER FUNCTIONS REMAIN UNCHANGED] ...
+// --- UTILITY FUNCTIONS ---
 
 function rollDice(count, size) {
+    if (!size || size < 1) return 0; // Safety check
     let total = 0;
     for (let i = 0; i < count; i++) {
         total += Math.floor(Math.random() * size) + 1;
@@ -39,14 +44,24 @@ function rollDice(count, size) {
     return total;
 }
 
+function getTableDieSize(table) {
+    if (!table || table.length === 0) return 20; // Default fallback
+    // If table has min/max
+    if (table[0].min !== undefined) {
+        return table[table.length - 1].max;
+    }
+    // If table uses 'dice' keys
+    return table.length;
+}
+
 function rollOnTable(table, diceSize) {
-    const dSize = diceSize || (table[0].min !== undefined ? table[table.length - 1].max : table.length);
+    const dSize = diceSize || getTableDieSize(table);
     const roll = rollDice(1, dSize);
 
     if (table[0].min !== undefined) {
-        return table.find(item => roll >= item.min && roll <= item.max);
+        return table.find(item => roll >= item.min && roll <= item.max) || table[0];
     } else {
-        return table.find(item => roll === item.dice);
+        return table.find(item => roll === item.dice) || table[0];
     }
 }
 
@@ -93,18 +108,15 @@ function generateSettlementName() {
     return prefix + suffix;
 }
 
-// --- DATA ---
+// --- DATA CONFIGURATION ---
 const settlementTypes = [
   { name: 'Trading Post', value: 'Trading Post' },
   { name: 'Village', value: 'Village' },
   { name: 'Town', value: 'Town' },
   { name: 'City', value: 'City' },
   { name: 'Capital', value: 'Capital' },
-  { name: 'Fortress', value: 'Fortress' },
 ];
 
-
-// --- THE "RECIPE BOOK" ---
 const settlementPaths = {
     'Trading Post': [
         { key: 'origin', title: "its origin", prompt: "Select the Trading Post's origin:", table: tradingPostOrigins, type: 'CHOICE' },
@@ -255,7 +267,7 @@ const settlementPaths = {
         { key: 'militaryForce', title: "military presence", table: capitalMilitaryForceTable, type: 'DERIVED', modifierKey: 'militaryForce' },
         { key: 'militaryStanding', title: "military standing", table: capitalMilitaryStandingTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
         { key: 'militaryRecruitment', title: "military recruitment", prompt: "Select the recruitment type:", table: capitalMilitaryRecruitmentTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
-        { key: 'militarySize', title: "size of the force", table: capitalMilitarySizeTable, type: 'DERIVED', modifierKey: 'militaryForce' /* Reusing modifier key if needed, or add new logic */, condition: (choices) => choices.militaryForce?.hasMilitary },
+        { key: 'militarySize', title: "size of the force", table: capitalMilitarySizeTable, type: 'DERIVED', modifierKey: 'militaryForce', condition: (choices) => choices.militaryForce?.hasMilitary },
         { key: 'militarySpecialization', title: "military specialization", prompt: "Select the military specialization:", table: capitalMilitarySpecializationTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
         { key: 'militaryFacilities', title: "military facilities", prompt: "Select the military facilities:", table: capitalMilitaryFacilitiesTable, type: 'CHOICE', condition: (choices) => choices.militaryForce?.hasMilitary },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Nobility" },
@@ -273,7 +285,7 @@ const settlementPaths = {
         { key: 'crime', title: 'its crime level', table: capitalCrimeTable, type: 'DERIVED', modifierKey: 'crime' },
         { key: 'organizedCrime', title: 'its organized crime presence', prompt: 'Select the nature of organized crime:', table: capitalOrganizedCrimeTable, type: 'CHOICE', condition: (choices) => choices.leadership?.rules?.crime?.forceOrganizedCrime || choices.crime?.rules?.hasOrganizedCrime },
         { key: 'break6', type: 'BREAKPOINT', stepName: "Step 6: Districts & Locations" },
-        { key: 'districts', title: 'its districts and their locations', type: 'DISTRICTS', tables: { number: capitalNumberOfDistrictsTable, notable: capitalDistrictNotableLocationsTable } },
+        { key: 'districts', title: 'its districts and their locations', type: 'DISTRICTS', tables: { number: capitalNumberOfDistrictsTable, notable: capitalDistrictNotableLocationsTable, notability: capitalLocationNotabilityTable } },
         { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
         { key: 'break7', type: 'BREAKPOINT', stepName: "Step 7: Extra Intrigue" },
         { key: 'recentHistory', title: 'its recent history', prompt: 'Select a recent history event:', table: capitalRecentHistoryTable, type: 'CHOICE' },
@@ -288,6 +300,7 @@ const stepProcessors = {
         const diceSize = rules?.diceOverride;
 
         let choice;
+        let retries = 0;
         do {
             choice = isAutoRolling
                 ? rollOnTable(step.table, diceSize)
@@ -311,34 +324,11 @@ const stepProcessors = {
             if (step.key === 'recentHistory' && choice.name === 'Reroll') {
                 if (isAutoRolling) {
                     console.log(chalk.yellow(`      -> Rolled "Reroll". Rerolling recent history...`));
+                    retries++;
+                    if(retries > 10) break;
                     continue;
                 } else {
                     console.log(chalk.yellow(`      -> Please select another event.`));
-                    continue;
-                }
-            }
-
-            if (step.key === 'counterintelligence' && choices.governingPriority?.name === 'Cloak & Dagger' && choice.name === 'None') {
-                 if (isAutoRolling) {
-                    console.log(chalk.yellow(`      -> Rolled "None" but "Cloak & Dagger" priority is active. Rerolling...`));
-                    continue;
-                } else {
-                    console.log(chalk.yellow(`      -> "Cloak & Dagger" priority prevents selecting "None". Please choose another option.`));
-                    continue;
-                }
-            }
-
-            if (choice.rules?.farmsAndResources && isAutoRolling) {
-                const subRoll = rollDice(1, 10);
-                if (subRoll >= choice.rules.farmsAndResources.rerollRange[0] && subRoll <= choice.rules.farmsAndResources.rerollRange[1]) {
-                    console.log(chalk.yellow(`      -> Rolled "${choice.name}" but got a ${subRoll} on the sub-roll. Rerolling specialty...`));
-                    continue; 
-                }
-            }
-            if (rules?.rerollRange && isAutoRolling) {
-                const rollValue = choice.min || choice.dice;
-                if(rollValue >= rules.rerollRange[0] && rollValue <= rules.rerollRange[1]) {
-                    console.log(chalk.yellow(`      -> Rolled "${choice.name}" which is in the reroll range. Rerolling...`));
                     continue;
                 }
             }
@@ -403,13 +393,16 @@ const stepProcessors = {
             let baseRoll;
             let finalScore;
             const rules = choices.priority?.rules?.[step.key];
+            const maxDie = getTableDieSize(step.table);
             
             do {
-                baseRoll = rollDice(1, step.table[step.table.length - 1].max);
-                finalScore = applyModifierAndClamp(baseRoll, modifier, 1, step.table[step.table.length - 1].max);
+                baseRoll = rollDice(1, maxDie);
+                finalScore = applyModifierAndClamp(baseRoll, modifier, 1, maxDie);
             } while (rules?.rerollRange && (finalScore >= rules.rerollRange[0] && finalScore <= rules.rerollRange[1]));
             
-            const result = step.table.find(item => finalScore >= item.min && finalScore <= item.max);
+            const result = (step.table[0].min !== undefined)
+                ? step.table.find(item => finalScore >= item.min && finalScore <= item.max)
+                : step.table.find(item => finalScore === item.dice);
 
             if (result) {
                 console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
@@ -426,7 +419,7 @@ const stepProcessors = {
             const answer = await inquirer.prompt([{
                 type: 'list', name: 'choice', message: `Select ${step.title}:`,
                 choices: step.table.map(item => ({
-                    name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`,
+                    name: `[${item.dice || `${item.min}-${item.max}`}] ${chalk.bold(item.name)}: ${item.description}`,
                     value: item,
                 })),
                 loop: false,
@@ -1101,7 +1094,6 @@ const stepProcessors = {
         const numMod = modifiers.numberOfDistricts || 0;
         let numResult;
         if (step.tables && step.tables.number) {
-            // Use specific table for Capital
             if (isAutoRolling) {
                 const baseRoll = rollDice(1, 20);
                 const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
@@ -1115,7 +1107,6 @@ const stepProcessors = {
                 numResult = answer.choice;
             }
         } else {
-            // Default to City table
             if (isAutoRolling) {
                 const baseRoll = rollDice(1, 20);
                 const finalScore = applyModifierAndClamp(baseRoll, numMod, 1, 20);
@@ -1173,9 +1164,8 @@ const stepProcessors = {
 
         const conditionOrder = ['Squalid', 'Dilapidated', 'Decent', 'Impressive', 'Magnificent'];
         const generalConditionIndex = conditionOrder.indexOf(choices.generalCondition.name);
-        const crimeOrder = ['Dangerous', 'Frequent', 'Common', 'Uncommon', 'Infrequent'];
-        // Handle key difference between City (generalCrime) and Capital (crime)
         const generalCrimeName = choices.generalCrime ? choices.generalCrime.name : choices.crime.name;
+        const crimeOrder = ['Dangerous', 'Frequent', 'Common', 'Uncommon', 'Infrequent'];
         const generalCrimeIndex = crimeOrder.indexOf(generalCrimeName);
 
         for (const district of generatedDistricts) {
@@ -1238,12 +1228,18 @@ const stepProcessors = {
             district.urbanEncounterModifier = crimeDegreesData[district.crime.name]?.urbanEncounter || 0;
             console.log(`      ${chalk.magenta('Crime:')} ${chalk.white(district.crime.name)} ${chalk.gray(district.crime.description)}`);
         
-            // Use custom notable location table if provided (for Capital) or default (for City)
             const notableTable = (step.tables && step.tables.notable) ? step.tables.notable : districtNotableLocationsTable;
+            const notabilityReasonTable = (step.tables && step.tables.notability) ? step.tables.notability : null;
+
             const notableLocationsResult = isAutoRolling ? rollOnTable(notableTable, 10) : (await inquirer.prompt([{ type: 'list', name: 'choice', message: `Select number of notable locations for the ${district.type.name} district:`,
                 choices: notableTable.map(item => ({ name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}`, value: item })), loop: false }])).choice;
             district.notableLocationsCount = notableLocationsResult;
             console.log(`      ${chalk.magenta('Notable Locations:')} ${chalk.white(district.notableLocationsCount.name)}`);
+
+            // Initialize location arrays
+            district.locations.included = [];
+            district.locations.notable = [];
+            district.locations.additional = [];
 
             const includedData = districtData[district.type.name]?.includedLocations;
             if (includedData && Array.isArray(includedData)) {
@@ -1268,7 +1264,10 @@ const stepProcessors = {
             if (totalNewLocations > 0) {
                  for (let i = 0; i < totalNewLocations; i++) {
                     const isNotable = i < notableCount;
-                    console.log(chalk.cyan(`    -> Generating ${isNotable ? chalk.yellow('Notable') : 'Additional'} Location #${isNotable ? i + 1 : i - notableCount + 1}...`));
+                    const typeLabel = isNotable ? 'Notable' : 'Additional';
+                    const colorLabel = isNotable ? chalk.yellow : chalk.magenta;
+
+                    console.log(chalk.cyan(`    -> Generating ${colorLabel(typeLabel)} Location #${isNotable ? i + 1 : i - notableCount + 1}...`));
                     
                     let qualityMod = 0;
                     let reroll;
@@ -1294,10 +1293,49 @@ const stepProcessors = {
                             }
                             
                             const locationData = allCityLocations[finalLocationName] || { name: finalLocationName, category: 'unknown' };
-                            const locationResult = { ...locationData, isNotable, qualityMod };
+                            
+                            // -- NOTABILITY REASON ROLL ---
+                            let notableReason = null;
+                            let qualityOverride = null;
+
+                            if (isNotable && notabilityReasonTable) {
+                                console.log(chalk.gray(`      -> Determining why ${finalLocationName} is notable...`));
+                                let reasonResult = isAutoRolling 
+                                    ? rollOnTable(notabilityReasonTable, 100)
+                                    : (await inquirer.prompt([{
+                                        type: 'list', 
+                                        name: 'choice', 
+                                        message: `Why is ${finalLocationName} notable?`,
+                                        choices: notabilityReasonTable.map(r => ({
+                                            name: `[${String(r.min).padStart(2,'0')}-${String(r.max).padStart(3,'0')}] ${r.name}`,
+                                            value: r
+                                        })),
+                                        pageSize: 10,
+                                        loop: false
+                                    }])).choice;
+                                
+                                notableReason = reasonResult;
+                                if (reasonResult.qualityOverride) {
+                                    qualityOverride = reasonResult.qualityOverride;
+                                    console.log(chalk.yellow(`        (Quality set to '${qualityOverride.name}' due to ${reasonResult.name})`));
+                                }
+                            }
+
+                            const locationResult = { 
+                                ...locationData, 
+                                isNotable, 
+                                qualityMod,
+                                notableReason,
+                                qualityOverride
+                            };
+
                             const targetArray = isNotable ? district.locations.notable : district.locations.additional;
                             targetArray.push(locationResult);
+
                             console.log(`      ${chalk.magenta('Location:')} ${chalk.white(locationResult.name)} ${qualityMod !== 0 ? chalk.gray(`(Quality ${qualityMod > 0 ? '+' : ''}${qualityMod})`) : ''}`);
+                            if(notableReason) {
+                                console.log(`        ${chalk.yellow('↳ Notable because:')} ${chalk.white(notableReason.name)}`);
+                            }
                         }
                     } while(reroll);
                 }
@@ -1375,7 +1413,10 @@ const stepProcessors = {
                 if (location.name.includes('[')) continue;
 
                 let quality;
-                if (isAutoRolling) {
+                // Check for override first (e.g. from Capital Notable Tables)
+                if (location.qualityOverride) {
+                    quality = location.qualityOverride;
+                } else if (isAutoRolling) {
                     quality = rollOnTable(locationQualityTable, 12);
                 } else {
                     const { choice } = await inquirer.prompt([{
@@ -1545,9 +1586,11 @@ const stepProcessors = {
 
             let residence;
             const resMod = lifestyle.modifiers?.residence || 0;
+            const maxDie = getTableDieSize(capitalResidenceTable);
+
             if (isAutoRolling) {
-                const baseRoll = rollDice(1, 10);
-                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, 10);
+                const baseRoll = rollDice(1, maxDie);
+                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
                 residence = capitalResidenceTable.find(item => item.dice === finalScore);
                 console.log(`      ${chalk.magenta('Residence:')} ${chalk.white(residence.name)} ${chalk.gray(`(Rolled ${baseRoll}, Mod ${resMod >= 0 ? '+' : ''}${resMod})`)}`);
             } else {
@@ -1641,7 +1684,7 @@ const stepProcessors = {
         return { key: step.key, value: visitors };
     },
 
-    NOBILITY_RELATION_PEOPLE: async (step, { isAutoRolling }) => {
+    NOBILITY_RELATION_PEOPLE: async (step, { isAutoRolling, modifiers }) => {
         console.log(chalk.cyan(`\n    -> Determining relationship with the people...`));
         
         // 1. Determine Relationship
@@ -1677,8 +1720,12 @@ const stepProcessors = {
         // Apply modifiers if any
         if (root.modifiers) {
             const mods = relationship.isPositive ? root.modifiers.positive : root.modifiers.negative;
-            // Note: Modifiers are applied here but won't affect previous steps since we are at the end.
-            // They are stored for reference.
+            if (mods) {
+                for (const [key, value] of Object.entries(mods)) {
+                    modifiers[key] = (modifiers[key] || 0) + value; 
+                    console.log(chalk.gray(`      (Applied modifier: ${key} ${value >= 0 ? '+' : ''}${value})`));
+                }
+            }
         }
 
         console.log(`      ${chalk.magenta('Root Cause:')} ${chalk.white(root.name)} (${chalk.gray(rootContext)})`);
@@ -1713,8 +1760,9 @@ const stepProcessors = {
                 const lifestyle = rollOnTable(capitalLifestyleTable);
                 // Residence (with modifier)
                 const resMod = lifestyle.modifiers?.residence || 0;
-                const baseRoll = rollDice(1, 10);
-                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, 10);
+                const maxDie = getTableDieSize(capitalResidenceTable);
+                const baseRoll = rollDice(1, maxDie);
+                const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
                 const residence = capitalResidenceTable.find(item => item.dice === finalScore);
                 // Intent
                 const intent = rollOnTable(capitalIntentTable);
@@ -1755,8 +1803,9 @@ const stepProcessors = {
                 for (let i = 1; i <= lesserCount; i++) {
                     const lifestyle = rollOnTable(capitalLifestyleTable);
                     const resMod = lifestyle.modifiers?.residence || 0;
-                    const baseRoll = rollDice(1, 10);
-                    const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, 10);
+                    const maxDie = getTableDieSize(capitalResidenceTable);
+                    const baseRoll = rollDice(1, maxDie);
+                    const finalScore = applyModifierAndClamp(baseRoll, resMod, 1, maxDie);
                     const residence = capitalResidenceTable.find(item => item.dice === finalScore);
                     const intent = rollOnTable(capitalIntentTable);
     
@@ -2001,9 +2050,9 @@ function formatForTxt(choices, settlementName) {
                 case 'districts':
                     choice.forEach((district, index) => {
                         output += `District #${index + 1}: ${district.type.name}` + nl;
-                        output += `  Description: ${district.type.description}` + nl;
-                        output += `  Housing: ${district.housing.name} - ${district.housing.description}` + nl;
-                        output += `  Entry: ${district.entry.name} - ${district.entry.description}` + nl;
+                        output += `  Description: ${district.type.description || 'No description'}` + nl;
+                        output += `  Housing: ${district.housing.name}` + nl;
+                        output += `  Entry: ${district.entry.name}` + nl;
                         output += `  Condition: ${district.condition.name} ${stripChalk(district.condition.description)}` + nl;
                         output += `  Crime: ${district.crime.name} ${stripChalk(district.crime.description)}` + nl;
 
@@ -2011,7 +2060,14 @@ function formatForTxt(choices, settlementName) {
                         if (allLocations.length > 0) {
                             output += '  Locations:' + nl;
                             district.locations.included.forEach(loc => output += `    • ${loc.name} (Included)` + nl);
-                            district.locations.notable.forEach(loc => output += `    • ${loc.name} (Notable)` + nl);
+                            
+                            // Format notable locations distinctly for text output
+                            district.locations.notable.forEach(loc => {
+                                let line = `    • ${loc.name} [NOTABLE]`;
+                                if (loc.notableReason) line += ` - Reason: ${loc.notableReason.name}`;
+                                output += line + nl;
+                            });
+                            
                             district.locations.additional.forEach(loc => output += `    • ${loc.name} (Additional)` + nl);
                         }
                         output += nl;
