@@ -3,16 +3,12 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 // --- IMPORTS ---
-// Corrected: Removed servicesTable from here
 import { tradingPostOrigins, tradingPostSpecialties, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
-
-// Corrected: Added servicesTable here
-import { environmentTable, dispositionTable, oligarchyTypeTable, hiredHelpSizeTable, servicesTable, fervencyTable, officialsTable, officialCompetenceTable } from './commonTables.js';
-
+import { environmentTable, dispositionTable, oligarchyTypeTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable, servicesTable } from './commonTables.js';
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 import { townOriginsTable, townPriorityTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
-import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable } from './city.js';
+import { cityRecentHistoryTable, cityOriginsTable, cityPriorityTable, cityAgeTable, citySizeTable, outsideTheCityCountData, outsideTheCityTable, stewardshipTable, generalConditionTable, cityFortificationTable, cityMarketSquareTable, cityVendorStallAcquisitionTable, cityMerchantOverflowTable, undergroundPassagesTable, cityPopulationDensityTable, cityPopulationWealthTable, cityVisitorTrafficTable, cityNightActivityTable, cityLeadershipTable, cityLawEnforcementTable, cityGeneralCrimeTable, cityOrganizedCrimeTable, numberOfDistrictsTable, districtTypeTable, districtConditionTable, districtConditionCrimeModifiers, districtEntryTable, districtCrimeTable, crimeDegreesData, housingTable, districtNotableLocationsTable, beneathTheSurfaceTable, beneathTheSurfaceAwarenessTable, cityLocationNotabilityTable } from './city.js';
 import { 
     capitalOriginsTable, capitalAgeTable, capitalSizeTable, outsideTheCapitalCountData, outsideTheCapitalTable, 
     capitalStewardshipTable, capitalGeneralConditionTable, capitalFortificationTable, capitalMarketSquareTable, 
@@ -228,7 +224,7 @@ const settlementPaths = {
         { key: 'generalCrime', title: 'its general crime level', table: cityGeneralCrimeTable, type: 'DERIVED', modifierKey: 'crime' },
         { key: 'organizedCrime', title: 'its organized crime presence', prompt: 'Select the nature of organized crime:', table: cityOrganizedCrimeTable, type: 'CHOICE', condition: (choices) => choices.leadership?.rules?.crime?.forceOrganizedCrime || choices.generalCrime?.rules?.crime?.hasOrganizedCrime },
         { key: 'break2', type: 'BREAKPOINT', stepName: "Step 2: Community" },
-        { key: 'districts', title: 'its districts and their locations', type: 'DISTRICTS' },
+        { key: 'districts', title: 'its districts and their locations', type: 'DISTRICTS', tables: { number: numberOfDistrictsTable, notable: districtNotableLocationsTable, notability: cityLocationNotabilityTable } },
         { key: 'break3', type: 'BREAKPOINT', stepName: "Step 3: Districts & Locations" },
         { key: 'locationQuality', title: 'the quality of its locations', type: 'GENERATE_LOCATION_QUALITY' },
         { key: 'break4', type: 'BREAKPOINT', stepName: "Step 4: Intrigue & Events" },
@@ -277,7 +273,7 @@ const settlementPaths = {
         { key: 'nobilityCounts', title: "nobility counts", type: 'NOBILITY_COUNTS', table: capitalNobleCountTable },
         { key: 'break5', type: 'BREAKPOINT', stepName: "Step 5: Community" },
         { key: 'populationDensity', title: "its population density", table: capitalPopulationDensityTable, type: 'DERIVED', modifierKey: 'populationDensity' },
-        { key: 'populationWealth', title: 'its population wealth', table: capitalPopulationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
+        { key: 'populationWealth', title: "its population wealth", table: capitalPopulationWealthTable, type: 'DERIVED', modifierKey: 'populationWealth' },
         { key: 'visitorTraffic', title: "its visitor traffic", table: capitalVisitorTrafficTable, type: 'DERIVED', modifierKey: 'visitorTraffic' },
         { key: 'disposition', title: 'the disposition of the locals', table: capitalDispositionTable, type: 'DERIVED', modifierKey: 'disposition' },
         { key: 'nightActivity', title: 'its night activity', table: capitalNightActivityTable, type: 'DERIVED', modifierKey: 'nightActivity' },
@@ -1900,7 +1896,12 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
                     }
                      if(district.locations.notable.length > 0) {
                         console.log(`    ${chalk.yellow('↳ Notable Locations:')}`);
-                        district.locations.notable.forEach(loc => console.log(`      ${chalk.yellow('•')} ${chalk.white(loc.name)} ${loc.qualityMod !== 0 ? chalk.gray(`(Quality ${loc.qualityMod > 0 ? '+' : ''}${loc.qualityMod})`) : ''}`));
+                        district.locations.notable.forEach(loc => {
+                            let output = `      ${chalk.yellow('•')} ${chalk.white(loc.name)}`;
+                            if (loc.qualityMod !== 0) output += chalk.gray(` (Quality ${loc.qualityMod > 0 ? '+' : ''}${loc.qualityMod})`);
+                            if (loc.notableReason) output += `\n        ${chalk.gray('Reason:')} ${chalk.white(loc.notableReason.name)}`;
+                            console.log(output);
+                        });
                     }
                     if(district.locations.additional.length > 0) {
                         console.log(`    ${chalk.magenta('↳ Additional Locations:')}`);
@@ -2000,20 +2001,20 @@ function displaySummary(choices, settlementName, rollDetails, currentModifiers, 
         });
     }
 
-    console.log(chalk.bold.yellow('\n\n--- Background Modifier Tracking ---'));
-    for (const key in rollDetails) {
-        const details = rollDetails[key];
-        const keyName = formatKeyName(key);
-        if (details.final !== undefined) {
-            const modifierText = details.modifier >= 0 ? `+${details.modifier}` : `${details.modifier}`;
-            console.log(`${chalk.cyan(keyName + ' Roll:')} ${chalk.white(details.base)} | ${chalk.magenta('Modifier:')} ${chalk.white(modifierText)} | ${chalk.green('Final:')} ${chalk.white(details.final)}`);
-        }
-    }
-    for (const key in currentModifiers) {
-        const keyName = formatKeyName(key);
-        const modifierText = currentModifiers[key] >= 0 ? `+${currentModifiers[key]}` : `${currentModifiers[key]}`;
-        console.log(`${chalk.gray('Final')} ${chalk.cyan(keyName)} ${chalk.gray('Modifier Collected:')} ${chalk.white(modifierText)}`);
-    }
+    // --- Background Modifier Tracking (Hidden) ---
+    // for (const key in rollDetails) {
+    //     const details = rollDetails[key];
+    //     const keyName = formatKeyName(key);
+    //     if (details.final !== undefined) {
+    //         const modifierText = details.modifier >= 0 ? `+${details.modifier}` : `${details.modifier}`;
+    //         console.log(`${chalk.cyan(keyName + ' Roll:')} ${chalk.white(details.base)} | ${chalk.magenta('Modifier:')} ${chalk.white(modifierText)} | ${chalk.green('Final:')} ${chalk.white(details.final)}`);
+    //     }
+    // }
+    // for (const key in currentModifiers) {
+    //     const keyName = formatKeyName(key);
+    //     const modifierText = currentModifiers[key] >= 0 ? `+${currentModifiers[key]}` : `${currentModifiers[key]}`;
+    //     console.log(`${chalk.gray('Final')} ${chalk.cyan(keyName)} ${chalk.gray('Modifier Collected:')} ${chalk.white(modifierText)}`);
+    // }
     console.log(chalk.bold.yellow('\n================================'));
 }
 

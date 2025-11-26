@@ -379,6 +379,39 @@ const districtNotableLocationsTable = [
     { min: 10, max: 10, name: 'Three', description: 'Up to the first 3 additional locations in the district are notable.', value: 3 },
 ];
 
+const cityLocationNotabilityTable = [
+    { min: 1, max: 3, name: 'Phenomenal Quality', description: 'Whatever product or service the location offers, it is of supreme quality. (Quality set to max).', qualityOverride: { name: 'Exceptional' } },
+    { min: 4, max: 8, name: 'Top-Notch Marketing', description: 'All around the city you can see signage, or hear people mentioning, the location.' },
+    { min: 9, max: 11, name: 'Generous Spirit', description: 'The location owner is known in the community for their generosity.' },
+    { min: 12, max: 16, name: 'Meeting Place', description: 'The establishment is in a particular location which is a prime landmark for people to easily meet.' },
+    { min: 17, max: 20, name: 'Entertaining Service', description: 'Something about the folk that work here is very entertaining.' },
+    { min: 21, max: 23, name: 'Coercion', description: 'Customers, who might otherwise go somewhere else, are pressured into coming here instead.' },
+    { min: 24, max: 28, name: 'History', description: 'This location is notable for its links to local history.' },
+    { min: 29, max: 31, name: 'Rumors', description: 'Something intriguing has been heard about this place that has piqued folks’ curiosity.' },
+    { min: 32, max: 36, name: 'Expansion', description: 'This place has recently grown.' },
+    { min: 37, max: 39, name: 'Important Person', description: 'Someone directly involved with this location is a major figure in the community.' },
+    { min: 40, max: 42, name: 'Organisation Affiliation', description: 'Association with certain people has generated traffic to this location.' },
+    { min: 43, max: 44, name: 'Mascot', description: 'Some kind of creature, animal or even bizarre humanoid.' },
+    { min: 45, max: 48, name: 'Message Hub', description: 'The location has a place to send and receive letters or post.' },
+    { min: 49, max: 52, name: 'Notice Board', description: 'The location has a notice board for local errands to be posted.' },
+    { min: 53, max: 54, name: 'Refuge', description: 'Hidden is a hideout or shelter for those who need it (debt/tragedy/sinister).' },
+    { min: 55, max: 56, name: 'False Front', description: 'The outward appearance of the store isn\'t its real location. (Roll again for the TRUE store.)' },
+    { min: 57, max: 60, name: 'Drama', description: 'There’s currently ongoing beef either involving the store, or its participants.' },
+    { min: 61, max: 63, name: 'Tourist Trap', description: 'The location may be good, or bad, but it caters exclusively to tourists.' },
+    { min: 64, max: 67, name: 'Moving Store', description: 'The place always moves, maybe its a travelling cart, carriage or maybe.. magic.' },
+    { min: 68, max: 69, name: 'Gambling', description: 'The prices of this place are decided via games, betting or pure chance.' },
+    { min: 70, max: 71, name: 'Bespoke Only', description: 'Whatever service or item this place provides has to be manually crafted. (Quality set to max)', qualityOverride: { name: 'Exceptional' } },
+    { min: 72, max: 76, name: 'Bargain Prices', description: 'Prices here are rock bottom!' },
+    { min: 77, max: 80, name: 'Night Owl', description: 'This location is only open from late evening until early morning.' },
+    { min: 81, max: 83, name: 'Secret', description: 'The location of this store is hidden, and requires some effort to find.' },
+    { min: 84, max: 86, name: 'Curated Invitation', description: 'Someone needs an invite to be able to shop at this location.' },
+    { min: 87, max: 88, name: 'Celebrity Spot', description: 'Celebrities are known to visit this location.' },
+    { min: 89, max: 93, name: 'Credit Line', description: 'Unlike most stores, credit is available here.' },
+    { min: 94, max: 95, name: 'Haunted', description: 'This place is haunted, whether they know or not.' },
+    { min: 96, max: 100, name: 'Awful', description: 'Whatever product or service the location offers, it is of atrocious quality. (Quality set to minimum)', qualityOverride: { name: 'Poor' } }
+];
+
+// MAKE SURE TO UPDATE THE EXPORT:
 export {
   cityRecentHistoryTable,
   beneathTheSurfaceTable,
@@ -413,4 +446,5 @@ export {
   crimeDegreesData,
   housingTable,
   districtNotableLocationsTable,
+  cityLocationNotabilityTable // <--- ADDED
 };
