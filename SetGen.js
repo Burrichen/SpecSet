@@ -3,8 +3,12 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 // --- IMPORTS ---
+import { getTableForMode } from './ModeManager.js';
+
 import { tradingPostOrigins, tradingPostSpecialties, tradingPostAges, tradingPostConditions, visitorTrafficTable, tradingPostSizeTable, residentPopulationTable, lawEnforcementTable, leadershipTable, populationWealthTable, crimeTable, shopLocationsData, shopsTable, serviceLocationsData, placeOfWorshipDecisionTable, placeOfWorshipSizeTable, recentHistoryTable, eventsTable, opportunitiesTable, dangerLevelTable, dangerTypeTable } from './tradingpost.js';
+
 import { environmentTable, dispositionTable, oligarchyTypeTable, hiredHelpSizeTable, fervencyTable, officialsTable, officialCompetenceTable, servicesTable } from './commonTables.js';
+
 import { allCityLocations, districtData, additionalLocationRollsCount } from './Districts.js';
 import { villageAges, hardshipLikelihoodTable, hardshipTypeTable, hardshipOutcomeTable, villageSizeTable, villageConditionTable, villageSpecialtyTable, villageResourceTable, villageHistoryTable, villagePopulationDensityTable, villageLawEnforcementTable, villageLeadershipTable, villagePopulationWealthTable, villageCrimeTable, placesOfWorshipCountData, villagePlaceOfWorshipSizeTable, gatheringPlacesCountData, gatheringPlacesTable, otherLocationsCountData, otherLocationsTable, villageEventsTable, politicalRumorsTable, villageOpportunitiesTable, villageDangerLevelTable, villageDangerTypeTable } from './villages.js';
 import { townOriginsTable, townPriorityTable, townSpecialtyTable, townAgeTable, townSizeTable, townConditionTable, townProsperityTable, marketSquareTable, vendorStallAcquisitionTable, overflowTable, fortificationTable, townPopulationDensityTable, populationOverflowTable, farmsAndResourcesCountData, farmsAndResourcesTable, townVisitorTrafficTable, nightActivityTable, townLeadershipTable, townLawEnforcementTable, townPopulationWealthTable, townCrimeTable, nonCommercialCountData, nonCommercialLocationTypeTable, placesOfEducationTable, townPlacesOfGatheringTable, placesOfGovernmentTable, townPlaceOfWorshipSizeTable, townFervencyTable, alignmentOfTheFaithTable, commercialCountData, shopOrServiceTable, townRecentHistoryTable, marketDayEventsTable } from './town.js';
@@ -32,7 +36,7 @@ import {
 // --- UTILITY FUNCTIONS ---
 
 function rollDice(count, size) {
-    if (!size || size < 1) return 0; // Safety check
+    if (!size || size < 1) return 0;
     let total = 0;
     for (let i = 0; i < count; i++) {
         total += Math.floor(Math.random() * size) + 1;
@@ -41,12 +45,10 @@ function rollDice(count, size) {
 }
 
 function getTableDieSize(table) {
-    if (!table || table.length === 0) return 20; // Default fallback
-    // If table has min/max
+    if (!table || table.length === 0) return 20; 
     if (table[0].min !== undefined) {
         return table[table.length - 1].max;
     }
-    // If table uses 'dice' keys
     return table.length;
 }
 
@@ -291,18 +293,21 @@ const settlementPaths = {
 };
 // --- STEP PROCESSORS ---
 const stepProcessors = {
-    CHOICE: async (step, { choices, isAutoRolling, freeLocations }) => {
+    CHOICE: async (step, { choices, isAutoRolling, freeLocations, generationMode }) => {
         const rules = choices.priority?.rules?.[step.key];
         const diceSize = rules?.diceOverride;
+
+        // Apply Mode Template
+        const activeTable = getTableForMode(step.table, generationMode, choices.type.name, step.key);
 
         let choice;
         let retries = 0;
         do {
             choice = isAutoRolling
-                ? rollOnTable(step.table, diceSize)
+                ? rollOnTable(activeTable, diceSize)
                 : (await inquirer.prompt([{
                     type: 'list', name: 'choice', message: step.prompt,
-                    choices: step.table.map(item => {
+                    choices: activeTable.map(item => {
                         const isDisabled = (diceSize && item.dice > diceSize) || (rules?.rerollRange && (item.min >= rules.rerollRange[0] && item.min <= rules.rerollRange[1]));
                         return {
                             name: `${chalk.white(`[${item.dice || `${item.min}-${item.max}`}]`)} ${chalk.bold(item.name)}: ${item.description || ''}`,
@@ -382,27 +387,30 @@ const stepProcessors = {
         return { key: step.key, value: choice };
     },
 
-    DERIVED: async (step, { choices, modifiers, isAutoRolling }) => {
+    DERIVED: async (step, { choices, modifiers, isAutoRolling, generationMode }) => {
         const modifier = (modifiers[step.modifierKey] || 0) + (modifiers[`${step.modifierKey}Penalty`] || 0);
         
+        // Apply Mode Template
+        const activeTable = getTableForMode(step.table, generationMode, choices.type.name, step.key);
+
         if (isAutoRolling) {
             let baseRoll;
             let finalScore;
             const rules = choices.priority?.rules?.[step.key];
-            const maxDie = getTableDieSize(step.table);
+            const maxDie = getTableDieSize(activeTable);
             
             do {
                 baseRoll = rollDice(1, maxDie);
                 finalScore = applyModifierAndClamp(baseRoll, modifier, 1, maxDie);
             } while (rules?.rerollRange && (finalScore >= rules.rerollRange[0] && finalScore <= rules.rerollRange[1]));
             
-            const result = (step.table[0].min !== undefined)
-                ? step.table.find(item => finalScore >= item.min && finalScore <= item.max)
-                : step.table.find(item => finalScore === item.dice);
+            const result = (activeTable[0].min !== undefined)
+                ? activeTable.find(item => finalScore >= item.min && finalScore <= item.max)
+                : activeTable.find(item => finalScore === item.dice);
 
             if (result) {
                 console.log(`  ${chalk.magenta('Result:')} ${chalk.white(result.name)}`);
-                console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
+                // HIDDEN: console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
                 const rollDetail = { base: baseRoll, modifier, final: finalScore };
                 return { key: step.key, value: result, rollDetail };
             }
@@ -414,7 +422,7 @@ const stepProcessors = {
             }
             const answer = await inquirer.prompt([{
                 type: 'list', name: 'choice', message: `Select ${step.title}:`,
-                choices: step.table.map(item => ({
+                choices: activeTable.map(item => ({
                     name: `[${item.dice || `${item.min}-${item.max}`}] ${chalk.bold(item.name)}: ${item.description}`,
                     value: item,
                 })),
@@ -427,21 +435,23 @@ const stepProcessors = {
         return null;
     },
 
-    HARDSHIP: async (step, { modifiers, isAutoRolling }) => {
+    HARDSHIP: async (step, { modifiers, isAutoRolling, generationMode }) => {
+        const activeTable = getTableForMode(step.table || hardshipLikelihoodTable, generationMode, 'Village', step.key);
+        
         let likelihood;
         if (isAutoRolling) {
             const baseRoll = rollDice(1, 20);
             const modifier = modifiers.hardshipLikelihood || 0;
             const finalScore = applyModifierAndClamp(baseRoll, modifier, 1, 20);
-            likelihood = hardshipLikelihoodTable.find(item => finalScore >= item.min && finalScore <= item.max);
+            likelihood = activeTable.find(item => finalScore >= item.min && finalScore <= item.max);
             console.log(`  ${chalk.magenta('Likelihood:')} ${chalk.white(likelihood.name)}`);
-            console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
+            // HIDDEN: console.log(`  ${chalk.gray(`(Rolled ${baseRoll}, Modifier ${modifier >= 0 ? '+' : ''}${modifier}, Final ${finalScore})`)}`);
         } else {
             const modifier = modifiers.hardshipLikelihood || 0;
             console.log(chalk.gray(`  (Current modifier for this roll is ${modifier >= 0 ? '+' : ''}${modifier})`));
             const answer = await inquirer.prompt([{
                 type: 'list', name: 'choice', message: step.prompt,
-                choices: hardshipLikelihoodTable.map(item => ({
+                choices: activeTable.map(item => ({
                     name: `[${item.min}-${item.max}] ${chalk.bold(item.name)}: ${item.description}`,
                     value: item,
                 })),
@@ -460,12 +470,15 @@ const stepProcessors = {
             console.log(chalk.cyan(`\n    -> Determining Hardship #${i + 1}...`));
             
             let hardshipType;
+            // Mode template for Hardship Types
+            const typeTable = getTableForMode(hardshipTypeTable, generationMode, 'Village', 'hardshipType');
+
             if (isAutoRolling) {
-                hardshipType = rollOnTable(hardshipTypeTable);
+                hardshipType = rollOnTable(typeTable);
             } else {
                 const answer = await inquirer.prompt([{
                     type: 'list', name: 'choice', message: `Select the type for Hardship #${i + 1}:`,
-                    choices: hardshipTypeTable.map(item => ({
+                    choices: typeTable.map(item => ({
                         name: `[${item.dice}] ${chalk.bold(item.name)}: ${item.description}`,
                         value: item,
                     })),
@@ -476,14 +489,17 @@ const stepProcessors = {
             console.log(`      ${chalk.magenta('Type:')} ${chalk.white(hardshipType.name)}`);
 
             const outcomes = [];
+            // Mode template for Outcomes
+            const outcomeTable = getTableForMode(hardshipOutcomeTable, generationMode, 'Village', 'hardshipOutcome');
+
             for (const attribute of hardshipType.modifiedAttributes) {
                 let outcome;
                 if (isAutoRolling) {
-                    outcome = rollOnTable(hardshipOutcomeTable);
+                    outcome = rollOnTable(outcomeTable);
                 } else {
                      const answer = await inquirer.prompt([{
                         type: 'list', name: 'choice', message: `Select the outcome for the '${formatKeyName(attribute)}' attribute:`,
-                        choices: hardshipOutcomeTable.map(item => ({
+                        choices: outcomeTable.map(item => ({
                             name: `[${item.min}-${item.max}] ${chalk.bold(item.name)} (${item.modifier}): ${item.description}`,
                             value: item,
                         })),
@@ -504,12 +520,15 @@ const stepProcessors = {
         return { key: step.key, value: hardships };
     },
 
-    MULTIPLE: async (step, { choices, isAutoRolling }) => {
+    MULTIPLE: async (step, { choices, isAutoRolling, generationMode }) => {
         let numberOfItems = 0;
         if (choices.size && step.countSource[choices.size.name]) {
             const calcData = step.countSource[choices.size.name];
             numberOfItems = rollDice(calcData.dieCount, calcData.dieSize) + calcData.bonus;
         }
+
+        // Apply Mode Template
+        const activeTable = getTableForMode(step.table, generationMode, choices.type.name, step.key);
 
         console.log(chalk.bold.cyan(`\nThis settlement has ${numberOfItems} ${step.stepName.toLowerCase()}.`));
         const choiceMethod = isAutoRolling ? 'Auto-Roll' : (await inquirer.prompt([{
@@ -522,7 +541,7 @@ const stepProcessors = {
             if (!isAutoRolling) console.log(chalk.gray('Auto-rolling the selection...'));
             for (let i = 0; i < numberOfItems; i++) {
                 const roll = rollDice(1, 100);
-                const item = step.table.find(s => roll >= s.min && roll <= s.max);
+                const item = activeTable.find(s => roll >= s.min && roll <= s.max);
                 if (item) chosenItems.push({ item, size: item.name.includes('Hired Help') ? rollHiredHelpSize() : null });
             }
             if (chosenItems.length === 0) console.log(chalk.gray('  -> None were generated.'));
@@ -539,7 +558,7 @@ const stepProcessors = {
                     choices: [
                         { name: chalk.bold.red('--- I\'m done selecting ---'), value: 'done' },
                         new inquirer.Separator(),
-                        ...step.table.map(item => ({
+                        ...activeTable.map(item => ({
                             name: `[${String(item.min).padStart(2, '0')}-${String(item.max).padStart(2, '0')}] ${chalk.bold(item.name)}`,
                             value: item
                         }))
@@ -2174,7 +2193,7 @@ async function handleExport(choices, settlementName) {
 }
 
 
-async function startAdventure(autoRollEnabled = false) {
+async function startAdventure(autoRollEnabled = false, generationMode = 'Vanilla') { 
     const choices = {};
     const rollDetails = {};
     const freeLocations = [];
@@ -2188,8 +2207,9 @@ async function startAdventure(autoRollEnabled = false) {
     };
     const modeState = { current: autoRollEnabled ? 'autoRollAll' : 'manual', generationComplete: false };
 
-    if (modeState.current === 'autoRollAll') console.log(chalk.bold.magenta('--- Auto-Roll Mode Enabled ---'));
-    else console.log(chalk.bold.cyan('Starting the Settlement Generator...'));
+    // Log the mode
+    if (modeState.current === 'autoRollAll') console.log(chalk.bold.magenta(`--- Auto-Roll Mode Enabled (${generationMode}) ---`));
+    else console.log(chalk.bold.cyan(`Starting the Settlement Generator (${generationMode})...`));
 
     const { settlementType } = await inquirer.prompt([{ type: 'list', name: 'settlementType', message: 'Choose a settlement type to begin:', choices: settlementTypes, loop: false }]);
     choices.type = { name: settlementType };
@@ -2209,7 +2229,8 @@ async function startAdventure(autoRollEnabled = false) {
                 modifiers,
                 isAutoRolling: modeState.current !== 'manual',
                 modeState,
-                freeLocations
+                freeLocations,
+                generationMode
             });
 
             if (result) {
