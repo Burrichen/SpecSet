@@ -1,0 +1,12 @@
+This document outlines the changes in Kurovia mode.
+
+New Content:
+- New Building: Notice Board (Added to )
+
+
+Trading Posts:
+- Origin: 
+    Uses Vanilla + table
+- Specality: 
+    Uses Vanilla + table
+    Added Notice Board to Traveller's Rest, Unscrupulous Contractors and Information & Secrets
