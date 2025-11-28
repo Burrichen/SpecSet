@@ -1,0 +1,8 @@
+This document outlines the differences between Vanilla + and Vanilla.
+
+Trading Posts:
+- Origin:
+- Complete rework of Specality - added 10 more options, and added effects for each result. 
+- Deleted Recent History
+- Deleted Current Events
+- Added Current Passers-by Table 

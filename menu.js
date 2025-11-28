@@ -2,14 +2,11 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { startAdventure } from './SetGen.js';
 
-// Global State
+// --- GLOBAL STATE ---
 let autoRollEnabled = false;
-let generationMode = 'Vanilla'; // Default mode
+let generationMode = 'Vanilla'; // Default
 
-// Mode Options
 const MODES = ['Vanilla', 'Vanilla +', 'Kurovia'];
-
-// --- Helpers ---
 
 function printHeader() {
     console.log(chalk.bold.yellow('======================================'));
@@ -24,8 +21,6 @@ async function pressEnterToReturn() {
     ]);
 }
 
-// --- Menus ---
-
 async function settingsMenu() {
     let inSettings = true;
     while (inSettings) {
@@ -34,7 +29,6 @@ async function settingsMenu() {
         
         const autoRollStatus = autoRollEnabled ? chalk.green('ON') : chalk.red('OFF');
         
-        // Color code the modes for better visibility
         let modeDisplay;
         if (generationMode === 'Vanilla') modeDisplay = chalk.white(generationMode);
         else if (generationMode === 'Vanilla +') modeDisplay = chalk.yellow(generationMode);
@@ -58,7 +52,6 @@ async function settingsMenu() {
         if (choice === 'toggleAuto') {
             autoRollEnabled = !autoRollEnabled;
         } else if (choice === 'toggleMode') {
-            // Cycle through modes
             const currentIndex = MODES.indexOf(generationMode);
             const nextIndex = (currentIndex + 1) % MODES.length;
             generationMode = MODES[nextIndex];
@@ -73,7 +66,6 @@ async function mainMenu() {
         console.clear();
         printHeader();
         
-        // Display current settings on main screen
         let modeColor = chalk.white;
         if (generationMode === 'Vanilla +') modeColor = chalk.yellow;
         if (generationMode === 'Kurovia') modeColor = chalk.magenta;
@@ -94,7 +86,6 @@ async function mainMenu() {
         switch (choice) {
             case 'Start Generator':
                 console.clear();
-                // Pass the generationMode to the start function
                 await startAdventure(autoRollEnabled, generationMode);
                 await pressEnterToReturn(); 
                 break;
@@ -119,5 +110,4 @@ async function mainMenu() {
     }
 }
 
-// Start the application
 mainMenu();
